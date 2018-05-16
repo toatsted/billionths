@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 let express = require("express");
 let exphbs = require("express-handlebars");
 let bodyParser = require("body-parser");
@@ -39,31 +38,3 @@ db.sequelize.sync()
 		app.listen(PORT, () => 
 			console.log(`app is listening on PORT ${PORT}`))
 	})
-=======
-var express = require("express");
-var bodyParser = require("body-parser");
-
-// Sets up the Express App
-var app = express();
-var PORT = process.env.PORT || 8080;
-
-// Requiring our models for syncing
-var db = require("./models");
-
-// Sets up the Express app to handle data parsing
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-app.use(express.static("public"));
-
-// Routes
-require("./routes/api-routes.js")(app);
-
-// Syncing our sequelize models and then starting our Express app
-db.sequelize.sync().then(function () {
-    app.listen(PORT, function () {
-        console.log("App listening on PORT " + PORT);
-    });
-});
->>>>>>> 898a285707844fccb968f640199a3002df7dbaf7
