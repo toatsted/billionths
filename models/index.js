@@ -6,7 +6,7 @@ var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(__filename);
 var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/..\config\config.json')[env];
+var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
 const http = require('http');
@@ -14,7 +14,7 @@ const url = require('url');
 const querystring = require('querystring');
 const opn = require('opn');
 
-const keys = require('./keys.json');
+const keys = require('../keys.json');
 
 /**
  * Start by acquiring a pre-authenticated oAuth2 client.
@@ -80,7 +80,6 @@ function getAuthenticatedClient() {
 $("#google-sign-in").on("click", function() {
   main();
 })
-
 
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], config);

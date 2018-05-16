@@ -1,26 +1,40 @@
-var express = require("express");
-var bodyParser = require("body-parser");
+let express = require("express");
+let exphbs = require("express-handlebars");
+let bodyParser = require("body-parser");
 
-// Sets up the Express App
-var app = express();
-var PORT = process.env.PORT || 8080;
+// configure env variables
+require("dotenv").config();
 
-// Requiring our models for syncing
-var db = require("./models");
+// import all models into db
+let db = require("./models");
 
-// Sets up the Express app to handle data parsing
+let PORT = process.env.PORT || 8080;
+let app = express();
 
+// create static routes to all files in /public
+app.use(express.static("public"));
+
+// parse body
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(express.static("public"));
+// setup rendering engine
+app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.set("view engine", "handlebars");
 
-// Routes
-require("./routes/api-routes.js")(app);
+// attach db to req obj in routes
+app.use((req, res, next) => {
+	req.db = db;
+	next();
+})
 
-// Syncing our sequelize models and then starting our Express app
-db.sequelize.sync().then(function () {
-    app.listen(PORT, function () {
-        console.log("App listening on PORT " + PORT);
-    });
-});
+// routing
+require("./routing/api-routes")(app);
+require("./routing/html-routes")(app);
+
+// sync models and listen
+db.sequelize.sync()
+	.then(() => {
+		app.listen(PORT, () => 
+			console.log(`app is listening on PORT ${PORT}`))
+	})
