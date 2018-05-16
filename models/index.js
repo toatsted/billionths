@@ -8,6 +8,21 @@ var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
+const { OAuth2Client } = require('google-auth-library');
+const CLIENT_ID = "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com"
+const client = new OAuth2Client(CLIENT_ID);
+
+async function verify() {
+  const ticket = await client.verifyIdToken({
+    idToken: token,
+    audience: CLIENT_ID
+  });
+  const payload = ticket.getPayload();
+  const userId = payload['sub'];
+}
+verify().catch(console.error);
+
+
 if (config.use_env_variable) {
   var sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
