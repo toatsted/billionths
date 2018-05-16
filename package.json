@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/toatsted/billionths#readme",
   "dependencies": {
+    "coinmarketcap": "^0.2.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
