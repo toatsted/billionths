@@ -1,6 +1,6 @@
 module.exports = function(app){
 
-	app.get("/account", (req, res) => {
+	app.get("/oauth2callback", (req, res) => {
 		require("../config/google.js")()
 			.catch(err => send(err))
 	});
