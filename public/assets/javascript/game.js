@@ -4,6 +4,7 @@ var portfolioCoins = [];
 var symbol = "";
 var price;
 var buyAmount = 0;
+var coinId;
 
 // Start new game and list the coins available on a dropdown menu
 function newGame () {
@@ -19,6 +20,15 @@ function newGame () {
         }
     });
 
+    app.delete("/api/posts/:id", function (req, res) {
+        db.Post.destroy({
+            where: {
+                id: req.params.id
+            }
+        }).then(function (dbPost) {
+            res.json(dbPost);
+        });
+    });
     // Every half hour update portfolio worth
     setInterval(portfolioWorthUpdater, 1800000);
 
@@ -26,8 +36,8 @@ function newGame () {
 
 // On selecting a coin from dropdown menu create request for its current price
 $(".coin").on("click", function() {
-    var coinId = $(this).val();
-    var queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
+    coinId = $(this).val();
+    let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
 
     $.ajax({
         url: queryUrl,
@@ -44,33 +54,39 @@ $(".coin").on("click", function() {
 
 // After selecting coin, input amount to buy (decimals allowed) and check for necessary funds
 $("#coinBuy").on("click", function() {
+    event.preventDefault();
+
     if (parseFloat(buyAmount) > 0) {
         let buyPrice = Math.floor(price * buyAmount);
 
         if (buyPrice > cash) {
             alert("You do not have enough funds to make this purchase.")
         } else {
-            let purchaseDate = Date.now();
-            let newPurchase = {
-                coin: symbol,
-                purchaseStats: {
-                    purchasePrice: price,
-                    purchaseAmount: buyAmount,
-                    purchaseDate: purchaseDate
-                }
+
+            cash = Math.floor(cash - buyPrice);
+            // userId is undefined until we get auth working
+
+            var newPurchase = {
+                userId: userId,
+                coin: symbol,               
+                coinId: coinId,
+                purchasePrice: price,
+                purchaseAmount: buyAmount,
+                currentCash: cash
+                
             };
 
-            portfolioCoins.push(newPurchase);
-            
-            cash = Math.floor(cash - buyPrice);
-
+            $.post("/api/new", newPurchase)
+                .then(function(data){
+                    console.log(data);
+                });
+    
         }
     } else {
         alert("Please enter a valid number.");
     }
 })
 
-// Update portfolio total worth, triggered on first buy and then updates every half hour
 function portfolioWorthUpdater () {
-    // need to see database structure to pull relevant the relevant info to create the ajax call
+
 }
