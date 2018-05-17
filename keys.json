@@ -1,12 +1,1 @@
-{
-    "web": {
-        "client_id": "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com",
-        "project_id": "billionths-204201",
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://accounts.google.com/o/oauth2/token",
-        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-        "client_secret": "eYmY_xcGcq79qSQj28FEWjrF",
-        "redirect_uris": ["https://billionths.herokuapp.com/account"],
-        "javascript_origins": ["https://billionths.herokuapp.com", "http://localhost:8080"]
-    }
-}
+{"web":{"client_id":"480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com","project_id":"billionths-204201","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"eYmY_xcGcq79qSQj28FEWjrF","redirect_uris":["https://billionths.herokuapp.com/account","https://billionths.herokuapp.com/","https://billionths.herokuapp.com/oauth2callback","https://www.googleapis.com/auth/plus.me","https://people.googleapis.com/$discovery/rest?version=v1"],"javascript_origins":["https://billionths.herokuapp.com","http://localhost:8080"]}}
