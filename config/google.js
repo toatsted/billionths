@@ -34,12 +34,12 @@ function getAuthenticatedClient() {
     const oAuth2Client = new OAuth2Client(
       keys.web.client_id,
       keys.web.client_secret,
-      keys.web.redirect_uris[6]
+      keys.web.redirect_uris[0  ]
     );
 
     // Generate the url that will be used for the consent dialog.
     const authorizeUrl = oAuth2Client.generateAuthUrl({
-      access_type: 'online',
+      access_type: 'offline',
       scope: 'https://www.googleapis.com/auth/plus.me'
     });
 
