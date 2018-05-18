@@ -70,7 +70,7 @@ a:after {
    ========================================================================== */
 
 #headerwrap {
-	background: url(/img/bitcoin.jpg) no-repeat center top;
+	background: url(./../../../img/bitcoin.jpg) no-repeat center top;
 	margin-top: -15px;
 	padding-top:20px;
 	padding-bottom: -10px;
