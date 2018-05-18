@@ -43,7 +43,7 @@ module.exports = function(app){
 		
 		db.NewPurchase.destroy({		
 			where: {
-				id: req.body.id
+				id: req.params.id
 			}
 		}).then(function (dbNewPurchase) {
 			res.json(dbNewPurchase);
