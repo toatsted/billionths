@@ -1,16 +1,16 @@
-var Sequelize = require("sequelize");
-var sequelize = require("../config/connection.js");
+// Creates a "NewPurchase" model that matches up with DB
 
-// Creates a "portfolioPurchase" model that matches up with DB
-var portfolioPurchase = sequelize.define("newPurchase", {
+module.exports = function(sequelize, DataTypes) {
 
-    routeName: Sequelize.STRING,
+var NewPurchase = sequelize.define("NewPurchase", {
    
     userId: Sequelize.INTEGER,
     
     coin: Sequelize.STRING,
     
     coinId: Sequelize.INTEGER,
+
+    purchasePrice: Sequelize.DECIMAL,
     
     purchaseAmount: Sequelize.DECIMAL,
       
@@ -19,8 +19,5 @@ var portfolioPurchase = sequelize.define("newPurchase", {
         timestamps: true
     });
 
-// Syncs with DB
-portfolioPurchase.sync();
-
-// Makes the portfolioPurchase Model available for other files (will also create a table)
-module.exports = portfolioPurchase;
+    return NewPurchase;
+};
