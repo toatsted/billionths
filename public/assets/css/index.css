@@ -148,6 +148,13 @@ body {
 	  text-align: center;
   }
   
+  #id {
+	font-family: 'EB Garamond', serif;
+	padding-left: 30px;
+	font-size: 28px;
+	font-weight: 700;
+	letter-spacing: 1px;	
+  }
   
   /* MENU CONF*/
   
