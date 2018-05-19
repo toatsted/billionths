@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -13,7 +13,7 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="assets/css/main.css" rel="stylesheet">
+	<link href="assets/css/main.css" rel="stylesheet">
 	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
 
     <script src="assets/js/jquery.min.js"></script>
@@ -24,9 +24,7 @@
     <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
 	
-	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -44,7 +42,8 @@
 			<i class="icon-remove menu-close"></i>
 			<a href="#home" class="smoothScroll">Home</a>
 			<a href="#about" class="smoothScroll">About</a>
-			<a href="#portfolio" class="smoothScroll">Portfolio</a>
+			<a href="#profile" class="smoothScroll">Profile</a>
+			<a href="#dashboard" class="smoothScroll">Dashboard</a>
 			<a href="#contact" class="smoothScroll">Contact</a>
 			<a href="#"><i class="icon-facebook"></i></a>
 			<a href="#"><i class="icon-twitter"></i></a>
@@ -62,79 +61,88 @@
 	<section id="home" name="home"></section>
 	<div class = "row"
 	<div id="headerwrap">
-			<div class="logo">
-				<img src="assets/img/bitcoin.jpg">
+		<div class="row">
+			<div class="logo col-lg-12">
+				<img src="assets/img/logo.png">
 			</div>
 
-			<div class="row">
+			<div class="col-lg-12">
 				<h1>BILLIONTHS</h1>
-				<h3>Your Crypyocurrency - All in One Place</h3>
-
-				<div class="col-md-6 col-lg-offset-3">
-				</div>
+				<h3>Your Cryptocurrency - All in One Place</h3>
 			</div>
-
+		</div>
 			<br>
 			<br>
 			<br>
 
-			<div class = "row"
-			<div id="login">
-			<button class="btn btn-primary" type="register">Register</button>
-			<button class="btn btn-primary" type="login">Login</button>
+			<div class="col-lg-6 col-lg-offset-4">
+				<a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+
+				<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+						  <div class="modal-dialog">
+								<div class="loginmodal-container">
+								  <form>
+									<input type="text" name="user" placeholder="Username">
+									<input type="password" name="pass" placeholder="Password">
+									<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+								  </form>
+									
+								  <div class="login-help">
+									<a href="#">Register</a> - <a href="#">Forgot Password</a>
+								  </div>
+								</div>
+							</div>
+						  </div>
 		</div>
 		</div><!-- /container -->
 	</div><!-- /headerwrap -->
 
-
-
-	
-	<!------ Include the above in your HEAD tag ---------->
 
 	
 	<!-- ========== PROFILE SETUP ========== -->
 	<section id="about" name="about"></section>
 	<div id="f">
 		<div class="container">
-			<div class="row">
+			<div class="col-lg-12">
 				<h3>PROFILE SETUP</h3>
-				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
+				<br>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<strong>User Profile</strong>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-lg-6">
+										<form role="form">
+											<div class="form-group">
+												<label>Name</label>
+												<input class="form-control">
+											</div>
+											<div class="form-group">
+												<label>Address</label>
+												<input class="form-control">
+											<div class="form-group">
+													<label>User ID</label>
+													<input class="form-control">
+											</div>
+					<div class="col-lg-6">
+						<div class="row centered">
+							<h3>Cryptocurrencies</h3>
 				
-				<!-- INTRO INFORMATIO-->
-				<div class="col-lg-6 col-lg-offset-3">
-					<p>A full time theme crafter based in Madrid, Spain. I love designing beautiful, clean and user-friendly interfaces for websites.</p>
-					<p>My passion is turning good ideas and products into eye-catching sites.</p>
-					<p>Sometimes I blog about design and web trends. Also I share links and my thoughts on <a href="http://twitter.com/BlackTie_co">Twitter</a>. Need a free handsome bootstrap theme? <a href="http://blacktie.co">Done!</a></p>
-					<p>I'm available for freelance jobs. Contact me now.</p>
-					<p><button type="button" class="btn btn-warning">I HAVE A FREELANCE JOB</button></p>
-				</div>								
-			</div>
 		</div><!-- /container -->
+
+
 	</div><!-- /f -->
 	
 
 	<!-- ========== CAROUSEL SECTION ========== -->	
-	<section id="portfolio" name="portfolio"></section>
-	<div id="f">
-		<div class="container">
-			<div class="row centered">
-				<h3>SOME PROJECTS</h3>
-				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
-				
-				<div class="col-lg-6 col-lg-offset-3">
-					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						<!-- Wrapper for slides -->
-						<div class="carousel-inner">
-							<div class="item active centered">
-								<img class="img-responsive" src="assets/img/c1.png" alt="">
-							</div>
-							<div class="item centered">
-								<img class="img-responsive" src="assets/img/c2.png" alt="">
-							</div>
-							<div class="item centered">
-								<img class="img-responsive" src="assets/img/c3.png" alt="">
-							</div>
-						</div>
+
+				<br>
+			
+			
 						<br>
 						<br>
 						<ol class="carousel-indicators">
@@ -148,25 +156,9 @@
 		</div><!-- container -->
 	</div>	<!-- f -->
 
-	<!-- ========== CONTACT SECTION ========== -->
-	<section id="contact" name="contact"></section>
-	<div id="f">
-		<div class="container">
-			<div class="row">
-				<h3>CONTACT ME</h3>
-				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
-				
-				<div class="col-lg-6 col-lg-offset-3">
-					<p>Some Avenue, 987<br/>Madrid, Spain<br/>+34 8984-4343</p>
-					<p>iam@awesomemail.com</p>
-					<p><button type="button" class="btn btn-warning">YEAH! CONTACT ME NOW!</button></p>
-				</div>
-			</div>
-		</div>
-	</div>
+	<div id="wrapper">
 
-	
-
+ 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
