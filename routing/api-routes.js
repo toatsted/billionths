@@ -1,7 +1,36 @@
 // Require NewPurchase model
 var db = require("../models");
+var passport = require("passport");
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 module.exports = function(app){
+	// configure express to use passport
+
+	passport.use(new GoogleStrategy({
+		clientID: "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com",
+		clientSecret: "eYmY_xcGcq79qSQj28FEWjrF",
+		callbackURL: "https://localhost:8080/oauth2callback"
+	},
+		function (accessToken, refreshToken, profile, cb) {
+			User.findOrCreate({ googleId: profile.id }, function (err, user) {
+				return cb(err, user);
+			});
+		}
+	));
+
+	app.use(passport.initialize());
+	
+	// Authentication route
+	app.get('/auth/google',
+		passport.authenticate('google', { scope: ['profile'] }));
+
+	app.get('/auth/google/callback',
+		passport.authenticate('google', { failureRedirect: '/' }),
+		function (req, res) {
+			// Successful authentication, redirect home.
+			res.redirect('/portfolio');
+		});
+
 	// GET route for getting all of the holdings
 	app.get("/api/holdings", function (req, res) {
 		// findAll returns all entries for a table when used with no options
@@ -74,11 +103,5 @@ module.exports = function(app){
 		}).then(function(dbNewPurchase) {
 			res.json(dbNewPurchase);
 		});
-	});
-
-	// Authentication route
-	app.get("/oauth2callback", (req, res) => {
-		require("../config/google.js")()
-			.catch(err => send(err))
 	});
 }
