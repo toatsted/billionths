@@ -2,33 +2,85 @@
 var db = require("../models");
 var passport = require("passport");
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+let fs = require('fs');
+let https = require('https');
+let util = require('util');
+let bodyParser = require('body-parser');
+let cookieParser = require('cookie-parser');
+let session = require('express-session');
+let RedisStore = require('connect-redis')(session);
 
+let PORT = 8080;
+var user;
+var userId;
 module.exports = function(app){
-	// configure express to use passport
+
+	const httpsOptions = {
+		key: fs.readFileSync('./security/cert.key'),
+		cert: fs.readFileSync('./security/cert.pem')
+	};
+
+	const server = https.createServer(httpsOptions, app).listen(PORT, () => {
+		console.log('server running at ' + PORT);
+	});
+
+	// configure express to use passport	
+	passport.serializeUser(function (user, done) {
+		done(null, user);
+	});
+
+	passport.deserializeUser(function (obj, done) {
+		done(null, obj);
+	});
 
 	passport.use(new GoogleStrategy({
 		clientID: "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com",
 		clientSecret: "eYmY_xcGcq79qSQj28FEWjrF",
-		callbackURL: "https://localhost:8080/oauth2callback"
+		callbackURL: "https://localhost:8080/auth/google/callback",
 	},
-		function (accessToken, refreshToken, profile, cb) {
-			User.findOrCreate({ googleId: profile.id }, function (err, user) {
-				return cb(err, user);
-			});
+		function (accessToken, refreshToken, profile, done) {
+			user = profile;
+			userId = profile.id;
+			return done(null, profile);
 		}
 	));
 
+	app.use(cookieParser());
+	app.use(bodyParser.json());
+	app.use(bodyParser.urlencoded({
+		extended: true
+	}));
+	app.use(session({
+		secret: 'cookie_secret',
+		name: 'kaas',
+		store: new RedisStore({
+			host: '127.0.0.1',
+			port: 6379
+		}),
+		proxy: true,
+		resave: true,
+		saveUninitialized: true
+	}));
 	app.use(passport.initialize());
-	
+	app.use(passport.session());
+
 	// Authentication route
 	app.get('/auth/google',
-		passport.authenticate('google', { scope: ['profile'] }));
+		passport.authenticate('google', { 
+			scope: [
+			'profile',
+			"https://www.googleapis.com/auth/plus.login",
+			"https://www.googleapis.com/auth/plus.me"
+		] 
+	}));
 
 	app.get('/auth/google/callback',
 		passport.authenticate('google', { failureRedirect: '/' }),
 		function (req, res) {
 			// Successful authentication, redirect home.
-			res.redirect('/portfolio');
+			res.redirect('/');
+			console.log(userId);
+
 		});
 
 	// GET route for getting all of the holdings
