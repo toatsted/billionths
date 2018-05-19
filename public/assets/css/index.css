@@ -148,9 +148,12 @@ body {
 	  text-align: center;
   }
   
-  #id {
+  #login {
 	font-family: 'EB Garamond', serif;
-	padding-left: 30px;
+	background-color: #8064A2;
+    bottom: 0;
+	right: 0;
+	padding-left: 250px;
 	font-size: 28px;
 	font-weight: 700;
 	letter-spacing: 1px;	
