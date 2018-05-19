@@ -70,16 +70,18 @@
 	<!-- ========== HEADER SECTION ========== -->
 	<section id="home" name="home"></section>
 	<div class="row" <div id="headerwrap">
-		<div class="row">
-			<div class="logo col-lg-12">
-				<img src="assets/img/logo.png">
-			</div>
+		<div class="logo">
+			<img src="assets/img/logo.png">
+		</div>
 
-			<div class="col-lg-12">
-				<h1>BILLIONTHS</h1>
-				<h3>Your Cryptocurrency - All in One Place</h3>
+		<div class="row">
+			<h1>BILLIONTHS</h1>
+			<h3>Your Cryptocurrency - All in One Place</h3>
+
+			<div class="col-md-6 col-lg-offset-3">
 			</div>
 		</div>
+
 		<br>
 		<br>
 		<br>
@@ -140,7 +142,7 @@
 													<label>Address</label>
 													<input class="form-control">
 												</div>
-												<p>Please select up tp 5 cryptocurrencies and add up to $10,000.</p>
+												<p>Please select up tp 5 cryptocurrencies amounts that add up to $10,000.</p>
 
 										</div>
 										<div class="col-lg-3">
@@ -221,7 +223,7 @@
 																						</div>
 																						<div class="col-xs-9 text-right">
 																							<div class="huge">26</div>
-																							<div>New Comments!</div>
+																							<div>Total Spent</div>
 																						</div>
 																					</div>
 																				</div>
@@ -245,7 +247,7 @@
 																						</div>
 																						<div class="col-xs-9 text-right">
 																							<div class="huge">12</div>
-																							<div>New Tasks!</div>
+																							<div>Portfolio Value</div>
 																						</div>
 																					</div>
 																				</div>
@@ -269,7 +271,7 @@
 																						</div>
 																						<div class="col-xs-9 text-right">
 																							<div class="huge">124</div>
-																							<div>New Orders!</div>
+																							<div>Cash Made</div>
 																						</div>
 																					</div>
 																				</div>
@@ -285,71 +287,123 @@
 																			</div>
 																		</div>
 
-																		<!-- ========== CONTACT US ========== -->
-																		<br>
-																		<section id="contactus" name="contactus"></section>
-																		<div id="g">
-																			<div class="container">
-																				<div>
-																					<br>
-																					<br>
-																					<div id="page-wrapper">
-
-																							<div class="container">
-																									<div class="row">
-																									  <div class="col-md-6 col-md-offset-3">
-																										<div class="well well-sm">
-																										  <form class="form-horizontal" action="" method="post">
-																										  <fieldset>
-																											<legend class="text-center">Contact us</legend>
-																									
-																											<!-- Name input-->
-																											<div class="form-group">
-																											  <label class="col-md-3 control-label" for="name">Name</label>
-																											  <div class="col-md-9">
-																												<input id="name" name="name" type="text" placeholder="Your name" class="form-control">
-																											  </div>
-																											</div>
-																									
-																											<!-- Email input-->
-																											<div class="form-group">
-																											  <label class="col-md-3 control-label" for="email">Your E-mail</label>
-																											  <div class="col-md-9">
-																												<input id="email" name="email" type="text" placeholder="Your email" class="form-control">
-																											  </div>
-																											</div>
-																									
-																											<!-- Message body -->
-																											<div class="form-group">
-																											  <label class="col-md-3 control-label" for="message">Your message</label>
-																											  <div class="col-md-9">
-																												<textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
-																											  </div>
-																											</div>
-																									
-																											<!-- Form actions -->
-																											<div class="form-group">
-																											  <div class="col-md-12 text-right">
-																												<button type="submit" class="btn btn-primary btn-lg">Submit</button>
-																											  </div>
-																											</div>
-																										  </fieldset>
-																										  </form>
-																										</div>
-																									  </div>
-																									</div>
-																								</div>
+																		<div class="col-lg-3 col-md-6">
+																			<div class="panel panel-green">
+																				<div class="panel-heading">
+																					<div class="row">
+																						<div class="col-xs-3">
+																							<i class="fa fa-tasks fa-5x"></i>
+																						</div>
+																						<div class="col-xs-9 text-right">
+																							<div class="huge">12</div>
+																							<div>Cash to Sale</div>
+																						</div>
 																					</div>
+																				</div>
+																				<a href="#">
+																					<div class="panel-footer">
+																						<span class="pull-left">View Details</span>
+																						<span class="pull-right">
+																							<i class="fa fa-arrow-circle-right"></i>
+																						</span>
+																						<div class="clearfix"></div>
+																					</div>
+																				</a>
+																			</div>
+																		</div>
+
+																		<div class="row">
+																			<div class="col-lg-8">
+																				<div class="panel panel-default">
+																					<div class="panel-heading">
+																						<i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
+																						<div class="pull-right">
+																							<div class="btn-group">
+																								<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+																									Actions
+																									<span class="caret"></span>
+																								</button>
+																								<ul class="dropdown-menu pull-right" role="menu">
+																									<li>
+																										<a href="#">Action</a>
+																									</li>
+																									<li>
+																										<a href="#">Another action</a>
+																									</li>
+																									<li>
+																										<a href="#">Something else here</a>
+																									</li>
+																									<li class="divider"></li>
+																									<li>
+																										<a href="#">Separated link</a>
+																									</li>
+																								</ul>
+																							</div>
+																						</div>
+																					</div>
+																					<!-- /.panel-heading -->
+																					<div class="panel-body">
+																						<div id="morris-area-chart"></div>
+																					</div>
+																					<!-- /.panel-body -->
 																				</div>
 																			</div>
 																		</div>
-																		<!-- Bootstrap core JavaScript
+																	</div>
+																</div>
+
+																<div class="container">
+																	<div class="row">
+																		<div class="col-md-6 col-md-offset-3">
+																			<div class="well well-sm">
+																				<form class="form-horizontal" action="" method="post">
+																					<fieldset>
+																						<legend class="text-center">Contact us</legend>
+
+																						<!-- Name input-->
+																						<div class="form-group">
+																							<label class="col-md-3 control-label" for="name">Name</label>
+																							<div class="col-md-9">
+																								<input id="name" name="name" type="text" class="form-control">
+																							</div>
+																						</div>
+
+																						<!-- Email input-->
+																						<div class="form-group">
+																							<label class="col-md-3 control-label" for="email">E-mail</label>
+																							<div class="col-md-9">
+																								<input id="email" name="email" type="text" class="form-control">
+																							</div>
+																						</div>
+
+																						<!-- Message body -->
+																						<div class="form-group">
+																							<label class="col-md-3 control-label" for="message">Your Message</label>
+																							<div class="col-md-9">
+																								<textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+																							</div>
+																						</div>
+
+																						<!-- Form actions -->
+																						<div class="form-group">
+																							<div class="col-md-12 text-right">
+																								<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+																							</div>
+																						</div>
+																					</fieldset>
+																				</form>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+
+																<!-- Bootstrap core JavaScript
     ================================================== -->
-																		<!-- Placed at the end of the document so the pages load faster -->
-																		<script src="assets/js/classie.js"></script>
-																		<script src="assets/js/bootstrap.min.js"></script>
-																		<script src="assets/js/smoothscroll.js"></script>
-																		<script src="assets/js/main.js"></script>
+																<!-- Placed at the end of the document so the pages load faster -->
+																<script src="assets/js/classie.js"></script>
+																<script src="assets/js/bootstrap.min.js"></script>
+																<script src="assets/js/smoothscroll.js"></script>
+																<script src="assets/js/main.js"></script>
 </body>
 
 </html>
