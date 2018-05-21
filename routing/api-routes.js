@@ -78,15 +78,14 @@ module.exports = function(app){
 		passport.authenticate('google', { failureRedirect: '/' }),
 		function (req, res) {
 			// Successful authentication, redirect home.
-			res.redirect('/');
-
+			res.redirect('/profile');
+		var sessData = req.session;
+		sessData.user = user;
+		console.log(sessData.user);
 		});
 
 	// GET user from session
-	app.get('/', function(req, res, next) {
-		var sessData = req.session;
-		sessData.user = user;
-	})
+
 
 	// GET route for getting all of the holdings
 	app.get("/api/holdings", function (req, res) {

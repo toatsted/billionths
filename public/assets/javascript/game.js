@@ -11,6 +11,9 @@ var user;
 $(document).ready(function(){
     // Get user from session
     user = sessData.user;
+    console.log(user);
+    console.log(req.session);
+    console.log(session);
     // Getting holdings from database
     getHoldings();
 
