@@ -195,7 +195,6 @@ a:after {
 	font-size: 16px;
 	width: 100%;
 	margin-bottom: 10px;
-	-webkit-appearance: none;
 	background: #fff;
 	border: 1px solid #d9d9d9;
 	border-top: 1px solid #c0c0c0;
@@ -325,7 +324,6 @@ a:after {
 }
 
 .menu a > i {
-	float: left;
 	display: inline-block;
 	vertical-align: middle; 
 	text-align: left;
