@@ -6,8 +6,11 @@ var buyAmount = 0;
 var coinId;
 var holdings = [];
 
+var user;
 // On document ready, fetch coin list and create dropdown menu to select
 $(document).ready(function(){
+    // Get user from session
+    user = sessData.user;
     // Getting holdings from database
     getHoldings();
 
