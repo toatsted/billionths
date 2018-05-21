@@ -224,7 +224,7 @@ a:after {
   
   .loginmodal-submit:hover {
 	/* border: 1px solid #2f5bb7; */
-	border: 0px;
+	border: 20px;
 	text-shadow: 0 1px rgba(0,0,0,0.3);
 	background-color: #357ae8;
 	/* background-image: -webkit-gradient(linear, 0 0, 0 100%,   from(#4d90fe), to(#357ae8)); */
