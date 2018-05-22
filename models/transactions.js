@@ -6,10 +6,25 @@ module.exports = (sequelize, DataTypes) => {
         coinId: DataTypes.STRING,
         purchasePrice:  DataTypes.STRING,
         purchaseAmount: DataTypes.STRING       
+    }, {
+        defaultScope: {
+            where: {
+                active: true
+            }
+        },
+        scopes: {
+            deleted: {
+                where: {
+                    deleted: true
+                }
+            },
+        }
     });
 
     transactions.associate = function (models) {
-        models.transactions.hasOne(models.User);
+        models.transactions.hasOne(models.User, {
+            foreignKey: userId
+        });
     };
 
     return transactions;
