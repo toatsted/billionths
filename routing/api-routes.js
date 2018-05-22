@@ -15,14 +15,14 @@ var user;
 var userId;
 module.exports = function(app){
 
-	const httpsOptions = {
-		key: fs.readFileSync('./security/cert.key'),
-		cert: fs.readFileSync('./security/cert.pem')
-	};
+	// const httpsOptions = {
+	// 	key: fs.readFileSync('./security/cert.key'),
+	// 	cert: fs.readFileSync('./security/cert.pem')
+	// };
 
-	const server = https.createServer(httpsOptions, app).listen(PORT, () => {
-		console.log('server running at ' + PORT);
-	});
+	// const server = https.createServer(httpsOptions, app).listen(PORT, () => {
+	// 	console.log('server running at ' + PORT);
+	// });
 
 	// configure express to use passport	
 	passport.serializeUser(function (user, done) {
