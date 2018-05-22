@@ -23,16 +23,14 @@ $(document).ready(function(){
 });
 
 // Start new game by deleting user portfolio and reseting cash/portfolio worth
-function newGame () {
+$(document).on("click", "#deletePortfolio", function () {
 
     deleteUserPortfolio();
 
-    cash = 10000;
-    portfolioWorth = 0;
-}
+});
 
 // On selecting a coin from dropdown menu create request for its current price
-$(".coin").on("click", function() {
+$(document).on("click", ".coin" ,function () {
     coinId = $(this).val();
     let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
 
@@ -72,9 +70,12 @@ $("#coinBuy").on("click", function() {
 
 
 
-
-
-
+function deleteUserPortfolio () {
+    $.ajax({
+        method: "DELETE",
+        url: "/api/User/transactions"
+    }).then(getTransactions);
+}
 
 
 // Our new transactions will go inside the transactionsContainer
