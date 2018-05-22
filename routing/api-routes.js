@@ -86,12 +86,32 @@ module.exports = function(app){
 		});
 	});
 
+	// Get route for getting a specific transaction
+	app.get("/api/User/transactions/:id", function (req, res) {
+
+		db.transactions.findOne({
+			where: {
+				id: req.params.id
+			}
+		}).then( function (transaction) {
+			return transaction;
+		});
+	});
+
+	// Get route for getting total number of a secific coin
+	app.get("/api/User/transactions/:coin", function (req, res) {
+		db.transactions.findAll({
+			where: {
+				coin: req.params.coin
+			}
+		}).then(function (coinTotal) {
+			return coinTotal;
+		});
+	});
+
 	// POST route for saving a new purchase
 	app.post("/api/User/transactions", function (req, res) {
-		console.log(req.body);
-		// create takes an argument of an object describing the item we want to
-		// insert into our table. In this case we just we pass in an object with a text
-		// and complete property (req.body)
+
 		db.transactions.create({
 
 			coin: req.body.coin,
@@ -121,6 +141,7 @@ module.exports = function(app){
 		});
 	});
 
+	// Delete the entire User transaction history, for when creating new game
 	app.delete("/api/User/transactions", function (req, res) {
 
 		db.transactions.destroy({
@@ -132,7 +153,7 @@ module.exports = function(app){
 		});
 	});
 
-	// PUT route for updating purchases. We can modify the amount of crypto transactions
+	// PUT route for updating transactions. We can modify the amount of crypto transactions
 	app.put("/api/User/transactions/:id", function (req, res) {
 
 		db.transactions.update({

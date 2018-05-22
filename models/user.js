@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
                         deleted: true
                     }
                 }]
-            }    
+            }   
         }
     });
 
