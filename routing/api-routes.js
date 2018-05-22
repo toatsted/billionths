@@ -11,8 +11,7 @@ let session = require('express-session');
 let RedisStore = require('connect-redis')(session);
 
 let PORT = 8080;
-var user;
-var userId;
+
 module.exports = function(app){
 
 	// const httpsOptions = {
@@ -39,11 +38,14 @@ module.exports = function(app){
 		callbackURL: "https://billionths.herokuapp.com/auth/google/callback",
 	},
 		function (accessToken, refreshToken, profile, done) {
-			user = profile;
-			userId = profile.id;
-			return done(null, profile);
-		}
-	));
+			User.findOrCreate({ 
+				username: profile.displayName,
+				userId: profile.id
+			}, function (err, user) {
+				return done (err, user);
+		});
+	}));
+		
 
 	app.use(cookieParser());
 	app.use(bodyParser.json());
@@ -79,9 +81,6 @@ module.exports = function(app){
 		function (req, res) {
 			// Successful authentication, redirect home.
 			res.redirect('/profile');
-		var sessData = req.session;
-		sessData.user = user;
-		console.log(sessData.user);
 		});
 
 	// GET user from session
