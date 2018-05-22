@@ -70,8 +70,22 @@ module.exports = function(app){
 		function (req, res) {
 			// Successful authentication, redirect to profile.
 			res.redirect('/profile');
-		});
+		}).then(function () {
+			$("#profileName").html(req.params.username);
+			$("#profileId").html(req.params.userId);
+		});;
 
+	// Get user profile info
+	app.get("/api/User/:id", function(req, res) {
+		db.User.find({
+			where: {
+				id: req.params.userId
+			}
+		}).then(function (dbUser) {
+			// We have access to the todos as an argument inside of the callback function
+			res.json(dbUser);
+		})
+	});
 
 	// GET route for getting all of the transactions
 	app.get("/api/User/transactions", function (req, res) {
@@ -91,7 +105,7 @@ module.exports = function(app){
 
 		db.transactions.findOne({
 			where: {
-				id: req.params.d
+				id: req.params.id
 			}
 		}).then( function (transaction) {
 			return transaction;
