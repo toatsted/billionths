@@ -4,15 +4,24 @@ module.exports = function(app){
 		res.render("index");
 	})
 
-	app.get('/profile', (req, res) => {
+	app.get("/index", (req, res) => {
+		res.render("index");
+	})
+
+	app.get("/profile", (req, res) => {
 		res.render("profile");
 	})
 
-	app.get("/index", (req, res) => {
+	app.get("/dashboard", (req, res) => {
 		res.render("dashboard");
 
 	app.get("/contact", (req, res) => {
 		res.render("contact");
 		})
+
+		app.get("/about", (req, res) => {
+			res.render("about");
+			})
 	})
+
 }
