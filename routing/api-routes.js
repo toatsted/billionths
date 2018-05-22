@@ -1,4 +1,3 @@
-// Require NewPurchase model
 var db = require("../models");
 var passport = require("passport");
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -14,8 +13,8 @@ let RedisStore = require('connect-redis')(session);
 module.exports = function(app){
 
 	// configure express to use passport	
-	passport.serializeUser(function (user, done) {
-		done(null, user);
+	passport.serializeUser(function (User, done) {
+		done(null, User);
 	});
 
 	passport.deserializeUser(function (obj, done) {
@@ -31,8 +30,8 @@ module.exports = function(app){
 			User.findOrCreate({ 
 				username: profile.displayName,
 				userId: profile.id
-			}, function (err, user) {
-				return done (err, user);
+			}, function (err, User) {
+				return done (err, User);
 		});
 	}));
 		
@@ -69,31 +68,31 @@ module.exports = function(app){
 	app.get('/auth/google/callback',
 		passport.authenticate('google', { failureRedirect: '/' }),
 		function (req, res) {
-			// Successful authentication, redirect home.
+			// Successful authentication, redirect to profile.
 			res.redirect('/profile');
 		});
 
-	// GET user from session
 
-
-	// GET route for getting all of the holdings
-	app.get("/api/holdings", function (req, res) {
+	// GET route for getting all of the transactions
+	app.get("/api/User/transactions", function (req, res) {
 		// findAll returns all entries for a table when used with no options
-		db.NewPurchase.findAll({}).then(function (dbNewPurchase) {
+		db.User.findAll({
+			include: [{
+				model: transactions
+			}]
+		}).then(function (dbtransactions) {
 			// We have access to the todos as an argument inside of the callback function
-			res.json(dbNewPurchase);
+			res.json(dbtransactions);
 		});
 	});
 
 	// POST route for saving a new purchase
-	app.post("/api/holdings", function (req, res) {
+	app.post("/api/User/transactions", function (req, res) {
 		console.log(req.body);
 		// create takes an argument of an object describing the item we want to
 		// insert into our table. In this case we just we pass in an object with a text
 		// and complete property (req.body)
-		db.NewPurchase.create({
-
-			userId: req.body.userId,
+		db.transactions.create({
 
 			coin: req.body.coin,
 
@@ -101,35 +100,42 @@ module.exports = function(app){
 
 			purchasePrice: req.body.purchasePrice,
 
-			purchaseAmount: req.body.purchaseAmount,
+			purchaseAmount: req.body.purchaseAmount
 
-			currentCash: req.body.currentCash
-
-		}).then(function (dbNewPurchase) {
-			// We have access to the new todo as an argument inside of the callback function
-			res.json(dbNewPurchase);
+		}).then(function (dbtransactions) {
+			// We have access to the new transaction as an argument inside of the callback function
+			res.json(dbtransactions);
 		});
 	});
 
 	// DELETE route for deleting purchases. We can get the id of the purchase we want to delete from
 	// req.params.id
-	app.delete("/api/holdings/:id", function (req, res) {
+	app.delete("/api/User/transactions/:id", function (req, res) {
 		
-		db.NewPurchase.destroy({		
+		db.transactions.destroy({		
 			where: {
 				id: req.params.id
 			}
-		}).then(function (dbNewPurchase) {
-			res.json(dbNewPurchase);
+		}).then(function (dbtransactions) {
+			res.json(dbtransactions);
 		});
 	});
 
-	// PUT route for updating purchases. We can modify the amount of crypto holdings
-	app.put("/api/holdings", function (req, res) {
+	app.delete("/api/User/transactions", function (req, res) {
 
-		db.NewPurchase.update({
+		db.transactions.destroy({
+			include: [{
+				model: User
+			}]
+		}).then(function(dbtransactions) {
+			res.json(dbtransactions);
+		});
+	});
 
-			userId: req.body.userId,
+	// PUT route for updating purchases. We can modify the amount of crypto transactions
+	app.put("/api/User/transactions/:id", function (req, res) {
+
+		db.transactions.update({
 
 			coin: req.body.coin,
 
@@ -137,16 +143,14 @@ module.exports = function(app){
 
 			purchasePrice: req.body.purchasePrice,
 
-			purchaseAmount: req.body.purchaseAmount,
-
-			currentCash: req.body.currentCash
+			purchaseAmount: req.body.purchaseAmount
 
 		}, {
 			where: {
 				id: req.body.id
 			}
-		}).then(function(dbNewPurchase) {
-			res.json(dbNewPurchase);
+		}).then(function(dbtransactions) {
+			res.json(dbtransactions);
 		});
 	});
 }

@@ -4,18 +4,13 @@ var symbol = "";
 var price;
 var buyAmount = 0;
 var coinId;
-var holdings = [];
+var transactions = [];
 
-var user;
-// On document ready, fetch coin list and create dropdown menu to select
+
 $(document).ready(function(){
-    // Get user from session
-    user = sessData.user;
-    console.log(user);
-    console.log(req.session);
-    console.log(session);
-    // Getting holdings from database
-    getHoldings();
+
+    // Getting transactions from database
+    getTransactions();
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/listings/",
@@ -68,64 +63,67 @@ $("#coinBuy").on("click", function() {
             cash = Math.floor(cash - buyPrice);
             // userId is undefined until we get auth working
             
-            insertNewPurchase();
+            insertTransaction ();
         }
     } else {
         alert("Please enter a valid number.");
     }
 })
 
-// Our new NewPurchase will go inside the NewPurchaseContainer
-var $holdingsContainer = $(".holdings-container");
+
+
+
+
+
+
+
+// Our new transactions will go inside the transactionsContainer
+var $transactionsContainer = $(".transactions-container");
 
 // This function displays user purchases stored in db
 function initializeRows() {
-    $NewPurchaseContainer.empty();
+    $transactionsContainer.empty();
     var rowsToAdd = [];
-    for (var i = 0; i < NewPurchase.length; i++) {
-        rowsToAdd.push(createNewRow(NewPurchase[i]));
+    for (var i = 0; i < transactions.length; i++) {
+        rowsToAdd.push(createNewRow(transactions[i]));
     }
-    $NewPurchaseContainer.prepend(rowsToAdd);
+    $transactionsContainer.prepend(rowsToAdd);
 }
 
-// This function grabs NewPurchase from the database and updates the view
-function getHoldings() {
-    $.get("/api/holdings", function (data) {
-        NewPurchase = data;
+// This function grabs transactions from the database and updates the view
+function getTransactions() {
+    $.get("/api/User/transactions", function (data) {
+        transactions = data;
         initializeRows();
     });
 }
 
-// This function deletes a NewPurchase when the user clicks the delete button
-function deleteHolding(event) {
+// This function deletes a transactions when the user clicks the delete button
+function deleteTransaction (event) {
     event.stopPropagation();
     var id = $(this).data("id");
     $.ajax({
         method: "DELETE",
-        url: "/api/holdings/" + id
-    }).then(getHoldings);
-}
-
-function deleteUserPortfolio(event) {
-
+        url: "/api/User/transactions/" + id
+    }).then(getTransactions);
 }
 
 
-// This function updates a NewPurchase in our database, for use when user wants to sell X amount of coins for cash without deleting the entire entry (still not ready)
-function updateNewPurchase(NewPurchase) {
+
+// This function updates a transactions in our database, for use when user wants to sell X amount of coins for cash without deleting the entire entry (still not ready)
+function updateTransactions(transactions) {
     $.ajax({
         method: "PUT",
-        url: "/api/holdings",
-        data: NewPurchase
-    }).then(getHoldings);
+        url: "/api/User/transactions",
+        data: transactions
+    }).then(getTransactions);
 }
 
-// This function inserts a new NewPurchase into our database
-function insertNewPurchase(event) {
+// This function inserts a new transactions into our database
+function insertTransaction (event) {
     event.preventDefault();
-    var NewPurchase = {
 
-        userId: userId,
+    var transactions = {
 
         coin: symbol,
 
@@ -133,10 +131,8 @@ function insertNewPurchase(event) {
 
         purchasePrice: price,
 
-        purchaseAmount: buyAmount,
-
-        currentCash: cash
+        purchaseAmount: buyAmount
     };
 
-    $.post("/api/holdings", NewPurchase, getHoldings);
+    $.post("/api/User/transactions", transactions, getTransactions);
 }
