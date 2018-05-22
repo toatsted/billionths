@@ -134,7 +134,7 @@ module.exports = function(app){
 		
 		db.transactions.destroy({		
 			where: {
-				id: req.params.id
+				id: req.params.transaction_id
 			}
 		}).then(function (dbtransactions) {
 			res.json(dbtransactions);
@@ -168,7 +168,7 @@ module.exports = function(app){
 
 		}, {
 			where: {
-				id: req.body.id
+				id: req.body.transaction_id
 			}
 		}).then(function(dbtransactions) {
 			res.json(dbtransactions);
