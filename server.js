@@ -8,7 +8,7 @@ require("dotenv").config();
 // import all models into db
 let db = require("./models");
 
-let PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 8080;
 let app = express();
 
 // create static routes to all files in /public
