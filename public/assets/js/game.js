@@ -7,11 +7,13 @@ var coinId;
 var transactions = [];
 
 
-$(document).ready(function(){
+
+
+$(document).on("click", "#coinDropdown", (function(){
 
     // Getting transactions from database
     getTransactions();
-
+ 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/listings/",
         method: "GET"
@@ -20,7 +22,7 @@ $(document).ready(function(){
             $("#coinDropdown").append("<a class='dropdown-item coin' value='" + res.data[i].id + "'>" + res.data[i].symbol + "</a>")
         }
     });
-});
+ }));
 
 // Start new game by deleting user portfolio and reseting cash/portfolio worth
 $(document).on("click", "#deletePortfolio", function () {
