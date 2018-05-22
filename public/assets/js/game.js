@@ -48,7 +48,7 @@ $(document).on("click", ".coin" ,function () {
 })
 
 // After selecting coin, input amount to buy (decimals allowed) and check for necessary funds
-$("#coinBuy").on("click", function() {
+$(document).on("click", "#coinBuy", function() {
     event.preventDefault();
 
     if (parseFloat(buyAmount) > 0) {

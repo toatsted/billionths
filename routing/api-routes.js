@@ -70,11 +70,9 @@ module.exports = function(app){
 		function (req, res) {
 			// Successful authentication, redirect to profile.
 			res.redirect('/profile');
-		}).then(function () {
-			$("#profileName").html(req.params.username);
-			$("#profileId").html(req.params.userId);
-		});;
-
+		});
+	//$("#profileName").html(req.params.username);
+	//$("#profileId").html(req.params.userId);
 	// Get user profile info
 	app.get("/api/User/:id", function(req, res) {
 		db.User.find({
