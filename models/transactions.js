@@ -21,11 +21,5 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    transactions.associate = function (models) {
-        models.transactions.hasOne(models.User, {
-            foreignKey: userId
-        });
-    };
-
     return transactions;
 };

@@ -7,30 +7,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             index: true
         }
-    }, {
-        defaultScope: {
-            where: {
-                active: true
-            }
-        },
-        scopes: {
-            activeTransactions: {
-                include: [{
-                    model: transactions,
-                    where: {
-                        active: true
-                    }
-                }]
-            },
-            deletedTransactions: {
-                include: [{
-                    model: transactions,
-                    where: {
-                        deleted: true
-                    }
-                }]
-            }   
-        }
     });
 
     User.associate = function (models) {
