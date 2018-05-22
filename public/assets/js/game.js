@@ -9,20 +9,40 @@ var transactions = [];
 
 
 
-$(document).on("click", "#coinDropdown", (function(){
+$(document).ready((function () {
 
     // Getting transactions from database
     getTransactions();
- 
+
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/listings/",
         method: "GET"
     }).then(function (res) {
-        for (let i = 0; i < res.data.length; i++) {
-            $("#coinDropdown").append("<a class='dropdown-item coin' value='" + res.data[i].id + "'>" + res.data[i].symbol + "</a>")
-        }
+        let cryptos = res.data;
+        for (let i = 0; i < cryptos.length; i++) {
+            $("#coinDropdown").append("<option class='dropdown-item coin' value='" + cryptos[i].id + "'>" + cryptos[i].symbol + "</option>");
+        };
     });
- }));
+
+
+    // On selecting a coin from dropdown menu create request for its current price
+    $('#coinDropdown').change(function () {
+        coinId = $('#coinDropdown').val();
+        let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
+
+        $.ajax({
+            url: queryUrl,
+            method: "GET"
+        }).then(function (res) {
+            symbol = res.data.symbol;
+            price = res.data.quotes.USD.price;
+            // console.log("coin selected: "  + symbol);
+
+            $("#coinSymbol").html(symbol);
+            $("#coinPrice").html("$" + price);
+        });
+    });
+}));
 
 // Start new game by deleting user portfolio and reseting cash/portfolio worth
 $(document).on("click", "#deletePortfolio", function () {
@@ -31,26 +51,8 @@ $(document).on("click", "#deletePortfolio", function () {
 
 });
 
-// On selecting a coin from dropdown menu create request for its current price
-$(document).on("click", ".coin" ,function () {
-    coinId = $(this).val();
-    let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
-
-    $.ajax({
-        url: queryUrl,
-        method: "GET"
-    }).then( function (res) {
-        symbol = res.data.symbol;
-        price = res.data.quotes.USD.price;
-
-        $("#selectedCoinSymbol").html(symbol);
-        $("#selectedCoinPrice").html("$" + price);
-
-    })
-})
-
 // After selecting coin, input amount to buy (decimals allowed) and check for necessary funds
-$("#coinBuy").on("click", function() {
+$("#coinBuy").on("click", function () {
     event.preventDefault();
 
     if (parseFloat(buyAmount) > 0) {
@@ -62,8 +64,8 @@ $("#coinBuy").on("click", function() {
 
             cash = Math.floor(cash - buyPrice);
             // userId is undefined until we get auth working
-            
-            insertTransaction ();
+
+            insertTransaction();
         }
     } else {
         alert("Please enter a valid number.");
@@ -72,7 +74,7 @@ $("#coinBuy").on("click", function() {
 
 
 
-function deleteUserPortfolio () {
+function deleteUserPortfolio() {
     $.ajax({
         method: "DELETE",
         url: "/api/User/transactions"
@@ -102,7 +104,7 @@ function getTransactions() {
 }
 
 // This function deletes a transactions when the user clicks the delete button
-function deleteTransaction (event) {
+function deleteTransaction(event) {
     event.stopPropagation();
     var id = $(this).data("id");
     $.ajax({
@@ -123,7 +125,7 @@ function updateTransactions(transactions) {
 }
 
 // This function inserts a new transactions into our database
-function insertTransaction (event) {
+function insertTransaction(event) {
     event.preventDefault();
 
     var transactions = {
