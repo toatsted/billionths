@@ -33,7 +33,7 @@ require("./routing/api-routes")(app);
 require("./routing/html-routes")(app);
 
 // sync models and listen
-db.sequelize.sync({force: true})
+db.sequelize.sync()
 	.then(() => {
 		app.listen(PORT, () => 
 			console.log(`app is listening on PORT ${PORT}`))
