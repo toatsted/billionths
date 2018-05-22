@@ -11,4 +11,8 @@ module.exports = function(app){
 	app.get("/contact", (req, res) => {
 		res.render("contact");
 	})
+
+	app.get("/index", (req, res) => {
+		res.render("contact");
+	})
 }
