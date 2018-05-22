@@ -15,14 +15,14 @@ var user;
 var userId;
 module.exports = function(app){
 
-	// const httpsOptions = {
-	// 	key: fs.readFileSync('./security/cert.key'),
-	// 	cert: fs.readFileSync('./security/cert.pem')
-	// };
+	const httpsOptions = {
+		key: fs.readFileSync('./security/cert.key'),
+		cert: fs.readFileSync('./security/cert.pem')
+	};
 
-	// const server = https.createServer(httpsOptions, app).listen(PORT, () => {
-	// 	console.log('server running at ' + PORT);
-	// });
+	const server = https.createServer(httpsOptions, app).listen(PORT, () => {
+		console.log('server running at ' + PORT);
+	});
 
 	// configure express to use passport	
 	passport.serializeUser(function (user, done) {
@@ -36,7 +36,7 @@ module.exports = function(app){
 	passport.use(new GoogleStrategy({
 		clientID: "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com",
 		clientSecret: "eYmY_xcGcq79qSQj28FEWjrF",
-		callbackURL: "https://localhost:8080/auth/google/callback",
+		callbackURL: "https://billionths.herokuapp.com/auth/google/callback",
 	},
 		function (accessToken, refreshToken, profile, done) {
 			user = profile;
