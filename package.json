@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/toatsted/billionths#readme",
   "dependencies": {
+    "bluebird": "^3.5.1",
     "coinmarketcap": "^0.2.0",
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
