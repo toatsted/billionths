@@ -81,6 +81,11 @@ module.exports = function(app){
 			}
 		}).then(function (dbUser) {
 			// We have access to the todos as an argument inside of the callback function
+			res.redirect('/profile');
+
+			$("#profileName").html(dbUser.username);
+			$("#profileId").html(dbUsers.userId);
+
 			res.json(dbUser);
 		})
 	});

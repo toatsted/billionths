@@ -7,7 +7,7 @@ var coinId;
 var transactions = [];
 
 
-$(document).ready(function(){
+$(document).on("click", "#coinDropdown", (function(){
 
     // Getting transactions from database
     getTransactions();
@@ -20,7 +20,7 @@ $(document).ready(function(){
             $("#coinDropdown").append("<a class='dropdown-item coin' value='" + res.data[i].id + "'>" + res.data[i].symbol + "</a>")
         }
     });
-});
+}));
 
 // Start new game by deleting user portfolio and reseting cash/portfolio worth
 $(document).on("click", "#deletePortfolio", function () {
@@ -81,7 +81,7 @@ function deleteUserPortfolio () {
 // Our new transactions will go inside the transactionsContainer
 var $transactionsContainer = $(".transactions-container");
 
-// This function displays user purchases stored in db
+// This function displays user transactions stored in db
 function initializeRows() {
     $transactionsContainer.empty();
     var rowsToAdd = [];
