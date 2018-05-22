@@ -91,7 +91,7 @@ module.exports = function(app){
 
 		db.transactions.findOne({
 			where: {
-				id: req.params.id
+				id: req.params.d
 			}
 		}).then( function (transaction) {
 			return transaction;
