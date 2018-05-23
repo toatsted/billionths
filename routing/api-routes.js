@@ -29,10 +29,13 @@ module.exports = function (app) {
 		callbackURL: "https://billionths-test.herokuapp.com/auth/google/callback",
 	},
 		function (accessToken, refreshToken, profile, done) {
-				return done(err, profile);
-			}
-	));
-		
+			User.findOrCreate('User', {
+				username: profile.displayName,
+				userId: profile.id
+			}, function (err, User) {
+				return done(err, User);
+			});
+		}));
 
 
 	app.use(cookieParser());
