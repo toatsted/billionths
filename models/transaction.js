@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         }
     });
 
-    Transaction.associate = function (models) {
-        models.Transaction.belongsTo(models.User, {
-            foreignKey: "id"
-        });
-    };
+    // Transaction.associate = function (models) {
+    //     models.Transaction.belongsTo(models.User, {
+    //         foreignKey: "id"
+    //     });
+    // };
 
     return Transaction;
 };

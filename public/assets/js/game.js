@@ -36,7 +36,31 @@ $(document).ready((function () {
             $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
         });
 
+
         // This function 'signs a user in' based on their entered loginID
+        function userLogin(event) {
+            event.preventDefault();
+
+            let loginID = {loginID: $("#loginID").val()}
+            console.log(loginID)
+
+            // TODO:
+            // For some reason a $.get didn't send the object, but a $.post does?
+            $.post("/api/userLogin", loginID).then(function(res){
+                
+                // Grabs the info of the signed in user and stores it in a variable
+                let userLoggedIn = res;
+                console.log(userLoggedIn)
+                console.log(userLoggedIn[0].userId);
+                console.log(userLoggedIn[0].money);
+
+                // NOTE!!!!
+                // The above current isn't sent out to other functions, but I believe that's because
+                //  on a normal page, the user would login first so that whenever the page loads,
+                // the profile information will be available (and in scope) to all other functions,
+                // such as checking to see whether the user can afford a certain exchange
+            });    
+        };
 
 
         // This function inserts a new transactions into our database
@@ -54,8 +78,12 @@ $(document).ready((function () {
             };
 
             // Send the information to the backend
-            $.post("/api/User/transactions", transactions);
+            if (cryptos[coinId].quotes.USD.price < userLoggedIn[0].money){
+                console.log("this is affordable")
+            }else{
+            $.post("/api/User/transactions", transactions);}
         };
+
 
         // Sends new user info to the backend
         function createUser(event) {
@@ -64,14 +92,19 @@ $(document).ready((function () {
             let userEmail = $("#userEmail").val();
             var newUser = {
                 username: "Bob",
-                userId: userEmail
+                userId: userEmail,
+                money: 80000
             };
 
             // Send the information to the backend
             $.post("/api/newUser", newUser);
         };
 
-        $("#submitEmail").on('click', function(event){
+        $("#userLogin").on('click', function (event) {
+            userLogin(event);
+        });
+
+        $("#submitEmail").on('click', function (event) {
             createUser(event);
         });
 

@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
         userId: {
             type: DataTypes.STRING,
             index: true
-        }
+        },
+        money: DataTypes.FLOAT
     });
 
     User.associate = function (models) {
