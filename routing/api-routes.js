@@ -64,16 +64,19 @@ module.exports = function (app) {
 			]
 		}));
 
-	app.get('/auth/google/callback', async(res, next) => {
-		await passport.authenticate('google', async (err, user, res) => {
-			if (user === false) {
+	app.use(app.get('/auth/google/callback', async(res, req, next) => {
+		await passport.authenticate('google', async (err, profile, res) => {
+			if (profile === false) {
 				res.redirect('/')
 			} else {
-				await res.login(user)
+				await User.findOrCreate('User', {
+					username: profile.displayName,
+					userId: profile.id
+				});
 				res.redirect('/profile')
 			}
 		}); 
-	});
+	}));
 	//.then(function (req,res) {
 	// $("#profileName").html(req.params.username);
 	// $("#profileId").html(req.params.userId);
