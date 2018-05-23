@@ -317,6 +317,30 @@ body {
 			  transition: all .1s ease-in-out;
   }
   
+  .container {
+	width: 1024px;
+	margin: 0 auto;
+  }
+  
+  #main-bio,
+  #contact-info,
+  #bio-image {
+	float: left;
+  }
+  
+  #main-bio {
+	width: 70%;
+  }
+  
+  #contact-info {
+	width: 30%;
+  }
+  
+  #bio-image {
+	width: 200px;
+	height: 200px;
+	margin-right: 20px;
+  }
   
   
   
