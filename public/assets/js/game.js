@@ -6,23 +6,116 @@ var buyAmount = 0;
 var coinId;
 var transactions = [];
 
-
-
-
-$(document).on("click", "#coinDropdown", (function(){
+// ===========================================
+// Transactions page
+// ===========================================
+$(document).ready((function () {
 
     // Getting transactions from database
     getTransactions();
- 
+
     $.ajax({
-        url: "https://api.coinmarketcap.com/v2/listings/",
+        url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
         method: "GET"
     }).then(function (res) {
-        for (let i = 0; i < res.data.length; i++) {
-            $("#coinDropdown").append("<a class='dropdown-item coin' value='" + res.data[i].id + "'>" + res.data[i].symbol + "</a>")
-        }
+        let cryptos = res.data;
+
+        // Grabs the default coin (Bitcoin) and displays its information to the page
+        coinId = $('#coinDropdown').val();
+        $("#coinIcon").html(`<img height="32" width="32" src="https://unpkg.com/@icon/cryptocurrency-icons/icons/${cryptos[coinId].symbol.toLowerCase()}.svg" />`)
+        $("#coinName").html(`<h3>Current ${cryptos[coinId].name} Price:`);
+        $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
+
+        // Function to update the crypto information displayed on the page depending on which crypto is selected
+        $('#coinDropdown').change(function () {
+            coinId = $('#coinDropdown').val();
+            let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
+
+            $("#coinIcon").html(`<img height="32" width="32" src="https://unpkg.com/@icon/cryptocurrency-icons/icons/${cryptos[coinId].symbol.toLowerCase()}.svg" />`)
+            $("#coinName").html(`<h3>Current ${cryptos[coinId].name} Price:`);
+            $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
+        });
+
+
+        // This function 'signs a user in' based on their entered loginID
+        function userLogin(event) {
+            event.preventDefault();
+
+            let loginID = {loginID: $("#loginID").val()}
+            console.log(loginID)
+
+            // TODO:
+            // For some reason a $.get didn't send the object, but a $.post does?
+            $.post("/api/userLogin", loginID).then(function(res){
+                
+                // Grabs the info of the signed in user and stores it in a variable
+                let userLoggedIn = res;
+                console.log(userLoggedIn)
+                console.log(userLoggedIn[0].userId);
+                console.log(userLoggedIn[0].money);
+
+                // NOTE!!!!
+                // The above current isn't sent out to other functions, but I believe that's because
+                //  on a normal page, the user would login first so that whenever the page loads,
+                // the profile information will be available (and in scope) to all other functions,
+                // such as checking to see whether the user can afford a certain exchange
+            });    
+        };
+
+
+        // This function inserts a new transactions into our database
+        function insertTransaction(event) {
+            event.preventDefault();
+
+            // console.log(cryptos[coinId])
+            buyAmount = $("#buyAmount").val();
+
+            var transactions = {
+                coin: cryptos[coinId].symbol,
+                coinId: coinId,
+                purchasePrice: cryptos[coinId].quotes.USD.price,
+                purchaseAmount: buyAmount
+            };
+
+            // Send the information to the backend
+            if (cryptos[coinId].quotes.USD.price < userLoggedIn[0].money){
+                console.log("this is affordable")
+            }else{
+            $.post("/api/User/transactions", transactions);}
+        };
+
+
+        // Sends new user info to the backend
+        function createUser(event) {
+            event.preventDefault();
+
+            let userEmail = $("#userEmail").val();
+            var newUser = {
+                username: "Bob",
+                userId: userEmail,
+                money: 80000
+            };
+
+            // Send the information to the backend
+            $.post("/api/newUser", newUser);
+        };
+
+        $("#userLogin").on('click', function (event) {
+            userLogin(event);
+        });
+
+        $("#submitEmail").on('click', function (event) {
+            createUser(event);
+        });
+
+        $("#insertTransaction").on('click', function (event) {
+            insertTransaction(event);
+        });
     });
- }));
+
+}));
+
+
 
 // Start new game by deleting user portfolio and reseting cash/portfolio worth
 $(document).on("click", "#deletePortfolio", function () {
@@ -31,26 +124,8 @@ $(document).on("click", "#deletePortfolio", function () {
 
 });
 
-// On selecting a coin from dropdown menu create request for its current price
-$(document).on("click", ".coin" ,function () {
-    coinId = $(this).val();
-    let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
-
-    $.ajax({
-        url: queryUrl,
-        method: "GET"
-    }).then( function (res) {
-        symbol = res.data.symbol;
-        price = res.data.quotes.USD.price;
-
-        $("#selectedCoinSymbol").html(symbol);
-        $("#selectedCoinPrice").html("$" + price);
-
-    })
-})
-
 // After selecting coin, input amount to buy (decimals allowed) and check for necessary funds
-$("#coinBuy").on("click", function() {
+$("#coinBuy").on("click", function () {
     event.preventDefault();
 
     if (parseFloat(buyAmount) > 0) {
@@ -62,8 +137,8 @@ $("#coinBuy").on("click", function() {
 
             cash = Math.floor(cash - buyPrice);
             // userId is undefined until we get auth working
-            
-            insertTransaction ();
+
+            insertTransaction();
         }
     } else {
         alert("Please enter a valid number.");
@@ -72,7 +147,7 @@ $("#coinBuy").on("click", function() {
 
 
 
-function deleteUserPortfolio () {
+function deleteUserPortfolio() {
     $.ajax({
         method: "DELETE",
         url: "/api/User/transactions"
@@ -87,10 +162,10 @@ var $transactionsContainer = $(".transactions-container");
 function initializeRows() {
     $transactionsContainer.empty();
     var rowsToAdd = [];
-    for (var i = 0; i < transactions.length; i++) {
-        rowsToAdd.push(createNewRow(transactions[i]));
-    }
-    $transactionsContainer.prepend(rowsToAdd);
+    // for (var i = 0; i < transactions.length; i++) {
+    //     rowsToAdd.push(createNewRow(transactions[i]));
+    // }
+    // $transactionsContainer.prepend(rowsToAdd);
 }
 
 // This function grabs transactions from the database and updates the view
@@ -102,7 +177,7 @@ function getTransactions() {
 }
 
 // This function deletes a transactions when the user clicks the delete button
-function deleteTransaction (event) {
+function deleteTransaction(event) {
     event.stopPropagation();
     var id = $(this).data("id");
     $.ajax({
@@ -120,22 +195,4 @@ function updateTransactions(transactions) {
         url: "/api/User/transactions",
         data: transactions
     }).then(getTransactions);
-}
-
-// This function inserts a new transactions into our database
-function insertTransaction (event) {
-    event.preventDefault();
-
-    var transactions = {
-
-        coin: symbol,
-
-        coinId: coinId,
-
-        purchasePrice: price,
-
-        purchaseAmount: buyAmount
-    };
-
-    $.post("/api/User/transactions", transactions, getTransactions);
 }
