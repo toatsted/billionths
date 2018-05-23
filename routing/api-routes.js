@@ -64,7 +64,7 @@ module.exports = function (app) {
 			]
 		}));
 
-	app.use(app.get('/auth/google/callback', async(res, req, next) => {
+	app.get('/auth/google/callback', async(res, req, next) => {
 		await passport.authenticate('google', async (err, profile, res) => {
 			if (profile === false) {
 				res.redirect('/')
@@ -76,7 +76,7 @@ module.exports = function (app) {
 				res.redirect('/profile')
 			}
 		}); 
-	}));
+	});
 	//.then(function (req,res) {
 	// $("#profileName").html(req.params.username);
 	// $("#profileId").html(req.params.userId);
