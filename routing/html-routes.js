@@ -4,8 +4,8 @@ module.exports = function(app){
 		res.render("index");
 	})
 
-	app.get('/profile', (req, res) => {
-		res.render("profile");
+	app.get('/transactions', (req, res) => {
+		res.render("transactions");
 	})
 
 	app.get("/index", (req, res) => {

@@ -6,43 +6,83 @@ var buyAmount = 0;
 var coinId;
 var transactions = [];
 
-
-
-
+// ===========================================
+// Transactions page
+// ===========================================
 $(document).ready((function () {
 
     // Getting transactions from database
     getTransactions();
 
     $.ajax({
-        url: "https://api.coinmarketcap.com/v2/listings/",
+        url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
         method: "GET"
     }).then(function (res) {
         let cryptos = res.data;
-        for (let i = 0; i < cryptos.length; i++) {
-            $("#coinDropdown").append("<option class='dropdown-item coin' value='" + cryptos[i].id + "'>" + cryptos[i].symbol + "</option>");
-        };
-    });
 
-
-    // On selecting a coin from dropdown menu create request for its current price
-    $('#coinDropdown').change(function () {
+        // Grabs the default coin (Bitcoin) and displays its information to the page
         coinId = $('#coinDropdown').val();
-        let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
+        $("#coinIcon").html(`<img height="32" width="32" src="https://unpkg.com/@icon/cryptocurrency-icons/icons/${cryptos[coinId].symbol.toLowerCase()}.svg" />`)
+        $("#coinName").html(`<h3>Current ${cryptos[coinId].name} Price:`);
+        $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
 
-        $.ajax({
-            url: queryUrl,
-            method: "GET"
-        }).then(function (res) {
-            symbol = res.data.symbol;
-            price = res.data.quotes.USD.price;
-            // console.log("coin selected: "  + symbol);
+        // Function to update the crypto information displayed on the page depending on which crypto is selected
+        $('#coinDropdown').change(function () {
+            coinId = $('#coinDropdown').val();
+            let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
 
-            $("#coinSymbol").html(symbol);
-            $("#coinPrice").html("$" + price);
+            $("#coinIcon").html(`<img height="32" width="32" src="https://unpkg.com/@icon/cryptocurrency-icons/icons/${cryptos[coinId].symbol.toLowerCase()}.svg" />`)
+            $("#coinName").html(`<h3>Current ${cryptos[coinId].name} Price:`);
+            $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
+        });
+
+        // This function 'signs a user in' based on their entered loginID
+
+
+        // This function inserts a new transactions into our database
+        function insertTransaction(event) {
+            event.preventDefault();
+
+            // console.log(cryptos[coinId])
+            buyAmount = $("#buyAmount").val();
+
+            var transactions = {
+                coin: cryptos[coinId].symbol,
+                coinId: coinId,
+                purchasePrice: cryptos[coinId].quotes.USD.price,
+                purchaseAmount: buyAmount
+            };
+
+            // Send the information to the backend
+            $.post("/api/User/transactions", transactions);
+        };
+
+        // Sends new user info to the backend
+        function createUser(event) {
+            event.preventDefault();
+
+            let userEmail = $("#userEmail").val();
+            var newUser = {
+                username: "Bob",
+                userId: userEmail
+            };
+
+            // Send the information to the backend
+            $.post("/api/newUser", newUser);
+        };
+
+        $("#submitEmail").on('click', function(event){
+            createUser(event);
+        });
+
+        $("#insertTransaction").on('click', function (event) {
+            insertTransaction(event);
         });
     });
+
 }));
+
+
 
 // Start new game by deleting user portfolio and reseting cash/portfolio worth
 $(document).on("click", "#deletePortfolio", function () {
@@ -89,10 +129,10 @@ var $transactionsContainer = $(".transactions-container");
 function initializeRows() {
     $transactionsContainer.empty();
     var rowsToAdd = [];
-    for (var i = 0; i < transactions.length; i++) {
-        rowsToAdd.push(createNewRow(transactions[i]));
-    }
-    $transactionsContainer.prepend(rowsToAdd);
+    // for (var i = 0; i < transactions.length; i++) {
+    //     rowsToAdd.push(createNewRow(transactions[i]));
+    // }
+    // $transactionsContainer.prepend(rowsToAdd);
 }
 
 // This function grabs transactions from the database and updates the view
@@ -122,22 +162,4 @@ function updateTransactions(transactions) {
         url: "/api/User/transactions",
         data: transactions
     }).then(getTransactions);
-}
-
-// This function inserts a new transactions into our database
-function insertTransaction(event) {
-    event.preventDefault();
-
-    var transactions = {
-
-        coin: symbol,
-
-        coinId: coinId,
-
-        purchasePrice: price,
-
-        purchaseAmount: buyAmount
-    };
-
-    $.post("/api/User/transactions", transactions, getTransactions);
 }

@@ -1,12 +1,14 @@
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-    let Transaction = sequelize.define('Transaction', {
+    let Transaction = sequelize
+    .define('Transaction', {
         coin: DataTypes.STRING,
         coinId: DataTypes.STRING,
         purchasePrice:  DataTypes.STRING,
         purchaseAmount: DataTypes.STRING       
-    }, {
+    }, 
+    {
         defaultScope: {
             where: {
                 active: true
@@ -23,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Transaction.associate = function (models) {
         models.Transaction.belongsTo(models.User, {
-            foreignKey: 'id'
+            foreignKey: "id"
         });
     };
 
