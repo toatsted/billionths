@@ -69,10 +69,6 @@ module.exports = function (app) {
 			if (profile === false) {
 				res.redirect('/')
 			} else {
-				await User.findOrCreate('User', {
-					username: profile.displayName,
-					userId: profile.id
-				});
 				res.redirect('/profile')
 			}
 		}); 
