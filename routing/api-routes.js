@@ -30,7 +30,7 @@ module.exports = function (app) {
 		proxy: true
 	},
 		function (accessToken, refreshToken, profile, done) {
-			return done(err, profile);			
+			return done(profile);			
 		}
 	));
 
