@@ -26,7 +26,8 @@ module.exports = function (app) {
 	passport.use(new GoogleStrategy({
 		clientID: "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com",
 		clientSecret: "eYmY_xcGcq79qSQj28FEWjrF",
-		callbackURL: "https://billionths-test.herokuapp.com/auth/google/callback",
+		callbackURL: "/auth/google/callback",
+		proxy: true
 	},
 		function (accessToken, refreshToken, profile, done) {
 			User.findOrCreate('User', {
