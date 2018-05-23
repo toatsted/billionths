@@ -19,9 +19,13 @@ module.exports = function(app){
 		res.render("contact");
 		})
 
-		app.get("/about", (req, res) => {
-			res.render("about");
-			})
+	app.get("/about", (req, res) => {
+		res.render("about");
+	   })
+	
+	app.get("/transactions", (req, res) => {
+		res.render("transactions");
+	   })
 	})
 
 }
