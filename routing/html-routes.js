@@ -1,18 +1,23 @@
 module.exports = function(app){
 		
-	app.get("/", (req, res) => {
+	app.get("/", (req, res, next) => {
 		res.render("index");
+		next();
 	})
 
-	app.get('/transactions', (req, res) => {
+	app.get('/transactions', (req, res, next) => {
 		res.render("transactions");
+		next();
 	})
 
-	app.get("/index", (req, res) => {
+	app.get("/index", (req, res, next) => {
 		res.render("dashboard");
-
-	app.get("/contact", (req, res) => {
-		res.render("contact");
-		})
+		next();
 	})
+
+	app.get("/contact", (req, res, next) => {
+		res.render("contact");
+		next();
+	})
+	
 }
