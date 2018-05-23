@@ -29,8 +29,8 @@ module.exports = function (app) {
 		callbackURL: "/auth/google/callback",
 		proxy: true
 	},
-		function (accessToken, refreshToken, profile, done) {
-			return done(profile);			
+		function (accessToken, refreshToken, profile, err, done) {
+			return done(err, profile);			
 		}
 	));
 
