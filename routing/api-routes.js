@@ -30,13 +30,9 @@ module.exports = function (app) {
 		proxy: true
 	},
 		function (accessToken, refreshToken, profile, done) {
-			User.findOrCreate('User', {
-				username: profile.displayName,
-				userId: profile.id
-			}, function (err, User) {
-				return done(err, User);
-			});
-		}));
+			return done(err, profile);			
+		}
+	));
 
 
 	app.use(cookieParser());
@@ -73,7 +69,12 @@ module.exports = function (app) {
 		function (req, res) {
 			// Successful authentication, redirect to profile.
 			res.redirect('/profile');
-		}); //.then(function (req,res) {
+		}), async () => User.findOrCreate('User', {
+					username: profile.displayName,
+					userId: profile.id
+			}); 
+	
+	//.then(function (req,res) {
 	// $("#profileName").html(req.params.username);
 	// $("#profileId").html(req.params.userId);
 
