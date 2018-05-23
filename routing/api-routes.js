@@ -64,7 +64,7 @@ module.exports = function (app) {
 			]
 		}));
 
-	app.use(route.get('/auth/google/callback', async(res, next) => {
+	app.get('/auth/google/callback', async(res, next) => {
 		await passport.authenticate('google', async (err, user, res) => {
 			if (user === false) {
 				res.redirect('/')
@@ -73,7 +73,7 @@ module.exports = function (app) {
 				res.redirect('/profile')
 			}
 		}); 
-	}));
+	});
 	//.then(function (req,res) {
 	// $("#profileName").html(req.params.username);
 	// $("#profileId").html(req.params.userId);
