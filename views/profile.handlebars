@@ -70,41 +70,76 @@
          
                 <h1>Profile</h1>
 
-<br>
-										
-			 <div id="page-wrapper">
-				 <!-- /.row -->
-				 <div class="row"	>
-					 <div class="col-lg-12">
-						 <div class="panel panel-default">
-							 <div class="panel-heading">
-								 <div class="pull-right">
-							 </div>
-							 <div class="panel-body">
-								 <div class="row">
-									 <div class="col-lg-12">
-										 <form role="form">
-											 <div class="form-group">
-												 <label>Hello</label> {{name}}
-												 <input class="form-control">
-											 </div>
+
+	<link href="/public/assets/css/index.css" rel="stylesheet"
+	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/modernizr.custom.js"></script>
+	<script src="assets/js/game.js"></script> 
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+	 crossorigin="anonymous">
+
+	<link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
 
 
- <p>Please select up to 5 cryptocurrencies amounts that add up to $10,000 in full dollar amounts.</p>
+	<section id="about" name="about"></section>
+	<div id="f">
+		<div class="container">
+	
+				<br>
+			</div>
 
- <div class="row">
-<div class="col-md-4">
-<div class="dropdown show">
-    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="coinDropdown" data-toggle="dropdown" aria-haspopup="true"
-     aria-expanded="false">
-        Cryptocurrency
-    </a>
 
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="coinDropdown">
+			<div id="page-wrapper">
+				<div class="container">
 
-    </div>
+					<h2>Select the currency you'd like to buy:</h2>
+					{{!-- <div class="row"> --}}
+						<div class="col-6">
+							<div class="form-group">
+								<label for="Select1">Currencies:</label>
+								<select class="form-control" id="coinDropdown">
+									<option value="1">Bitcoin</option>
+									<option value="2">Litecoin</option>
+									<option value="52">Ripple</option>
+									<option value="512">Stellar</option>
+									<option value="1027">Ethereum</option>
+									<option value="1720">IOTA</option>
+									<option value="1765">EOS</option>
+									<option value="1831">Bitcoin Cash</option>
+									<option value="1958">TRON</option>
+									<option value="2010">Cardano</option>
+								</select>
+							</div>
+						</div>
+
+						<div id="coinIcon"></div>
+						<div id="coinName"></div>
+						<div id="coinPrice"></div>
+
+						<div class="form-group row">
+							<label for="example-number-input" class="col-4 col-form-label">Amount to purchase:</label>
+							<div class="col-10">
+								<input class="form-control" type="number" value="1" id="buyAmount">
+							</div>
+						</div>
+					</div>
+
+
+
 </div>
-</div>
-</div>
+					<button class="btn btn-primary" id="insertTransaction">Submit</button>
+					<br>
+					<div id="transactionStatus"></div>
+
+
+	<div class="col-6">
+	<label for="exampleSelect1">Purhased Currencies:</label>	
+		<input #destination>
+	<script>$("#select1").appendTo("#destination")</script>		
+	
+
+<script src="/assets/js/bootstrap.js"></script>
 								
- <script src="/assets/js/bootstrap.js"></script>
