@@ -64,16 +64,16 @@ module.exports = function (app) {
 			]
 		}));
 
-	app.get('/auth/google/callback',
-		passport.authenticate('google', { failureRedirect: '/' }),
-		function (req, res) {
-			// Successful authentication, redirect to profile.
-			res.redirect('/profile');
-		}), async () => User.findOrCreate('User', {
-					username: profile.displayName,
-					userId: profile.id
-			}); 
-	
+	app.use(route.get('/auth/google/callback', async(res, next) => {
+		await passport.authenticate('google', async (err, user, res) => {
+			if (user === false) {
+				res.redirect('/')
+			} else {
+				await res.login(user)
+				res.redirect('/profile')
+			}
+		}); 
+	}));
 	//.then(function (req,res) {
 	// $("#profileName").html(req.params.username);
 	// $("#profileId").html(req.params.userId);
