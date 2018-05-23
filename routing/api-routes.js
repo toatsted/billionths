@@ -132,7 +132,7 @@ module.exports = function (app) {
 	// ===========================================
 	// POST route for saving a new purchase
 	app.post("/api/User/transactions", function (req, res) {
-		
+
 		db.Transaction.create({
 			coin: req.body.coin,
 			coinId: req.body.coinId,
@@ -155,17 +155,45 @@ module.exports = function (app) {
 
 	// GET route for pulling user info
 	app.post('/api/userLogin', (req, res) => {
-		console.log("In the get command")
-		console.log(req.body)
 
 		db.User.findAll({
 			where: {
 				id: req.body.loginID
 			}
-		}).then(function(dbUser){
+		}).then(function (dbUser) {
 			res.json(dbUser);
-		})
-	})
+			console.log(dbUser)
+		});
+	});
+
+	app.post("/api/updateMoney/", (req, res) => {
+		db.User.update({
+			money: req.body.money
+		}, {
+				where: {
+					id: req.body.id
+				}
+			});
+
+		// re-grabs user info so it's up to date
+		// db.User.findAll({
+		// 	where: {
+		// 		id: req.body.loginID
+		// 	}
+		// }).then(function (dbUser) {
+		// 	res.json(dbUser);
+		// 	console.log(dbUser)
+		// });
+
+		// .then(function (dbUpdateMoney) {
+		// 	res.json(dbUpdateMoney);
+		// 	console.log("============================")
+		// 	console.log("In the backend - money updated!")
+		// 	console.log(dbUpdateMoney)
+		// });
+	});
+	// ===========================================
+	// ===========================================
 
 
 
