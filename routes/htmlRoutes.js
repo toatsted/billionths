@@ -2,19 +2,19 @@ var db = require("../models");
 
 module.exports = function(app){
 		
-	router.get("/", (req, res) => {
+	app.get("/", (req, res) => {
 		res.render("index");
 	})
 
-	router.get('/transactions', (req, res) => {
+	app.get('/transactions', (req, res) => {
 		res.render("transactions");
 	})
 
-	router.get("/index", (req, res) => {
+	app.get("/index", (req, res) => {
 		res.render("dashboard");
 	})
 
-	router.get("/contact", (req, res) => {
+	app.get("/contact", (req, res) => {
 		res.render("contact");
 	})
 
