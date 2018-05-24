@@ -1,82 +1,28 @@
 var db = require("../models");
 var passport = require("passport");
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
-let fs = require('fs');
-let https = require('https');
-let util = require('util');
-let bodyParser = require('body-parser');
-let cookieParser = require('cookie-parser');
-let session = require('express-session');
-let RedisStore = require('connect-redis')(session);
+var fs = require('fs');
 
-console.log("THIS IS THE DB: " + db.Transaction)
+var app = require('../config/app');
 
-
-module.exports = function (app) {
-
-	// configure express to use passport	
-	passport.serializeUser(function (User, done) {
-		done(null, User);
-	});
-
-	passport.deserializeUser(function (obj, done) {
-		done(null, obj);
-	});
-
-	passport.use(new GoogleStrategy({
-		clientID: "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com",
-		clientSecret: "eYmY_xcGcq79qSQj28FEWjrF",
-		callbackURL: "/auth/google/callback",
-		proxy: true
-	},
-		function (accessToken, refreshToken, profile, err, done) {
-			return done(err, profile);			
-		}
-	));
-
-
-	app.use(cookieParser());
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({
-		extended: true
-	}));
-	app.use(session({
-		secret: 'cookie_secret',
-		name: 'kaas',
-		store: new RedisStore({
-			host: '127.0.0.1',
-			port: 6379
-		}),
-		proxy: true,
-		resave: true,
-		saveUninitialized: true
-	}));
-	app.use(passport.initialize());
-	app.use(passport.session());
-
+module.exports = function (apiRoutes) {
 	// Authentication route
 	app.get('/auth/google',
 		passport.authenticate('google', {
-			scope: [
-				'profile',
-				"https://www.googleapis.com/auth/plus.login",
-				"https://www.googleapis.com/auth/plus.me"
-			]
-		}));
+		scope: [
+			'profile',
+			"https://www.googleapis.com/auth/plus.login",
+			"https://www.googleapis.com/auth/plus.me"
+		]
+	}));
 
-	app.get('/auth/google/callback', async(res, req, next) => {
-		await passport.authenticate('google', async (err, profile, res) => {
-			if (profile === false) {
-				res.redirect('/')
-			} else {
-				res.redirect('/profile')
-			}
-		}); 
-	});
-	//.then(function (req,res) {
-	// $("#profileName").html(req.params.username);
-	// $("#profileId").html(req.params.userId);
 
+	app.get('/auth/google/callback',
+		passport.authenticate('google', {
+			failureRedirect: '/login'
+		}),
+		function (req, res) {
+			res.redirect('/');
+		});
 
 	// Get user profile info
 	app.get("/api/User/:id", function (req, res) {
@@ -171,7 +117,7 @@ module.exports = function (app) {
 
 
 
-	// DELETE route for deleting purchases. We can get the id of the purchase we want to delete from
+	// delete route for devaring purchases. We can get the id of the purchase we want to delete from
 	// req.params.id
 	app.delete("/api/User/Transaction/:id", function (req, res) {
 
@@ -184,7 +130,7 @@ module.exports = function (app) {
 		});
 	});
 
-	// Delete the entire User transaction history, for when creating new game
+	// delete the entire User transaction history, for when creating new game
 	app.delete("/api/User/Transaction", function (req, res) {
 
 		db.Transaction.destroy({
@@ -217,4 +163,5 @@ module.exports = function (app) {
 				res.json(dbTransaction);
 			});
 	});
+
 }
