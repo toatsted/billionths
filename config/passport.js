@@ -33,9 +33,10 @@ module.exports = function(passport, user) {
                 if (user) {
                     return done(user);
                 } else {
+                    console.log(profile);
                     var newUser = {
                         userId: profile.id,
-                        username: profile.givenName,
+                        username: profile.name,
                         cash: 10000
                     };
 
