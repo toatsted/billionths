@@ -1,7 +1,9 @@
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
-var db = require('../models')
-var User = db.User;
+var fs = require('fs');
+
+var db = require('../models');
+var app = require('../app')(app);
 
 module.exports = function(passport) {
     // configure express to use passport	
@@ -11,7 +13,7 @@ module.exports = function(passport) {
 
     passport.deserializeUser(function (id, done) {
 
-        User.findById (id, function (err, user) {
+        user.findById (id, function (err, user) {
             done(err, user);
         });
     });
@@ -23,8 +25,8 @@ module.exports = function(passport) {
     	    proxy: true
     	},
             function (accessToken, refreshToken, profile, done) {
-                User.findOrCreate({
-                    googleId: profile.id
+                user.findOrCreate({
+                    id: profile.id
             }, function (err, user) {
                     return done(err, user);
             });
