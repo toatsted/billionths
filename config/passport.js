@@ -34,8 +34,8 @@ module.exports = function(passport, user) {
                     return done(user);
                 } else {
                     var newUser = {
-                        userId: req.body.id,
-                        username: req.body.givenName,
+                        userId: profile.id,
+                        username: profile.givenName,
                         cash: 10000
                     };
 
