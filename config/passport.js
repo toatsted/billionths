@@ -31,7 +31,7 @@ module.exports = function(passport, user) {
                     }
             }).then (function (err, user) {
                 if (user) {
-                    return done(user);
+                   user.get();
                 } else {
                     console.log(profile);
                     var newUser = {
