@@ -34,7 +34,7 @@ app.engine("handlebars", exphbs({
 app.set("view engine", "handlebars");
 app.set('views', path.join(__dirname, 'views'));
 
-require('./routes/routeIndex')(app);
+require('./routes/htmlRoutes')(app);
 require('./routes/transactions')(app);
 require('./routes/users')(app, passport);
 require('./config/passport')(passport, db.User);
