@@ -1,20 +1,20 @@
-var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
-var fs = require('fs');
+module.exports = function(passport, user) {
+    // configure express to use passport
+    var GoogleStrategy = require('passport-google-oauth20').Strategy;
+    var User = user;
 
-var db = require('../models');
-var app = require('../app')(app);
-
-module.exports = function(passport) {
-    // configure express to use passport	
     passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
 
     passport.deserializeUser(function (id, done) {
 
-        user.findById (id, function (err, user) {
-            done(err, user);
+        User.findById(id).then(function (user) {
+            if (user) {
+                done(null, user.get());
+            } else {
+                done(null, user.errors);
+            }
         });
     });
 
@@ -25,10 +25,27 @@ module.exports = function(passport) {
     	    proxy: true
     	},
             function (accessToken, refreshToken, profile, done) {
-                user.findOrCreate({
-                    id: profile.id
-            }, function (err, user) {
-                    return done(err, user);
+                User.findOne({
+                    where: {
+                        userId: profile.id,
+                    }
+            }).then (function (err, user) {
+                if (user) {
+                    return done(user);
+                } else {
+                    var newUser = {
+                        userId: req.body.id,
+                        username: req.body.givenName,
+                        cash: 10000
+                    };
+
+                    User.create(newUser).then(function (newUser) {
+                        if(newUser) {
+                            return done(null, newUser);
+                        }
+                    });
+                }
+                    
             });
         }
     ));

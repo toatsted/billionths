@@ -1,12 +1,26 @@
 var express = require('express');
-var router = express.Router();
 
-var User = require("../models/user");
-var passport = require('../config/passport');
+module.exports = function (app, passport) {
 
-module.exports = function (router) {
-    
-    router.get('/auth/google',
+	app.get("/index", function (req, res) {
+		res.render("index");
+	});
+
+	app.get("/logout", function (req, res) {
+		req.session.destroy(function (err) {
+			res.redirect("/");
+		});
+	});
+
+	app.get("/profile", isLoggedIn, function (req, res) {
+		res.render("profile");
+	});
+
+	app.get("/authSuccess", function (req, res) {
+		res.redirect("/profile/" + req.user.id);
+	});
+			
+    app.get('/auth/google',
 	    passport.authenticate('google', {
 	        scope: [
 	            'profile',
@@ -16,7 +30,7 @@ module.exports = function (router) {
 	    }));
 
 
-	router.get('/auth/google/callback',
+	app.get('/auth/google/callback',
 	    passport.authenticate('google', {
 	        failureRedirect: '/login'
 	    }),
@@ -25,14 +39,15 @@ module.exports = function (router) {
 	    });
 
 	// Get user profile info
-	router.get("/api/User/:id", function (req, res) {
+	app.get("/api/users/:id", (req, res) => {
 	    db.User.find({
 	        where: {
 	            id: req.params.userId
 	        }
-	    }).then(function (dbUser) {
-	        // We have access to the todos as an argument inside of the callback function
+	    }).then((dbUser) => {
 	        res.json(dbUser);
-	    })
+	    }).catch((err) => {
+			res.json(err);
+		});
     });
 }

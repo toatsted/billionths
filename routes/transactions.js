@@ -1,17 +1,12 @@
-var express = require('express');
-var router = express.Router();
+var db = require('../models');
 
-var User = require("../models/user");
-var Transaction = require('../models/transaction');
-var passport = require('../config/passport');
-
-module.exports = function (router) {
+module.exports = function (app) {
     // ===========================================
     // Transaction page
     // ===========================================
     // GET ROUTES
     // route for getting all of the Transaction
-    router.get("/api/User/Transaction", function (req, res) {
+    app.get("/api/transactions", function (req, res) {
         // findAll returns all entries for a table when used with no options
         db.User.findAll({
             include: [{
@@ -24,7 +19,7 @@ module.exports = function (router) {
     });
 
     // Get route for getting a specific transaction
-    router.get("/api/User/Transaction/:id", function (req, res) {
+    app.get("/api/transactions/:id", function (req, res) {
 
         db.Transaction.findOne({
             where: {
@@ -36,7 +31,7 @@ module.exports = function (router) {
     });
 
     // Get route for getting total number of a secific coin
-    router.get("/api/User/Transaction/:coin", function (req, res) {
+    app.get("/api/transactions/:coin", function (req, res) {
         db.Transaction.findAll({
             where: {
                 coin: req.params.coin
@@ -49,13 +44,14 @@ module.exports = function (router) {
 
     // POST ROUTES
     // route for saving a new purchase
-    router.post("/api/User/Transaction", function (req, res) {
+    app.post("/api/transactions", function (req, res) {
 
         db.Transaction.create({
             coin: req.body.coin,
             coinId: req.body.coinId,
             purchasePrice: req.body.purchasePrice,
             purchaseAmount: req.body.purchaseAmount
+            
         }).then(function (dbTransaction) {
             // We have access to the new transaction as an argument inside of the callback function
             res.json(dbTransaction);
@@ -63,7 +59,7 @@ module.exports = function (router) {
     });
 
     // POST route for creating a new user
-    router.post(`/api/newUser`, function (req, res) {
+    app.post('/api/newUser', function (req, res) {
         db.User.create({
             username: req.body.username,
             userId: req.body.userId,
@@ -72,7 +68,7 @@ module.exports = function (router) {
     });
 
     // GET route for pulling user info
-    router.post('/api/userLogin', (req, res) => {
+    app.post('/api/userLogin', (req, res) => {
         console.log("In the get command")
         console.log(req.body)
 
@@ -90,7 +86,7 @@ module.exports = function (router) {
     // DELETE ROUTES
     // delete route for devaring purchases. We can get the id of the purchase we want to delete from
     // req.params.id
-    router.delete("/api/User/Transaction/:id", function (req, res) {
+    app.delete("/api/transactions/:id", function (req, res) {
 
         db.Transaction.destroy({
             where: {
@@ -102,7 +98,7 @@ module.exports = function (router) {
     });
 
     // delete the entire User transaction history, for when creating new game
-    router.delete("/api/User/Transaction", function (req, res) {
+    app.delete("/api/transactions", function (req, res) {
 
         db.Transaction.destroy({
             include: [{
@@ -115,7 +111,7 @@ module.exports = function (router) {
 
     // UPDATE ROUTES
     // PUT route for updating Transaction. We can modify the amount of crypto Transaction
-    router.put("/api/User/Transaction/:id", function (req, res) {
+    app.put("/api/transactions/:id", function (req, res) {
 
         db.Transaction.update({
 
