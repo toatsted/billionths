@@ -6,16 +6,28 @@ module.exports = function(app){
 		res.render("index");
 	})
 
-	app.get('/transactions', (req, res) => {
-		res.render("transactions");
-	})
-
 	app.get("/index", (req, res) => {
-		res.render("dashboard");
+		res.render("index");
 	})
 
-	app.get("/contact", (req, res) => {
-		res.render("contact");
+	app.get("/profile", (req, res) => {
+		res.render("profile");
+	})
+
+	app.get("/dashboard", (req, res) => {
+		res.render("dashboard");
+
+		app.get("/contact", (req, res) => {
+			res.render("contact");
+		})
+
+		app.get("/about", (req, res) => {
+			res.render("about");
+		})
+
+		app.get("/transactions", (req, res) => {
+			res.render("transactions");
+		})
 	})
 
 	app.get("/profile/:id", (req, res) => {

@@ -29,11 +29,10 @@ module.exports = function(passport, user) {
                     where: {
                         userId: profile.id,
                     }
-            }).then (function (err, user) {
-                if (user) {
-                   user.get();
+            }).then (function (err, User) {
+                if (User) {
+                   return done(User);
                 } else {
-                    console.log(profile);
                     var newUser = {
                         userId: profile.id,
                         username: profile.displayName,
