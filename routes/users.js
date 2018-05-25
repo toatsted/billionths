@@ -33,9 +33,10 @@ module.exports = function (app, passport) {
 	app.get('/auth/google/callback',
 	    passport.authenticate('google', {
 	        failureRedirect: '/login'
-	    }).then((req, res) => {
-	    	res.redirect('/profile');
-	    }));
+	    }),
+	    function (req, res) {
+	        res.redirect('/profile');
+	    });
 
 	// Get user profile info
 	app.get("/api/users/:id", (req, res) => {
