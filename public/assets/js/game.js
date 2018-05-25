@@ -2,14 +2,11 @@ var portfolioWorth;
 var cash;
 var symbol = "";
 var price;
-var buyAmount = 0;
+var coinAmount = 0;
 var coinId;
 var transactions = [];
 var userLoggedIn;
 var wallet;
-
-
-
 
 
 // ===========================================
@@ -45,9 +42,7 @@ $(document).ready((function () {
         function userLogin(event) {
             event.preventDefault();
 
-            let loginID = {
-                loginID: $("#loginID").val()
-            }
+            let loginID = { loginID: $("#loginID").val() }
 
             // TODO:
             // For some reason a $.get didn't send the object, but a $.post does?
@@ -67,19 +62,15 @@ $(document).ready((function () {
 
 
         // This function inserts a new transactions into our database
-        function insertTransaction(event) {
+        function buyTransaction(event) {
             event.preventDefault();
             console.log("insert transaction: " + JSON.stringify(wallet))
 
-            buyAmount = $("#buyAmount").val();
-
+            coinAmount = $("#coinAmount").val();
             // Grab the symbol of the crypto being purchased
             let coinSymbol = cryptos[coinId].symbol;
-
             // Determine the cost of the overall transaction
-            let transactionCost = cryptos[coinId].quotes.USD.price * buyAmount;
-
-
+            let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
             // Send the information to the backend if the user can afford the transaction
             if (transactionCost > wallet.cash) {
@@ -87,19 +78,17 @@ $(document).ready((function () {
             } else {
                 // Proceeds with the transaction if it's affordable
 
-
                 // Checks if coin is in wallet yet, and adds it if not
                 if (!wallet.hasOwnProperty(coinSymbol)) {
                     wallet[coinSymbol] = 0;
                 };
 
-                // NOTE: This doesn't quite work yet
-                wallet[coinSymbol] = Number(wallet[coinSymbol]) + Number(buyAmount)
+                wallet[coinSymbol] = Number(wallet[coinSymbol]) + Number(coinAmount)
                 var transactions = {
                     coin: cryptos[coinId].symbol,
                     coinId: coinId,
                     purchasePrice: cryptos[coinId].quotes.USD.price,
-                    purchaseAmount: buyAmount,
+                    purchaseAmount: coinAmount,
                     // Temporary foreignKey solution
                     foreignKey: userLoggedIn[0].id
                 };
@@ -108,6 +97,50 @@ $(document).ready((function () {
 
                     $("#transactionStatus").html("Transaction complete!");
                     updateWallet(transactionCost);
+
+                    // Updates the user money shown on the page
+                    userLogin(event);
+                });
+            };
+        };
+
+
+        function sellTransaction(event) {
+            event.preventDefault();
+            console.log("selling: " + JSON.stringify(wallet))
+
+            coinAmount = $("#coinAmount").val();
+            // Grab the symbol of the crypto being purchased
+            let coinSymbol = cryptos[coinId].symbol;
+            // Determine the cost of the overall transaction
+            let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
+
+            // First checks if coin is in the user's wallet, and notifies them if it is not
+            if (!wallet.hasOwnProperty(coinSymbol)) {
+                $("#transactionStatus").html("You do not have this type of coin in your wallet!  Please select a different coin.")
+            }
+            // Checks that the user is not selling more than they own
+            else if (wallet[coinSymbol] < coinAmount) {
+                $("#transactionStatus").html("You cannot sell more coin than you have!  Please change your amount.")
+            }
+            else {
+
+                wallet[coinSymbol] = Number(wallet[coinSymbol]) - Number(coinAmount)
+                var transactions = {
+                    coin: cryptos[coinId].symbol,
+                    coinId: coinId,
+                    purchasePrice: cryptos[coinId].quotes.USD.price,
+                    purchaseAmount: coinAmount,
+                    // Temporary foreignKey solution
+                    foreignKey: userLoggedIn[0].id
+                };
+
+                $.post("/api/User/transactions", transactions).then(function () {
+
+                    $("#transactionStatus").html("Transaction complete!");
+
+                    // *-1 so it will subtract the amount from the user's cash
+                    updateWallet(transactionCost * -1);
 
                     // Updates the user money shown on the page
                     userLogin(event);
@@ -134,6 +167,7 @@ $(document).ready((function () {
             $.post("/api/newUser", newUser);
         };
 
+
         // Button click functionality
         $("#userLogin").on('click', function (event) {
             userLogin(event);
@@ -141,8 +175,11 @@ $(document).ready((function () {
         $("#submitEmail").on('click', function (event) {
             createUser(event);
         });
-        $("#insertTransaction").on('click', function (event) {
-            insertTransaction(event);
+        $("#buyTransaction").on('click', function (event) {
+            buyTransaction(event);
+        });
+        $("#sellTransaction").on('click', function (event) {
+            sellTransaction(event);
         });
     });
 }));
@@ -151,10 +188,24 @@ $(document).ready((function () {
 // Update the money of the "logged-in" user
 function updateWallet(transactionCost) {
 
-    // Subtracts the cost of the transaction from the user
+    // Calculates the cost of the transaction from the user (subtracts if buying, adds if selling)
     wallet.cash -= transactionCost;
 
-    console.log("update wallet: " + JSON.stringify(wallet))
+
+
+    console.log("before removing 0 wallet: " + JSON.stringify(wallet))
+    // Remove any currencies with 0 coins remaining
+    for (i in wallet) {
+        // Skip cash so it won't ever be removed
+        if (i === 'cash') {
+            continue;
+        }
+        if (Number(wallet[i]) === 0) {
+            delete wallet[i];
+        }
+    }
+
+    console.log("updated wallet: " + JSON.stringify(wallet))
 
     let userMoney = {
         id: userLoggedIn[0].id,

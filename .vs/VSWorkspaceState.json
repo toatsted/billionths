@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\config",
+    "\\models",
+    "\\public",
+    "\\public\\assets",
+    "\\public\\assets\\js",
+    "\\public\\img",
+    "\\routes"
+  ],
+  "SelectedNode": "\\server.js",
+  "PreviewInSolutionExplorer": false
+}
