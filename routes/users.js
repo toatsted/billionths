@@ -33,7 +33,7 @@ module.exports = function (app, passport) {
 	app.get('/auth/google/callback',
 	    passport.authenticate('google', {
 	        failureRedirect: '/login'
-	    }).then(function (req, res) {
+	    }).then((req, res) => {
 	    	res.redirect('/profile');
 	    }));
 
