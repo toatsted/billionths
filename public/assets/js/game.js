@@ -5,6 +5,7 @@ var price;
 var buyAmount = 0;
 var coinId;
 var transactions = [];
+var userLoggedIn;
 
 // ===========================================
 // Transactions page
@@ -41,25 +42,20 @@ $(document).ready((function () {
         function userLogin(event) {
             event.preventDefault();
 
-            let loginID = {loginID: $("#loginID").val()}
+            let loginID = { loginID: $("#loginID").val() }
             console.log(loginID)
 
             // TODO:
             // For some reason a $.get didn't send the object, but a $.post does?
-            $.post("/api/userLogin", loginID).then(function(res){
-                
-                // Grabs the info of the signed in user and stores it in a variable
-                let userLoggedIn = res;
-                console.log(userLoggedIn)
-                console.log(userLoggedIn[0].userId);
-                console.log(userLoggedIn[0].money);
+            $.post("/api/userLogin", loginID).then(function (res) {
 
-                // NOTE!!!!
-                // The above current isn't sent out to other functions, but I believe that's because
-                //  on a normal page, the user would login first so that whenever the page loads,
-                // the profile information will be available (and in scope) to all other functions,
-                // such as checking to see whether the user can afford a certain exchange
-            });    
+                // Grabs the info of the signed in user and stores it in a variable
+                userLoggedIn = res;
+                $("#showLogin").html(`User signed in as email: ${userLoggedIn[0].userId}
+            User money: ${userLoggedIn[0].money}`)
+
+                return userLoggedIn
+            });
         };
 
 
@@ -70,6 +66,9 @@ $(document).ready((function () {
             // console.log(cryptos[coinId])
             buyAmount = $("#buyAmount").val();
 
+            // Determine the cost of the overall transaction
+            let transactionCost = cryptos[coinId].quotes.USD.price * buyAmount
+
             var transactions = {
                 coin: cryptos[coinId].symbol,
                 coinId: coinId,
@@ -77,13 +76,18 @@ $(document).ready((function () {
                 purchaseAmount: buyAmount
             };
 
-            // Send the information to the backend
-            if (cryptos[coinId].quotes.USD.price < userLoggedIn[0].money){
-                console.log("this is affordable")
-            }else{
-            $.post("/api/User/transactions", transactions);}
+            // Send the information to the backend if the user can afford the transaction
+            if (transactionCost > userLoggedIn[0].money) {
+                $("#transactionStatus").html("You cannot afford this transaction")
+            } else {
+                $.post("/api/User/transactions", transactions);
+                $("#transactionStatus").html("Transaction complete!");
+                updateMoney(transactionCost);
+                
+                // Updates the user money shown on the page
+                userLogin(event);
+            };
         };
-
 
         // Sends new user info to the backend
         function createUser(event) {
@@ -93,28 +97,40 @@ $(document).ready((function () {
             var newUser = {
                 username: "Bob",
                 userId: userEmail,
-                money: 80000
+                money: 10000
             };
 
             // Send the information to the backend
             $.post("/api/newUser", newUser);
         };
 
+        // Button click functionality
         $("#userLogin").on('click', function (event) {
             userLogin(event);
         });
-
         $("#submitEmail").on('click', function (event) {
             createUser(event);
         });
-
         $("#insertTransaction").on('click', function (event) {
             insertTransaction(event);
         });
     });
-
 }));
 
+
+// Update the money of the "logged-in" user
+function updateMoney(transactionCost) {
+
+    let userMoney = {
+        id: userLoggedIn[0].id,
+        money: (userLoggedIn[0].money - transactionCost)
+    };
+
+    // $.put didn't work here for some reason
+    $.post("/api/updateMoney/", userMoney);
+}
+// ===========================================
+// ===========================================
 
 
 // Start new game by deleting user portfolio and reseting cash/portfolio worth
