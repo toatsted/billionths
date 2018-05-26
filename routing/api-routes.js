@@ -137,7 +137,8 @@ module.exports = function (app) {
 			coin: req.body.coin,
 			coinId: req.body.coinId,
 			purchasePrice: req.body.purchasePrice,
-			purchaseAmount: req.body.purchaseAmount
+			purchaseAmount: req.body.purchaseAmount,
+			foreignKey: req.body.foreignKey
 		}).then(function (dbtransactions) {
 			// We have access to the new transaction as an argument inside of the callback function
 			res.json(dbtransactions);
@@ -149,7 +150,7 @@ module.exports = function (app) {
 		db.User.create({
 			username: req.body.username,
 			userId: req.body.userId,
-			money: req.body.money
+			wallet: JSON.stringify(req.body.wallet)
 		});
 	});
 
@@ -162,13 +163,13 @@ module.exports = function (app) {
 			}
 		}).then(function (dbUser) {
 			res.json(dbUser);
-			console.log(dbUser)
 		});
 	});
 
-	app.post("/api/updateMoney/", (req, res) => {
+	// Updates the users money 
+	app.post("/api/updateWallet/", (req, res) => {
 		db.User.update({
-			money: req.body.money
+			wallet: JSON.stringify(req.body.wallet)
 		}, {
 				where: {
 					id: req.body.id
