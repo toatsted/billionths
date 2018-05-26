@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             index: true
         },
-        money: DataTypes.FLOAT
+        // Stores the symbols of the cryptocurrencies the user owns, as well as how much they own of it.
+        wallet: DataTypes.STRING
     });
 
     User.associate = function (models) {
