@@ -9,6 +9,9 @@ var userLoggedIn;
 var wallet;
 
 
+
+
+
 // ===========================================
 // Transactions page
 // ===========================================
@@ -191,9 +194,6 @@ function updateWallet(transactionCost) {
     // Calculates the cost of the transaction from the user (subtracts if buying, adds if selling)
     wallet.cash -= transactionCost;
 
-
-
-    console.log("before removing 0 wallet: " + JSON.stringify(wallet))
     // Remove any currencies with 0 coins remaining
     for (i in wallet) {
         // Skip cash so it won't ever be removed
@@ -204,8 +204,6 @@ function updateWallet(transactionCost) {
             delete wallet[i];
         }
     }
-
-    console.log("updated wallet: " + JSON.stringify(wallet))
 
     let userMoney = {
         id: userLoggedIn[0].id,
