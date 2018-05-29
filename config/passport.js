@@ -22,34 +22,33 @@ module.exports = function(passport, user) {
     	    clientID: "480019328973-svpoqjokmkhv8s90kmhmt4qqvctbaco3.apps.googleusercontent.com",
     	    clientSecret: "eYmY_xcGcq79qSQj28FEWjrF",
     	    callbackURL: "/auth/google/callback",
-    	    proxy: true
+            proxy: true,
+            passReqToCallback: true
     	},
-            function (accessToken, refreshToken, profile, done) {
+        function (req, accessToken, refreshToken, profile, done) {
+            if (!req.user) {
+                var newUser = {
+                    userId: profile.id,
+                    username: profile.displayName,
+                    money: 10000
+                };
+
+                User.create(newUser).then(function (newUser) {
+                    if (!newUser) {
+                        return done(null, false);
+                    }
+                    if (newUser) {
+                        return done(null, newUser);
+                    }
+                });
+            } else {
                 User.findOne({
                     where: {
                         userId: profile.id,
                     }
-            }).then (function (err, user) {
-                if (user) {
-                   return done(null, false);
-                } else {
-                    var newUser = {
-                        userId: profile.id,
-                        username: profile.displayName,
-                        money: 10000
-                    };
-
-                    User.create(newUser).then(function (newUser) {
-                        if(!newUser) {
-                            return done(null, false);
-                        }
-                        if (newUser) {
-                            return done(null, newUser);
-                        }
-                    });
-                }
-                    
-            });
+                });
+                return done(null, req.user);
+            }
         }
     ));
 
