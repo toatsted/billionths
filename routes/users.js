@@ -40,8 +40,10 @@ module.exports = function (app, passport) {
 	        failureRedirect: '/login'
 	    }),
         function (req, res) {
+            var user = req.user;
 
             console.log(user);
+            console.log(req.session);
             res.send(user);
 
 	        res.redirect('/profile');
