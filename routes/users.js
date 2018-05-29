@@ -38,13 +38,11 @@ module.exports = function (app, passport) {
             failureRedirect: '/login'
         }),
         function (req, res) {
-            
-            req.session.save(function (err) {
-                var user = req.user;
-                res.redirect('/profile');
-            })
-            
+
+            res.redirect('/profile');
         });
+            
+      
 
     // Get user profile info
     app.get("/api/user", (req, res) => {

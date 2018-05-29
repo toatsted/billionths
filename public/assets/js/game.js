@@ -45,6 +45,7 @@ $(document).ready((function () {
         }).then(function (res, req) {
             user = res.user;
             console.log(user);
+            return user;
         });
 
         // This function inserts a new transactions into our database
