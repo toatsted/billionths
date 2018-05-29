@@ -8,7 +8,7 @@ var transactions = [];
 var userLoggedIn;
 var wallet;
 
-
+var db = require('../../../models');
 
 // ===========================================
 // Transactions page
@@ -70,8 +70,9 @@ $(document).ready((function () {
                         UserId: user.id
                     };
 
-                    $.post("/api/transaction", newTransaction).then(function () {
-
+                    $.post("/api/transaction", newTransaction).then(function (dbTransaction) {
+                        console.log(dbTransaction);
+                        console.log(newTransaction);
                         $("#transactionStatus").html("Transaction complete!");
                     });
                 };
