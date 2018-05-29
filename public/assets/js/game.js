@@ -16,7 +16,7 @@ $(document).ready((function () {
     getTransactions();
 
     $.ajax({
-        url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
+        url: "https://api.coinmarketcap.com/v2/ticker/?limit=20",
         method: "GET"
     }).then(function (res) {
         let cryptos = res.data;
@@ -47,7 +47,7 @@ $(document).ready((function () {
 
             // TODO:
             // For some reason a $.get didn't send the object, but a $.post does?
-            $.post("/api/userLogin", loginID).then(function (res) {
+            $.post("/api/userLogin", loginID).then(function (req,res) {
 
                 // Grabs the info of the signed in user and stores it in a variable
                 userLoggedIn = res;
