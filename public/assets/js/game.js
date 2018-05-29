@@ -132,6 +132,7 @@ $(document).ready((function () {
             createUser(event);
         });
         $(document).on('click', "insertTransaction", function (event) {
+            event.preventDefault();
             buyTransaction(event);
         });
         $("#sellTransaction").on('click', function (event) {
