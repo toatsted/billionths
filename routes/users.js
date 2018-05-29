@@ -54,8 +54,8 @@ module.exports = function (app, passport) {
             }
         }).then(function (user) {
             console.log(user);
-      
-                return user;
-        });
 
+            return user;
+        });
+    });
 }
