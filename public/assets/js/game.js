@@ -8,13 +8,13 @@ var transactions = [];
 var userLoggedIn;
 var wallet;
 
-var user;
 
 
 // ===========================================
 // Transactions page
 // ===========================================
 $(document).ready((function () {
+    var user;
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
@@ -44,7 +44,6 @@ $(document).ready((function () {
             method: "GET"
         }).then(function (res, req) {
             user = res.user;
-            console.log(user);
             return user;
         });
 
@@ -63,18 +62,22 @@ $(document).ready((function () {
                     $("#transactionStatus").html("You cannot afford this transaction")
                 } else {
                     // Proceeds with the transaction if it's affordable
-                    var Transaction = {
-                        coin: coinSymbol,
-                        coinId: coinId,
-                        purchasePrice: cryptos[coinId].quotes.USD.price,
-                        purchaseAmount: coinAmount,
-                        UserId: user.id
-                    };
+                    var Transaction; 
 
-                    $.post("/api/transaction", Transaction).then(function () {
+                    $.ajax({
+                        url: "/api/transaction",
+                        method: "POST",
+                        data: Transaction
+                    }).then(function (dbTransactions) {
+                     Transaction = {
+                         coin: coinSymbol,
+                         coinId: coinId,
+                         purchasePrice: cryptos[coinId].quotes.USD.price,
+                         purchaseAmount: coinAmount,
+                         UserId: user.id
+                        };
+                    })
 
-                        $("#transactionStatus").html("Transaction complete!");
-                    });
                 };
         };
 
