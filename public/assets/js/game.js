@@ -11,7 +11,6 @@ var wallet;
 
 
 
-
 // ===========================================
 // Transactions page
 // ===========================================
@@ -41,33 +40,12 @@ $(document).ready((function () {
         });
 
 
-        // This function 'signs a user in' based on their entered loginID
-        function userLogin(event) {
-            event.preventDefault();
-
-            let loginID = { loginID: $("#loginID").val() }
-
-            // TODO:
-            // For some reason a $.get didn't send the object, but a $.post does?
-            $.post("/api/userLogin", loginID).then(function (res) {
-
-                // Grabs the info of the signed in user and stores it in a variable
-                userLoggedIn = res;
-
-                // Parses the user's wallet from the database
-                wallet = JSON.parse(userLoggedIn[0].wallet);
-
-                $("#showLogin").html(`User signed in as email: ${userLoggedIn[0].userId}
-            User money: $${wallet.cash}`);
-                console.log("User logged in: " + JSON.stringify(userLoggedIn));
-            });
-        };
-
 
         // This function inserts a new transactions into our database
         function buyTransaction(event) {
             event.preventDefault();
-            console.log("insert transaction: " + JSON.stringify(wallet))
+
+            var user = req.user;
 
             coinAmount = $("#coinAmount").val();
             // Grab the symbol of the crypto being purchased
@@ -76,33 +54,22 @@ $(document).ready((function () {
             let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
             // Send the information to the backend if the user can afford the transaction
-            if (transactionCost > wallet.cash) {
+            if (transactionCost > user.money) {
                 $("#transactionStatus").html("You cannot afford this transaction")
             } else {
                 // Proceeds with the transaction if it's affordable
-
-                // Checks if coin is in wallet yet, and adds it if not
-                if (!wallet.hasOwnProperty(coinSymbol)) {
-                    wallet[coinSymbol] = 0;
-                };
-
-                wallet[coinSymbol] = Number(wallet[coinSymbol]) + Number(coinAmount)
-                var transactions = {
-                    coin: cryptos[coinId].symbol,
+                var Transaction = {
+                    coin: coinSymbol,
                     coinId: coinId,
                     purchasePrice: cryptos[coinId].quotes.USD.price,
                     purchaseAmount: coinAmount,
                     // Temporary foreignKey solution
-                    foreignKey: userLoggedIn[0].id
+                    foreignKey: user.userId
                 };
 
-                $.post("/api/User/transactions", transactions).then(function () {
+                $.post("/api/transactions", Transaction).then(function () {
 
                     $("#transactionStatus").html("Transaction complete!");
-                    updateWallet(transactionCost);
-
-                    // Updates the user money shown on the page
-                    userLogin(event);
                 });
             };
         };
@@ -151,24 +118,6 @@ $(document).ready((function () {
             };
         };
 
-        // Sends new user info to the backend
-        function createUser(event) {
-            event.preventDefault();
-
-            let userEmail = $("#userEmail").val();
-            var newUser = {
-                username: "Bob",
-                userId: userEmail,
-                wallet: {
-                    cash: 10000,
-                    BTC: 1.3,
-                    ETH: 27
-                }
-            };
-
-            // Send the information to the backend
-            $.post("/api/newUser", newUser);
-        };
 
 
         // Button click functionality
@@ -178,7 +127,7 @@ $(document).ready((function () {
         $("#submitEmail").on('click', function (event) {
             createUser(event);
         });
-        $("#buyTransaction").on('click', function (event) {
+        $(document).on('click', "#insertTransaction", function (event) {
             buyTransaction(event);
         });
         $("#sellTransaction").on('click', function (event) {
