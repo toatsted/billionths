@@ -40,7 +40,7 @@ module.exports = function (app, passport) {
         function (req, res) {
             user = req.user;
 
-            res.send('/authSuccess');
+            res.redirect('/authSuccess');
         });
 
     // Get user profile info
