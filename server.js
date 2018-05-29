@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 
 app.use(session({
     secret: 'keyboard cat',
-    name: 'user',
     saveUninitialized: true,
     resave: false
 }));
