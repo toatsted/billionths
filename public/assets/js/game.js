@@ -39,41 +39,43 @@ $(document).ready((function () {
             $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
         });
 
-        function buyTransaction(req, res) {
-            $.get('/api/user').then(function (user) {
-                console.log(res.user);
-            })
-        }
 
         // This function inserts a new transactions into our database
-        function byTransaction(event) {
+        function buyTransaction(event) {
             event.preventDefault();
 
+            $.get('/api/user',
+                function (req, res) {
+                    var user = req.user;
+                    console.log(user);
+            }).then(function () {
+                coinAmount = $("#buyAmount").val();
+                // Grab the symbol of the crypto being purchased
+                let coinSymbol = cryptos[coinId].symbol;
+                // Determine the cost of the overall transaction
+                let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
-            coinAmount = $("#buyAmount").val();
-            // Grab the symbol of the crypto being purchased
-            let coinSymbol = cryptos[coinId].symbol;
-            // Determine the cost of the overall transaction
-            let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
+                // Send the information to the backend if the user can afford the transaction
+                if (transactionCost > user.money) {
+                    $("#transactionStatus").html("You cannot afford this transaction")
+                } else {
+                    // Proceeds with the transaction if it's affordable
+                    var Transaction = {
+                        coin: coinSymbol,
+                        coinId: coinId,
+                        purchasePrice: cryptos[coinId].quotes.USD.price,
+                        purchaseAmount: coinAmount,
+                        UserId: user.id
+                    };
 
-            // Send the information to the backend if the user can afford the transaction
-            if (transactionCost > user.money) {
-                $("#transactionStatus").html("You cannot afford this transaction")
-            } else {
-                // Proceeds with the transaction if it's affordable
-                var Transaction = {
-                    coin: coinSymbol,
-                    coinId: coinId,
-                    purchasePrice: cryptos[coinId].quotes.USD.price,
-                    purchaseAmount: coinAmount,
-                    UserId: user.id
+                    $.post("/api/transactions", Transaction).then(function () {
+
+                        $("#transactionStatus").html("Transaction complete!");
+                    });
                 };
+            })
 
-                $.post("/api/transactions", Transaction).then(function () {
 
-                    $("#transactionStatus").html("Transaction complete!");
-                });
-            };
         };
 
 

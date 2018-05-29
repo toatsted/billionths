@@ -50,7 +50,6 @@ module.exports = function (app, passport) {
     // Get user profile info
     app.get("/api/user", (req, res) => {
         res.send(user);
-
     });
 
 }
