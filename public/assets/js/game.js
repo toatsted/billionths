@@ -44,10 +44,13 @@ $(document).ready((function () {
         }
 
         // This function inserts a new transactions into our database
-        function buyTransaction(user) {
+        function buyTransaction(event) {
             event.preventDefault();
 
+            var user = localStorage.getUser('id');
+
             console.log(user);
+            console.log(localStorage);
 
             coinAmount = $("#buyAmount").val();
             // Grab the symbol of the crypto being purchased

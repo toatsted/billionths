@@ -41,12 +41,12 @@ module.exports = function (app, passport) {
 	    }),
         function (req, res) {
             var user = req.user;
-            console.log(req.session);
-	        res.redirect('/profile');
+            console.log(localStorage);
+	        res.redirect('/profile/' + req.user.id);
 	    });
 
 	// Get user profile info
-	app.get("/api/users/:id", (req, res) => {
+	app.get("/api/user/:id", (req, res) => {
 	    db.User.find({
 	        where: {
 	            id: req.params.id
