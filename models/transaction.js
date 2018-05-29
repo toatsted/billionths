@@ -7,21 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             coinId: DataTypes.STRING,
             purchasePrice: DataTypes.STRING,
             purchaseAmount: DataTypes.FLOAT,
-        },
-            {
-                defaultScope: {
-                    where: {
-                        active: true
-                    }
-                },
-                scopes: {
-                    deleted: {
-                        where: {
-                            deleted: true
-                        }
-                    },
-                }
-            });
+        });
 
     return Transaction;
 };
