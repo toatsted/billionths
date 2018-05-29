@@ -127,7 +127,7 @@ $(document).ready((function () {
         $("#submitEmail").on('click', function (event) {
             createUser(event);
         });
-        $(document).on('click', "#insertTransaction", function (event) {
+        $(document).on('click', "insertTransaction", function (event) {
             buyTransaction(event);
         });
         $("#sellTransaction").on('click', function (event) {
