@@ -62,22 +62,18 @@ $(document).ready((function () {
                     $("#transactionStatus").html("You cannot afford this transaction")
                 } else {
                     // Proceeds with the transaction if it's affordable
-                    var Transaction; 
+                    var newTransaction = {
+                        coin: coinSymbol,
+                        coinId: coinId,
+                        purchasePrice: cryptos[coinId].quotes.USD.price,
+                        purchaseAmount: coinAmount,
+                        UserId: user.id
+                    };
 
-                    $.ajax({
-                        url: "/api/transaction",
-                        method: "POST",
-                        data: Transaction
-                    }).then(function (dbTransactions) {
-                     Transaction = {
-                         coin: coinSymbol,
-                         coinId: coinId,
-                         purchasePrice: cryptos[coinId].quotes.USD.price,
-                         purchaseAmount: coinAmount,
-                         UserId: user.id
-                        };
-                    })
+                    $.post("/api/transaction", newTransaction).then(function () {
 
+                        $("#transactionStatus").html("Transaction complete!");
+                    });
                 };
         };
 

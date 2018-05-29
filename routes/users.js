@@ -38,7 +38,6 @@ module.exports = function (app, passport) {
             failureRedirect: '/login'
         }),
         function (req, res) {
-
             res.redirect('/profile');
         });
             
@@ -51,8 +50,6 @@ module.exports = function (app, passport) {
                 id: req.session.passport.user
             }
         }).then(function (user) {
-            console.log(user);
-
             return user;
         });
     });
