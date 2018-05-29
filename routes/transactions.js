@@ -51,7 +51,7 @@ module.exports = function (app) {
             coinId: req.body.coinId,
             purchasePrice: req.body.purchasePrice,
             purchaseAmount: req.body.purchaseAmount,
-            UserId: req.session.passport.user
+            UserId: req.body.UserId
             
         }).then(function (dbTransaction) {
             // We have access to the new transaction as an argument inside of the callback function
