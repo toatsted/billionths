@@ -46,8 +46,9 @@ $(document).ready((function () {
             event.preventDefault();
 
             var user = req.user;
+            console.log(user);
 
-            coinAmount = $("#coinAmount").val();
+            coinAmount = $("#buyAmount").val();
             // Grab the symbol of the crypto being purchased
             let coinSymbol = cryptos[coinId].symbol;
             // Determine the cost of the overall transaction
