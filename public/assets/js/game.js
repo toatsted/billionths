@@ -63,9 +63,7 @@ $(document).ready((function () {
                     coin: coinSymbol,
                     coinId: coinId,
                     purchasePrice: cryptos[coinId].quotes.USD.price,
-                    purchaseAmount: coinAmount,
-                    // Temporary foreignKey solution
-                    foreignKey: user.userId
+                    purchaseAmount: coinAmount
                 };
 
                 $.post("/api/transactions", Transaction).then(function () {

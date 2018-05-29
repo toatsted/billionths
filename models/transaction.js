@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             coin: DataTypes.STRING,
             coinId: DataTypes.STRING,
             purchasePrice: DataTypes.STRING,
-            purchaseAmount: DataTypes.STRING,
-            foreignKey: DataTypes.STRING
+            purchaseAmount: DataTypes.FLOAT,
         },
             {
                 defaultScope: {
