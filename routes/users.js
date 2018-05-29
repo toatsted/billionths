@@ -35,19 +35,18 @@ module.exports = function (app, passport) {
 	    }));
 
 
-	app.get('/auth/google/callback',
-	    passport.authenticate('google', {
-	        failureRedirect: '/login'
-	    }),
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            failureRedirect: '/login'
+        }),
         function (req, res) {
             var user = req.user;
 
-            console.log(user);
-            console.log(req.session);
             res.send(user);
 
-	        res.redirect('/profile');
-	    });
+        }).then(function (req, res) {
+            res.redirect('/profile');
+        }
 
 	// Get user profile info
 	app.get("/api/user/:id", (req, res) => {
