@@ -43,8 +43,8 @@ $(document).ready((function () {
             url: '/api/user',
             method: "GET"
         }).then(function (res, req) {
-            console.log(req.session);
-            console.log(req.user);
+            console.log(res.session);
+            console.log(res.user);
             });
 
         // This function inserts a new transactions into our database
