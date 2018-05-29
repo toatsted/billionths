@@ -18,10 +18,6 @@ module.exports = function (app, passport) {
 
     });
 
-    function isLoggedIn(req, res, next) {
-        if (req.isAuthenticated())
-            return next();
-    };
 
     app.get("/authSuccess", function (req, res) {
         res.redirect("/profile/" + req.user.id);
@@ -44,7 +40,7 @@ module.exports = function (app, passport) {
         function (req, res) {
             user = req.user;
 
-            res.redirect('/profile');
+            res.send('/authSuccess');
         });
 
     // Get user profile info
