@@ -44,13 +44,14 @@ module.exports = function (app) {
 
     // POST ROUTES
     // route for saving a new purchase
-    app.post("/api/transactions", function (req, res) {
+    app.post("/api/transaction", function (req, res) {
 
         db.Transaction.create({
             coin: req.body.coin,
             coinId: req.body.coinId,
             purchasePrice: req.body.purchasePrice,
-            purchaseAmount: req.body.purchaseAmount
+            purchaseAmount: req.body.purchaseAmount,
+            UserId: req.session.passport.user
             
         }).then(function (dbTransaction) {
             // We have access to the new transaction as an argument inside of the callback function

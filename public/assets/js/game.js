@@ -39,10 +39,6 @@ $(document).ready((function () {
             $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
         });
 
-        app.get('/' , function (res, req, next) {
-            console.log(res.session);
-            console.log(res.user);
-            });
 
         // This function inserts a new transactions into our database
         function buyTransaction(event) {
@@ -64,10 +60,10 @@ $(document).ready((function () {
                         coinId: coinId,
                         purchasePrice: cryptos[coinId].quotes.USD.price,
                         purchaseAmount: coinAmount,
-                        UserId: user.id
+
                     };
 
-                    $.post("/api/transactions", Transaction).then(function () {
+                    $.post("/api/transaction", Transaction).then(function () {
 
                         $("#transactionStatus").html("Transaction complete!");
                     });
