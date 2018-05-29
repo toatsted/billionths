@@ -12,9 +12,14 @@ module.exports = function (app, passport) {
 		});
 	});
 
-	app.get("/profile", function (req, res) {
+	app.get("/profile", isLoggedIn, function (req, res) {
 		res.render("profile");
-	});
+    });
+
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated())
+            return next();
+    };
 
 	app.get("/authSuccess", function (req, res) {
 		res.redirect("/profile/" + req.user.id);
@@ -34,7 +39,19 @@ module.exports = function (app, passport) {
 	    passport.authenticate('google', {
 	        failureRedirect: '/login'
 	    }),
-	    function (req, res) {
+        function (req, res) {
+            var user = req.user;
+            var profile = req.profile;
+
+            console.log(req.user);
+            console.log(req.profile);
+
+            profile.id = user.id;
+            profile.save(function (err) {
+                if (err) { return self.error(err); }
+                self.redirect('/');
+            });
+
 	        res.redirect('/profile');
 	    });
 
