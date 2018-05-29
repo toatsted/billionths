@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(session({
         secret: 'keyboard cat',
         saveUninitialized: true,
-        resave: true
+        resave: false
     }));
 app.use(passport.initialize());
 app.use(passport.session());

@@ -47,10 +47,13 @@ $(document).ready((function () {
         function buyTransaction(event) {
             event.preventDefault();
 
-            var user = localStorage.getUser('id');
+            req.session.reload(function (err) {
 
-            console.log(user);
-            console.log(localStorage);
+            }).then(function () {
+                console.log(user);
+
+            });
+
 
             coinAmount = $("#buyAmount").val();
             // Grab the symbol of the crypto being purchased
