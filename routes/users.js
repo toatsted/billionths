@@ -1,5 +1,5 @@
 var express = require('express');
-var user;
+var db = require('../models');
 
 module.exports = function (app, passport) {
 
