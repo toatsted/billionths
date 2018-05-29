@@ -81,7 +81,7 @@ module.exports = function (app) {
 	app.get("/api/User/:id", function (req, res) {
 		db.User.find({
 			where: {
-				id: req.params.userId
+				id: req.params.id
 			}
 		}).then(function (dbUser) {
 			// We have access to the todos as an argument inside of the callback function
@@ -123,6 +123,27 @@ module.exports = function (app) {
 		}).then(function (coinTotal) {
 			return coinTotal;
 		});
+	});
+
+
+
+
+
+	// ===========================================
+	// Profile page
+	// ===========================================
+	// Get user profile info
+	app.get("/api/profile/:id", function (req, res) {
+		db.User.find({
+			where: {
+				id: req.params.id
+			}
+		})
+		.then(function (dbUser) {
+			console.log(dbUser)
+			// We have access to the todos as an argument inside of the callback function
+			res.json(dbUser);
+		})
 	});
 
 

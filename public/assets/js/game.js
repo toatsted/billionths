@@ -22,7 +22,7 @@ $(document).ready((function () {
         method: "GET"
     }).then(function (res) {
         let cryptos = res.data;
-        // console.log(cryptos)
+        console.log(cryptos)
 
         // Grabs the default coin (Bitcoin) and displays its information to the page
         coinId = $('#coinDropdown').val();
@@ -57,9 +57,29 @@ $(document).ready((function () {
                 // Parses the user's wallet from the database
                 wallet = JSON.parse(userLoggedIn[0].wallet);
 
+                // Display logged in user info on the page
                 $("#showLogin").html(`User signed in as email: ${userLoggedIn[0].userId}
             User money: $${wallet.cash}`);
+
+
+                let userCoin = '';
+                $("#userCoins").html(userCoin)
+                // Displays the user's owned coins on the page
+                for (var i in wallet) {
+                    for (var j in cryptos) {
+
+                        // If the coin symbol in the user's wallet matches the coin symbol in the cryptos object, it displays the coin on the page
+                        // TODO: could probably do this a bit smoother, maybe similar to the 'if (!wallet.hasOwnProperty(coinSymbol)){}' below
+                        if (i === cryptos[j].symbol) {
+                            userCoin += (`<p>${i}: ${wallet[i]} coins</p>`)
+                        };
+                    };
+                };
+                $("#userCoins").html(userCoin)
+                
+
                 console.log("User logged in: " + JSON.stringify(userLoggedIn));
+
             });
         };
 
@@ -123,7 +143,7 @@ $(document).ready((function () {
                 $("#transactionStatus").html("You do not have this type of coin in your wallet!  Please select a different coin.")
             }
             // Checks that the user is not selling more than they own
-            else if(wallet[coinSymbol] < coinAmount){
+            else if (wallet[coinSymbol] < coinAmount) {
                 $("#transactionStatus").html("You cannot sell more coin than you have!  Please change your amount.")
             }
             else {
@@ -141,7 +161,7 @@ $(document).ready((function () {
                 $.post("/api/User/transactions", transactions).then(function () {
 
                     $("#transactionStatus").html("Transaction complete!");
-                    
+
                     // *-1 so it will subtract the amount from the user's cash
                     updateWallet(transactionCost * -1);
 
@@ -195,12 +215,12 @@ function updateWallet(transactionCost) {
     wallet.cash -= transactionCost;
 
     // Remove any currencies with 0 coins remaining
-    for (i in wallet){
+    for (i in wallet) {
         // Skip cash so it won't ever be removed
-        if (i === 'cash'){
+        if (i === 'cash') {
             continue;
         }
-        if (Number(wallet[i]) === 0){
+        if (Number(wallet[i]) === 0) {
             delete wallet[i];
         }
     }
