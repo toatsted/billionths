@@ -43,9 +43,6 @@ module.exports = function (app, passport) {
             var user = req.user;
 
             res.send(user);
-
-        }).then(function (req, res) {
-            res.redirect('/profile');
         });
 
 	// Get user profile info
