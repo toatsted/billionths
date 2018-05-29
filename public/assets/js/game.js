@@ -39,10 +39,7 @@ $(document).ready((function () {
             $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
         });
 
-        $.ajax({
-            url: '/api/user',
-            method: "GET"
-        }).then(function (res, req) {
+        app.get('/' , function (res, req, next) {
             console.log(res.session);
             console.log(res.user);
             });
