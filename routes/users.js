@@ -48,7 +48,14 @@ module.exports = function (app, passport) {
 
     // Get user profile info
     app.get("/api/user", (req, res) => {
-        res.send(user);
-    });
+        db.User.findOne({
+            where: {
+                id: req.session.passport.user
+            }
+        }).then(function (user) {
+            console.log(user);
+      
+                return user;
+        });
 
 }
