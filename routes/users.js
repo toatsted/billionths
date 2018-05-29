@@ -38,9 +38,12 @@ module.exports = function (app, passport) {
             failureRedirect: '/login'
         }),
         function (req, res) {
-            user = req.user;
-
-            res.redirect('/authSuccess');
+            
+            req.session.save(function (err) {
+                var user = req.user;
+                res.redirect('/profile');
+            })
+            
         });
 
     // Get user profile info
