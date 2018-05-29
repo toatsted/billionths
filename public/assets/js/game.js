@@ -8,7 +8,7 @@ var transactions = [];
 var userLoggedIn;
 var wallet;
 
-
+var user;
 
 
 // ===========================================
@@ -39,6 +39,13 @@ $(document).ready((function () {
             $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
         });
 
+        $.ajax({
+            url: "/api/user",
+            method: "GET"
+        }).then(function (res, req) {
+            user = res.user;
+            console.log(user);
+        });
 
         // This function inserts a new transactions into our database
         function buyTransaction(event) {
