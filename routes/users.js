@@ -42,7 +42,7 @@ module.exports = function (app, passport) {
         function (req, res) {
             var user = req.user;
 
-            res.send(user);
+            res.redirect(user, '/profile');
         });
 
 	// Get user profile info
