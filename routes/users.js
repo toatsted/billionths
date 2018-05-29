@@ -1,4 +1,5 @@
 var express = require('express');
+var user;
 
 module.exports = function (app, passport) {
 
@@ -12,8 +13,10 @@ module.exports = function (app, passport) {
 		});
 	});
 
-	app.get("/profile", isLoggedIn, function (req, res) {
-		res.render("profile");
+    app.get("/profile", function (req, res) {
+        res.send(user);
+        res.render("profile");
+        
     });
 
     function isLoggedIn(req, res, next) {
@@ -40,9 +43,9 @@ module.exports = function (app, passport) {
             failureRedirect: '/login'
         }),
         function (req, res) {
-            var user = req.user;
+            user = req.user;
 
-            res.send('/profile', user);
+            res.redirect('/profile');
         });
 
 	// Get user profile info
