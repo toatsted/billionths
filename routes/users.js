@@ -41,7 +41,6 @@ module.exports = function (app, passport) {
 	    }),
         function (req, res) {
             var user = req.user;
-            console.log(session);
             console.log(req.session);
 	        res.redirect('/profile');
 	    });
