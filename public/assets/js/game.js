@@ -39,12 +39,14 @@ $(document).ready((function () {
             $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
         });
 
-        function getUser() {
-
+        function buyTransaction(req, res) {
+            $.get('/api/user').then(function (user) {
+                console.log(res.user);
+            })
         }
 
         // This function inserts a new transactions into our database
-        function buyTransaction(event) {
+        function byTransaction(event) {
             event.preventDefault();
 
 

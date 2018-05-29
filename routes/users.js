@@ -14,7 +14,6 @@ module.exports = function (app, passport) {
 	});
 
     app.get("/profile", function (req, res) {
-        res.send(user);
         res.render("profile");
         
     });
@@ -49,11 +48,9 @@ module.exports = function (app, passport) {
         });
 
 	// Get user profile info
-	app.get("/api/user/:id", (req, res) => {
-	    db.User.find({
-	        where: {
-	            id: req.params.id
-	        }
+	app.get("/api/user", (req, res) => {
+        res.send(user);
+
 	    }).then((dbUser) => {
 	        res.json(dbUser);
 	    }).catch((err) => {
