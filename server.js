@@ -20,10 +20,12 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use(session({
-        secret: 'keyboard cat',
-        saveUninitialized: true,
-        resave: false
-    }));
+    secret: 'keyboard cat',
+    name: 'user',
+    saveUninitialized: true,
+    resave: false
+}));
+
 app.use(passport.initialize());
 app.use(passport.session());
 

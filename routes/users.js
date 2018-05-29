@@ -41,11 +41,9 @@ module.exports = function (app, passport) {
 	    }),
         function (req, res) {
 
-            req.session.save(function (err) {
-                var user = req.user;
-            })
+            console.log(req.session);
+            console.log(req.cookie);
 
-            console.log(req.session.user);
 
 	        res.redirect('/profile');
 	    });
