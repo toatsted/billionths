@@ -2,7 +2,7 @@ var portfolioWorth;
 var cash;
 var symbol = "";
 var price;
-var coinAmount = 0;
+var coinAmount = 1;
 var coinId;
 var transactions = [];
 var userLoggedIn;
