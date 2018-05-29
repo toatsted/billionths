@@ -46,7 +46,7 @@ module.exports = function (app, passport) {
 
         }).then(function (req, res) {
             res.redirect('/profile');
-        }
+        });
 
 	// Get user profile info
 	app.get("/api/user/:id", (req, res) => {
