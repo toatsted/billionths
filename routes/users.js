@@ -1,6 +1,6 @@
 var express = require('express');
 
-module.exports = function (app, passport) {
+module.exports = function (app, passport, user) {
 
 	app.get("/index", function (req, res) {
 		res.render("index");
@@ -49,7 +49,7 @@ module.exports = function (app, passport) {
 	app.get("/api/users/:id", (req, res) => {
 	    db.User.find({
 	        where: {
-	            id: req.params.userId
+	            id: req.params.id
 	        }
 	    }).then((dbUser) => {
 	        res.json(dbUser);
