@@ -1,6 +1,6 @@
 var express = require('express');
 
-module.exports = function (app, passport, user) {
+module.exports = function (app, passport) {
 
 	app.get("/index", function (req, res) {
 		res.render("index");
@@ -41,7 +41,8 @@ module.exports = function (app, passport, user) {
 	    }),
         function (req, res) {
             var user = req.user;
-
+            console.log(session);
+            console.log(req.session);
 	        res.redirect('/profile');
 	    });
 

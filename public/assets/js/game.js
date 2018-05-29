@@ -64,7 +64,8 @@ $(document).ready((function () {
                     coin: coinSymbol,
                     coinId: coinId,
                     purchasePrice: cryptos[coinId].quotes.USD.price,
-                    purchaseAmount: coinAmount
+                    purchaseAmount: coinAmount,
+                    UserId: user.id
                 };
 
                 $.post("/api/transactions", Transaction).then(function () {
