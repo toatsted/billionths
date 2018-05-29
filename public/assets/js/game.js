@@ -47,13 +47,6 @@ $(document).ready((function () {
         function buyTransaction(event) {
             event.preventDefault();
 
-            req.session.reload(function (err) {
-
-            }).then(function () {
-                console.log(user);
-
-            });
-
 
             coinAmount = $("#buyAmount").val();
             // Grab the symbol of the crypto being purchased

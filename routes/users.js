@@ -44,7 +44,10 @@ module.exports = function (app, passport) {
             req.session.save(function (err) {
                 var user = req.user;
             })
-          
+
+            console.log(user);
+            console.log(req.session);
+
 	        res.redirect('/profile');
 	    });
 
