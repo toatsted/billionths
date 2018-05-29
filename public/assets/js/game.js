@@ -44,11 +44,15 @@ $(document).ready((function () {
         function buyTransaction(event) {
             event.preventDefault();
 
-            $.get('/api/user',
+            $.ajax({
+                url: '/api/user',
+                method: "GET",
+            },
                 function (req, res) {
                     var user = req.user;
                     console.log(user);
-            }).then(function () {
+                }).then(function () {
+
                 coinAmount = $("#buyAmount").val();
                 // Grab the symbol of the crypto being purchased
                 let coinSymbol = cryptos[coinId].symbol;
