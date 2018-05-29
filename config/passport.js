@@ -31,7 +31,7 @@ module.exports = function(passport, user) {
                     }
             }).then (function (err, user) {
                 if (user) {
-                   return done(user);
+                   return done(null, false);
                 } else {
                     var newUser = {
                         userId: profile.id,
@@ -40,7 +40,10 @@ module.exports = function(passport, user) {
                     };
 
                     User.create(newUser).then(function (newUser) {
-                        if(newUser) {
+                        if(!newUser) {
+                            return done(null, false);
+                        }
+                        if (newUser) {
                             return done(null, newUser);
                         }
                     });
