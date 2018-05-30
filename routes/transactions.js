@@ -86,12 +86,12 @@ module.exports = function (app) {
     });
 
     // delete the entire User transaction history, for when creating new game
-    app.delete("/api/transactions", function (req, res) {
+    app.delete("/api/transactions/:id", function (req, res) {
 
         db.Transaction.destroy({
-            include: [{
-                model: User
-            }]
+            where: {
+                id: req.params.id
+            }
         }).then(function (dbTransaction) {
             res.json(dbTransaction);
         });
