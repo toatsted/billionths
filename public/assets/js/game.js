@@ -48,7 +48,7 @@ $(document).ready((function () {
         });
 
         // This function inserts a new transactions into our database
-        function buyTransaction(event) {
+        function buyTransaction() {
             event.preventDefault();
 
                 coinAmount = $("#buyAmount").val();
@@ -57,20 +57,29 @@ $(document).ready((function () {
                 // Determine the cost of the overall transaction
                 let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
-                    // Proceeds with the transaction if it's affordable
-                    var newTransaction = {
-                        coin: "ETH",
-                        coinId: "2",
-                        purchasePrice: "24",
-                        purchaseAmount: 111,
-                        UserId: 1
-                    };
+            $.ajax({
+                url: "/api/user",
+                method: "GET"
+            }).then(function (res, req) {
+                user = res.user;
 
-                    $.post("/api/transaction", newTransaction).then(function (dbTransaction) {
-                        console.log(dbTransaction);
-                        console.log(newTransaction);
-                        $("#transactionStatus").html("Transaction complete!");
-                    });
+                var newTransaction = {
+                    coin: "ETH",
+                    coinId: "2",
+                    purchasePrice: "24",
+                    purchaseAmount: 111,
+                    UserId: user.id
+                };
+
+                db.Transaction.create(newTransaction).then(function(newTransaction) {
+                    return (newTransaction);
+                })
+            });
+
+            // Proceeds with the transaction if it's affordable
+
+
+
                 
         };
 

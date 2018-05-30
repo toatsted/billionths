@@ -45,13 +45,6 @@ module.exports = function (app) {
     // POST ROUTES
     // route for saving a new purchase
     app.post("/api/transaction", (req, res) => {
-        db.Transaction.findOne({
-            where: {
-                id: req.body.id
-            }
-        }).then(dbTransaction => {
-            if (dbTransaction === null) {
-
             db.Transaction.create({
                     coin: req.body.coin,
                     coinId: req.body.coinId,
@@ -59,13 +52,10 @@ module.exports = function (app) {
                     purchaseAmount: req.body.purchaseAmount,
                     UserId: req.body.UserId
                 }).then(newTransaction => res.json(newTransaction));
-            } else {
+            
             return res.json(dbTransaction);
-        }
-        }).catch (err => {
-            res.json(err);
     });
-});
+
 
 
     // POST route for creating a new user
