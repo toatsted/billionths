@@ -36,7 +36,6 @@ $(document).ready(function () {
     }
 
     function deleteTransaction(event) {
-        event.stopPropagation();
         
         var TransactionId = $(this).val();
 
