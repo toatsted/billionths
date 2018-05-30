@@ -13,7 +13,6 @@ $(document).ready(function () {
 
         $.get("/api/transactions", function (data) {
             transactions = data;
-            console.log(transactions);
             initalizeRows();
         });
     }
@@ -31,14 +30,17 @@ $(document).ready(function () {
                 purchaseDate: transactions[i].createdAt
             };
 
-            $("#purchasedCryptos").prepend("<div class='card'><div class='card-header'>" + purchase.coin + "<button class='deleteTransaction btn btn-danger' value='" + purchase.id + "'>Delete</button></div><div class='card-body'><div class='row'><div class='col'><h5 class='card-title'>Purchased on: " + purchase.purchaseDate + "</h5><p class='card-text'>Amount Purchased: " + purchase.purchaseAmount + "  |  Purchase Price: $" + purchase.purchasePrice + "</p></div></div></div></div>");
+            $("#purchasedCryptos").prepend("<div class='card' value='" + purchase.id + "'><div class='card-header'>" + purchase.coin + "<button class='deleteTransaction btn btn-danger float-right'>Delete</button></div><div class='card-body'><div class='row'><div class='col'><h5 class='card-title'>Purchased on: " + purchase.purchaseDate + "</h5><p class='card-text'>Amount Purchased: " + purchase.purchaseAmount + "  |  Purchase Price: $" + purchase.purchasePrice + "</p></div></div></div></div>");
         }
     }
 
     function deleteTransaction(event) {
         event.stopPropagation();
         var id = $(this).val();
-
-        $.delete("/api/transactions" + id).then(getTransactions);
+        console.log(id);
+        $.ajax({
+            url: "/api/transactions" + id,
+            type: "DELETE"
+        }).then(getTransactions);
     }
 });
