@@ -78,6 +78,7 @@ module.exports = function (app) {
 
         db.Transaction.destroy({
             where: {
+                UserId: req.session.passport.user,
                 id: req.params.transaction_id
             }
         }).then(function (dbTransaction) {
