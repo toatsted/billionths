@@ -90,7 +90,7 @@ module.exports = function (app) {
 
         db.Transaction.destroy({
             where: {
-                id: req.params.id
+                id: req.body.id
             }
         }).then(function (dbTransaction) {
             res.json(dbTransaction);
