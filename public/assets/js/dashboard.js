@@ -2,10 +2,18 @@ $(document).ready(function () {
 
     $(document).on('click', "#populateTransactions", getTransactions);
     $(document).on('click', ".deleteTransaction", deleteTransaction);
+    $(document).on('click', "#showCash", getUser);
 
     var transactions = [];
 
-
+    function getUser(event) {
+        $.ajax({
+            url: "/api/user",
+            method: "GET"
+        }).then(function (res) {
+            console.log(res);
+        });
+    }
 
     //Get all user transactions
     function getTransactions(event) {

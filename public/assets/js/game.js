@@ -39,6 +39,9 @@ $(document).ready(function () {
         });
         });
 
+
+
+
     // This function inserts a new transactions into our database
     function buyTransaction(event) {
         event.preventDefault();

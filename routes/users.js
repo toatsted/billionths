@@ -47,7 +47,7 @@ module.exports = function (app, passport) {
         });
     });     
 
-    // Get user money
+    // Get user
     app.get("/api/user", function (req, res) {
         db.User.findOne({
             where: {
