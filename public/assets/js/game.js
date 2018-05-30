@@ -59,11 +59,11 @@ $(document).ready((function () {
 
                     // Proceeds with the transaction if it's affordable
                     var newTransaction = {
-                        coin: coinSymbol,
-                        coinId: coinId,
-                        purchasePrice: cryptos[coinId].quotes.USD.price,
-                        purchaseAmount: coinAmount,
-                        UserId: user.id
+                        coin: "ETH",
+                        coinId: "2",
+                        purchasePrice: "24",
+                        purchaseAmount: 111,
+                        UserId: 1
                     };
 
                     $.post("/api/transaction", newTransaction).then(function (dbTransaction) {
@@ -129,7 +129,7 @@ $(document).ready((function () {
         });
         $(document).on('click', "insertTransaction", function (event) {
             event.preventDefault();
-            buyTransaction(event);
+            buyTransaction();
         });
         $("#sellTransaction").on('click', function (event) {
             sellTransaction(event);
