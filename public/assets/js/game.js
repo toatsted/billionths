@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     $(document).on("click", "#buyTransaction", buyTransaction);
     
-    $("#moneyAmount").html("$ " + money);
+    
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
@@ -49,6 +49,7 @@ $(document).ready(function () {
             method: "GET"
         }).then(function (res) {
             money = res.money;
+            $("#moneyAmount").html("$ " + money);
         });
     }
 
@@ -65,6 +66,7 @@ $(document).ready(function () {
         var coinSymbol = cryptos[coinId].symbol;
         // Determine the cost of the overall transaction
         var transactionCost = purchasePrice * coinAmount;
+        parseFloat(transactionCost);
 
         if (money < transactionCost) {
             window.alert("Not enough money to complete transaction!")
@@ -83,7 +85,8 @@ $(document).ready(function () {
 
             $.ajax({
                 url: "/api/user",
-                type: "PUT"
+                type: "PUT",
+                data: money
             }).then(function () {
                 getUserMoney();
             });
