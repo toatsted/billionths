@@ -51,7 +51,7 @@ $(document).ready(function () {
             updatedUser = {
                 userId: res.userId,
                 username: res.username,
-                money = res.money
+                money: res.money
             };
 
             $("#moneyAmount").html("$ " + user.money);
