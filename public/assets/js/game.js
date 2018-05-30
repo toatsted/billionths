@@ -52,7 +52,7 @@ $(document).ready(function () {
     function buyTransaction(event) {
         event.preventDefault();
         var purchasePrice = cryptos[coinId].quotes.USD.price;
-        coinAmount = $("#buyAmount").val();
+        coinAmount = $("#coinAmount").val();
         // Grab the symbol of the crypto being purchased
         var coinSymbol = cryptos[coinId].symbol;
         // Determine the cost of the overall transaction
