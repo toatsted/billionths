@@ -4,6 +4,8 @@ $(document).ready(function () {
     $(document).on('click', ".deleteTransaction", deleteTransaction);
     $(document).on('click', "#showCash", getUser);
 
+    getUser();
+
     var transactions = [];
     var money;
 
