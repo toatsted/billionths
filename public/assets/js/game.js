@@ -57,16 +57,13 @@ $(document).ready((function () {
                 // Determine the cost of the overall transaction
                 let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
-                // Send the information to the backend if the user can afford the transaction
-                if (transactionCost > user.money) {
-                    $("#transactionStatus").html("You cannot afford this transaction")
-                } else {
+               
                     // Proceeds with the transaction if it's affordable
                     var newTransaction = {
-                        coin: coinSymbol,
-                        coinId: coinId,
-                        purchasePrice: cryptos[coinId].quotes.USD.price,
-                        purchaseAmount: coinAmount,
+                        coin: "ETH",
+                        coinId: "1",
+                        purchasePrice: "20",
+                        purchaseAmount: 13.4,
                         UserId: user.id
                     };
 
