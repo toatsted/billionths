@@ -36,10 +36,10 @@ $(document).ready(function () {
 
     function deleteTransaction(event) {
         event.stopPropagation();
-        var id = $(this).val();
+        var transaction_id = $(this).val();
         console.log(id);
         $.ajax({
-            url: "/api/transactions" + id,
+            url: "/api/transactions" + transaction_id,
             type: "DELETE"
         }).then(getTransactions);
     }

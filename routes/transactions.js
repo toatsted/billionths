@@ -85,17 +85,6 @@ module.exports = function (app) {
         });
     });
 
-    // delete the entire User transaction history, for when creating new game
-    app.delete("/api/transactions/:id", function (req, res) {
-
-        db.Transaction.destroy({
-            where: {
-                id: req.body.id
-            }
-        }).then(function (dbTransaction) {
-            res.json(dbTransaction);
-        });
-    });
 
     // UPDATE ROUTES
     // PUT route for updating Transaction. We can modify the amount of crypto Transaction
