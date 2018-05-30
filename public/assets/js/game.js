@@ -7,14 +7,14 @@ var coinId;
 var transactions = [];
 var userLoggedIn;
 var wallet;
-
+var user;
+var cryptos;
 
 // ===========================================
 // Transactions page
 // ===========================================
 $(document).ready(function () {
-    var user;
-    var cryptos;
+
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
@@ -64,8 +64,7 @@ $(document).ready(function () {
             coin: coinSymbol,
             coinId: coinId,
             purchasePrice: purchasePrice,
-            purchaseAmount: coinAmount,
-            UserId: user.id
+            purchaseAmount: coinAmount
         };
 
         $.post("/api/transactions", transaction);

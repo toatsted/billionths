@@ -49,8 +49,8 @@ module.exports = function (app, passport) {
             coin: req.body.coin,
             coinId: req.body.coinId,
             purchasePrice: req.body.purchasePrice,
-            purchaseAmount: req.body.purchaseAmount
-           // UserId: req.body.UserId
+            purchaseAmount: req.body.purchaseAmount,
+            UserId: req.session.passport.user
         }).then(function (dbTransaction) {
             res.json(dbTransaction);
         });
