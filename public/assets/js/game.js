@@ -8,7 +8,6 @@ var transactions = [];
 var userLoggedIn;
 var wallet;
 
-var db = require('../../../models');
 
 // ===========================================
 // Transactions page
@@ -136,7 +135,7 @@ $(document).ready(function () {
     $("#submitEmail").on('click', function (event) {
         createUser(event);
     });
-    $("body").on('click', ".btn", function () {
+    $("body").on('click', ".btn", function (event) {
         event.preventDefault();
         buyTransaction();
     });
