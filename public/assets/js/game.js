@@ -16,6 +16,8 @@ var db = require('../../../models');
 $(document).ready((function () {
     var user;
 
+
+
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
         method: "GET"
@@ -59,13 +61,7 @@ $(document).ready((function () {
 
                
                     // Proceeds with the transaction if it's affordable
-                    var newTransaction = {
-                        coin: "ETH",
-                        coinId: "1",
-                        purchasePrice: "20",
-                        purchaseAmount: 13.4,
-                        UserId: user.id
-                    };
+
 
                     $.post("/api/transaction", newTransaction).then(function (dbTransaction) {
                         console.log(dbTransaction);
@@ -130,7 +126,20 @@ $(document).ready((function () {
         });
         $(document).on('click', "insertTransaction", function (event) {
             event.preventDefault();
-            buyTransaction(event);
+
+            var newTransaction = {
+                coin: "ETH",
+                coinId: "1",
+                purchasePrice: "20",
+                purchaseAmount: 13.4,
+                UserId: 1
+            };
+            $.post("/api/transaction", newTransaction).then(function (dbTransaction) {
+                console.log(dbTransaction);
+                console.log(newTransaction);
+                $("#transactionStatus").html("Transaction complete!");
+            });
+
         });
         $("#sellTransaction").on('click', function (event) {
             sellTransaction(event);
