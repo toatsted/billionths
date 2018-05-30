@@ -43,7 +43,7 @@ module.exports = function (app, passport) {
             
     // POST ROUTES
     // route for saving a new purchase
-    app.post("/api/transactions", (req, res) => {
+    app.get("/api/transactions", (req, res) => {
         db.User.findOne({
             where: {
                 id: req.session.passport.user
