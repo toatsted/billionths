@@ -18,7 +18,7 @@ $(document).ready(function () {
 
     var $transactionContainer = $(".transaction-container");
 
-    getTransactions();
+    
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
@@ -138,9 +138,7 @@ $(document).ready(function () {
     $("#userLogin").on('click', function (event) {
         userLogin(event);
     });
-    $("#submitEmail").on('click', function (event) {
-        createUser(event);
-    });
+    $(document).on('click', "#populateTransactions", getTransactions);
     $(document).on("click", "#buyTransaction", buyTransaction);
 
     $("#sellTransaction").on('click', function (event) {
