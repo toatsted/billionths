@@ -42,7 +42,7 @@ $(document).ready(function () {
 
 
         console.log(TransactionId);
-        console.log(UserId);
+
         $.ajax({
             url: "/api/transactions/" + TransactionId,
             type: "DELETE"
