@@ -81,12 +81,10 @@ module.exports = function (app) {
                 UserId: req.session.passport.user,               
             },
             include: [db.Transaction]
-        }).then(function (dbTransaction) {
-            db.Transaction.findOne({
-                where: {
-                    Transactionid: req.body.TransactionId
-                }
-            })
+        }).then(function (dbUser) {
+            dbUser.removeItem(req.params.TransactionId).then(function () {
+                return res.json(dbUser);
+            });
         });
     });
 
