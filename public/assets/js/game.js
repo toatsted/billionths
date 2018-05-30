@@ -12,7 +12,7 @@ var transactions = [];
 // ===========================================
 $(document).ready(function () {
 
-
+    $(document).on("click", "#buyTransaction", buyTransaction);
     
 
     $.ajax({
@@ -40,15 +40,14 @@ $(document).ready(function () {
         });
 
 
-    getUser();
+    getUserMoney();
 
-    function getUser(event) {
+    function getUserMoney(event) {
         $.ajax({
             url: "/api/user",
             method: "GET"
         }).then(function (res) {
             money = res.money;
-
         });
     }
 
@@ -81,6 +80,8 @@ $(document).ready(function () {
 
             $.post("/api/transactions", transaction);
             $.put("/api/user", money);
+
+            getUserMoney();
         }
 
 
@@ -141,7 +142,7 @@ $(document).ready(function () {
     $("#userLogin").on('click', function (event) {
         userLogin(event);
     });
-    $(document).on("click", "#buyTransaction", buyTransaction);
+    
 
     $("#sellTransaction").on('click', function (event) {
         sellTransaction(event);
