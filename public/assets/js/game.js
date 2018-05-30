@@ -1,12 +1,8 @@
-var portfolioWorth;
-var cash;
 var symbol = "";
 var price;
 var coinAmount = 1;
 var coinId;
-var transactions = [];
-var userLoggedIn;
-var wallet;
+
 var user;
 var cryptos;
 var transactions = [];
@@ -16,7 +12,6 @@ var transactions = [];
 // ===========================================
 $(document).ready(function () {
 
-    var $transactionContainer = $(".transaction-container");
 
     
 
@@ -67,24 +62,7 @@ $(document).ready(function () {
 
     };
 
-    //Get all user transactions
-    function getTransactions(event) {
-        event.preventDefault();
 
-        $.get("/api/transactions", function (data) {
-            transactions = data;
-            initalizeRows();
-        });
-    }
-
-    function initalizeRows() {
-        $transactionContainer.empty();
-        var rowsToAdd = [];
-        for (var i = 0; i < transactions.length; i++) {
-            rowsToAdd.push(createNewRow(transactions[i]));
-        }
-        $transactionContainer.prepend(rowsToAdd);
-    }
 
 
 
@@ -138,7 +116,6 @@ $(document).ready(function () {
     $("#userLogin").on('click', function (event) {
         userLogin(event);
     });
-    $(document).on('click', "#populateTransactions", getTransactions);
     $(document).on("click", "#buyTransaction", buyTransaction);
 
     $("#sellTransaction").on('click', function (event) {
