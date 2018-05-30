@@ -42,19 +42,7 @@ module.exports = function (app) {
     });
 
 
-    // POST ROUTES
-    // route for saving a new purchase
-    app.post("/api/transaction", (req, res) => {
-            db.Transaction.create({
-                    coin: req.body.coin,
-                    coinId: req.body.coinId,
-                    purchasePrice: req.body.purchasePrice,
-                    purchaseAmount: req.body.purchaseAmount,
-                    UserId: req.body.UserId
-                }).then(newTransaction => res.json(newTransaction));
-            
-            return res.json(dbTransaction);
-    });
+
 
 
 

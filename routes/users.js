@@ -41,7 +41,28 @@ module.exports = function (app, passport) {
             res.redirect('/profile');
         });
             
-      
+    // POST ROUTES
+    // route for saving a new purchase
+    app.post("/api/transactions", (req, res) => {
+        db.User.findOne({
+            where: {
+                id: req.session.passport.user
+            },
+            include: [db.Transaction]
+        }).then(user => {
+            if (user) {
+                db.Transaction.create({
+                    coin: req.body.coin,
+                    coinId: req.body.coinId,
+                    purchasePrice: req.body.purchasePrice,
+                    purchaseAmount: req.body.purchaseAmount,
+                    UserId: req.body.UserId
+                }).then(transaction => {
+                    res.json(transaction);
+                });
+            }
+        })
+    });     
 
     // Get user profile info
     app.get("/api/user", (req, res) => {

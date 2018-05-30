@@ -57,11 +57,7 @@ $(document).ready((function () {
                 // Determine the cost of the overall transaction
                 let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
-            $.ajax({
-                url: "/api/user",
-                method: "GET"
-            }).then(function (res, req) {
-                user = res.user;
+
 
                 var newTransaction = {
                     coin: "ETH",
@@ -71,12 +67,10 @@ $(document).ready((function () {
                     UserId: user.id
                 };
 
-                db.Transaction.create(newTransaction).then(function(newTransaction) {
-                    return (newTransaction);
-                })
-            });
+            $.post("/api/transactions", newTransaction).then(function (dbTransaction) { });
 
-            // Proceeds with the transaction if it's affordable
+        };
+
 
 
 
@@ -136,7 +130,7 @@ $(document).ready((function () {
         $("#submitEmail").on('click', function (event) {
             createUser(event);
         });
-        $(document).on('click', "insertTransaction", function (event) {
+        $(document).on('click', "insertTransaction", function () {
             event.preventDefault();
             buyTransaction();
         });
