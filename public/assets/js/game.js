@@ -72,8 +72,10 @@ $(document).ready(function () {
         // Grab the symbol of the crypto being purchased
         var coinSymbol = cryptos[coinId].symbol;
         // Determine the cost of the overall transaction
-        var transactionCost = purchasePrice * coinAmount;
-
+        var transactionCost = function () {
+            purchasePrice * coinAmount
+            return parseFloat(transactionCost);
+        }
         console.log(transactionCost);
 
         if (money < transactionCost) {
@@ -99,5 +101,3 @@ $(document).ready(function () {
     };
 
 });
-// ===========================================
-// ===========================================
