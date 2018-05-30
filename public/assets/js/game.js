@@ -6,7 +6,7 @@ var coinId;
 var money;
 var cryptos;
 var transactions = [];
-var user;
+
 // ===========================================
 // Transactions page
 // ===========================================
@@ -48,9 +48,9 @@ $(document).ready(function () {
             url: "/api/user",
             method: "GET"
         }).then(function (res) {
-            user = {
-                userId: res.id,
-                username: res.displayName,
+            updatedUser = {
+                userId: res.userId,
+                username: res.username,
                 money = res.money
             };
 
@@ -62,7 +62,7 @@ $(document).ready(function () {
         $.ajax({
             url: "/api/user/:id",
             type: "PUT",
-            data: user
+            data: updatedUser
         }).then(getUserMoney);
     }
 
