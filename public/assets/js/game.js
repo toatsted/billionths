@@ -1,142 +1,155 @@
-var portfolioWorth;
-var cash;
 var symbol = "";
 var price;
-var buyAmount = 0;
+var coinAmount = 1;
 var coinId;
-var holdings = [];
 
 var user;
-// On document ready, fetch coin list and create dropdown menu to select
-$(document).ready(function(){
-    // Get user from session
-    user = sessData.user;
-    console.log(user);
-    console.log(req.session);
-    console.log(session);
-    // Getting holdings from database
-    getHoldings();
+var cryptos;
+var transactions = [];
+
+// ===========================================
+// Transactions page
+// ===========================================
+$(document).ready(function () {
+
+
+    
 
     $.ajax({
-        url: "https://api.coinmarketcap.com/v2/listings/",
+        url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
         method: "GET"
     }).then(function (res) {
-        for (let i = 0; i < res.data.length; i++) {
-            $("#coinDropdown").append("<a class='dropdown-item coin' value='" + res.data[i].id + "'>" + res.data[i].symbol + "</a>")
-        }
-    });
-});
+        cryptos = res.data;
+        // console.log(cryptos)
 
-// Start new game by deleting user portfolio and reseting cash/portfolio worth
-function newGame () {
+        // Grabs the default coin (Bitcoin) and displays its information to the page
+        coinId = $('#coinDropdown').val();
+        $("#coinIcon").html(`<img height="32" width="32" src="https://unpkg.com/@icon/cryptocurrency-icons/icons/${cryptos[coinId].symbol.toLowerCase()}.svg" />`)
+        $("#coinName").html(`<h3>Current ${cryptos[coinId].name} Price:`);
+        $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
 
-    deleteUserPortfolio();
+        // Function to update the crypto information displayed on the page depending on which crypto is selected
+        $('#coinDropdown').change(function () {
+            coinId = $('#coinDropdown').val();
+            let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
 
-    cash = 10000;
-    portfolioWorth = 0;
-}
+            $("#coinIcon").html(`<img height="32" width="32" src="https://unpkg.com/@icon/cryptocurrency-icons/icons/${cryptos[coinId].symbol.toLowerCase()}.svg" />`)
+            $("#coinName").html(`<h3>Current ${cryptos[coinId].name} Price:`);
+            $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
+        });
+        });
 
-// On selecting a coin from dropdown menu create request for its current price
-$(".coin").on("click", function() {
-    coinId = $(this).val();
-    let queryUrl = "https://api.coinmarketcap.com/v2/ticker/" + coinId + "/";
-
-    $.ajax({
-        url: queryUrl,
-        method: "GET"
-    }).then( function (res) {
-        symbol = res.data.symbol;
-        price = res.data.quotes.USD.price;
-
-        $("#selectedCoinSymbol").html(symbol);
-        $("#selectedCoinPrice").html("$" + price);
-
-    })
-})
-
-// After selecting coin, input amount to buy (decimals allowed) and check for necessary funds
-$("#coinBuy").on("click", function() {
-    event.preventDefault();
-
-    if (parseFloat(buyAmount) > 0) {
-        let buyPrice = Math.floor(price * buyAmount);
-
-        if (buyPrice > cash) {
-            alert("You do not have enough funds to make this purchase.")
-        } else {
-
-            cash = Math.floor(cash - buyPrice);
-            // userId is undefined until we get auth working
-            
-            insertNewPurchase();
-        }
-    } else {
-        alert("Please enter a valid number.");
-    }
-})
-
-// Our new NewPurchase will go inside the NewPurchaseContainer
-var $holdingsContainer = $(".holdings-container");
-
-// This function displays user purchases stored in db
-function initializeRows() {
-    $NewPurchaseContainer.empty();
-    var rowsToAdd = [];
-    for (var i = 0; i < NewPurchase.length; i++) {
-        rowsToAdd.push(createNewRow(NewPurchase[i]));
-    }
-    $NewPurchaseContainer.prepend(rowsToAdd);
-}
-
-// This function grabs NewPurchase from the database and updates the view
-function getHoldings() {
-    $.get("/api/holdings", function (data) {
-        NewPurchase = data;
-        initializeRows();
-    });
-}
-
-// This function deletes a NewPurchase when the user clicks the delete button
-function deleteHolding(event) {
-    event.stopPropagation();
-    var id = $(this).data("id");
-    $.ajax({
-        method: "DELETE",
-        url: "/api/holdings/" + id
-    }).then(getHoldings);
-}
-
-function deleteUserPortfolio(event) {
-
-}
+    // This function inserts a new transactions into our database
+    function buyTransaction(event) {
+        event.preventDefault();
+        var purchasePrice = cryptos[coinId].quotes.USD.price;
+        coinAmount = $("#coinAmount").val();
+        // Grab the symbol of the crypto being purchased
+        var coinSymbol = cryptos[coinId].symbol;
+        // Determine the cost of the overall transaction
+        var transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
 
-// This function updates a NewPurchase in our database, for use when user wants to sell X amount of coins for cash without deleting the entire entry (still not ready)
-function updateNewPurchase(NewPurchase) {
-    $.ajax({
-        method: "PUT",
-        url: "/api/holdings",
-        data: NewPurchase
-    }).then(getHoldings);
-}
 
-// This function inserts a new NewPurchase into our database
-function insertNewPurchase(event) {
-    event.preventDefault();
-    var NewPurchase = {
+        var transaction = {
+            coin: coinSymbol,
+            coinId: coinId,
+            purchasePrice: purchasePrice,
+            purchaseAmount: coinAmount
+        };
 
-        userId: userId,
+        $.post("/api/transactions", transaction);
 
-        coin: symbol,
-
-        coinId: coinId,
-
-        purchasePrice: price,
-
-        purchaseAmount: buyAmount,
-
-        currentCash: cash
     };
 
-    $.post("/api/holdings", NewPurchase, getHoldings);
-}
+
+
+
+
+
+    function sellTransaction(event) {
+        event.preventDefault();
+        console.log("selling: " + JSON.stringify(wallet))
+
+        coinAmount = $("#coinAmount").val();
+        // Grab the symbol of the crypto being purchased
+        let coinSymbol = cryptos[coinId].symbol;
+        // Determine the cost of the overall transaction
+        let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
+
+        // First checks if coin is in the user's wallet, and notifies them if it is not
+        if (!wallet.hasOwnProperty(coinSymbol)) {
+            $("#transactionStatus").html("You do not have this type of coin in your wallet!  Please select a different coin.")
+        }
+        // Checks that the user is not selling more than they own
+        else if (wallet[coinSymbol] < coinAmount) {
+            $("#transactionStatus").html("You cannot sell more coin than you have!  Please change your amount.")
+        }
+        else {
+
+            wallet[coinSymbol] = Number(wallet[coinSymbol]) - Number(coinAmount)
+            var transactions = {
+                coin: cryptos[coinId].symbol,
+                coinId: coinId,
+                purchasePrice: cryptos[coinId].quotes.USD.price,
+                purchaseAmount: coinAmount,
+                // Temporary foreignKey solution
+                foreignKey: userLoggedIn[0].id
+            };
+
+            $.post("/api/User/transactions", transactions).then(function () {
+
+                $("#transactionStatus").html("Transaction complete!");
+
+                // *-1 so it will subtract the amount from the user's cash
+                updateWallet(transactionCost * -1);
+
+                // Updates the user money shown on the page
+                userLogin(event);
+            });
+        };
+    };
+
+
+
+    // Button click functionality
+    $("#userLogin").on('click', function (event) {
+        userLogin(event);
+    });
+    $(document).on("click", "#buyTransaction", buyTransaction);
+
+    $("#sellTransaction").on('click', function (event) {
+        sellTransaction(event);
+    });
+
+
+
+    // Update the money of the "logged-in" user
+    function updateWallet(transactionCost) {
+
+        // Calculates the cost of the transaction from the user (subtracts if buying, adds if selling)
+        wallet.cash -= transactionCost;
+
+        // Remove any currencies with 0 coins remaining
+        for (i in wallet) {
+            // Skip cash so it won't ever be removed
+            if (i === 'cash') {
+                continue;
+            }
+            if (Number(wallet[i]) === 0) {
+                delete wallet[i];
+            }
+        }
+
+        let userMoney = {
+            id: userLoggedIn[0].id,
+            wallet: wallet
+        };
+
+        // $.put didn't work here for some reason
+        $.post("/api/updateWallet/", userMoney);
+    }
+
+});
+// ===========================================
+// ===========================================

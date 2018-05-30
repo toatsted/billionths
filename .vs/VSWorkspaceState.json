@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\config",
+    "\\models",
+    "\\public",
+    "\\public\\assets",
+    "\\public\\assets\\js",
+    "\\views"
+  ],
+  "SelectedNode": "\\views\\profile.handlebars",
+  "PreviewInSolutionExplorer": false
+}

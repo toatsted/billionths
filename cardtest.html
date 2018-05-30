@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="cardTest.js"></script>
+    <!-- <script src=".routin.js"></script> -->
+</head>
+
+<body>
+    <div class="cardArea">
+    </div>
+</body>
+
+</html>
+
+<script>
+    var queryUrl = "https://api.coinmarketcap.com/v2/ticker/?limit=10";
+    // Declare variables for positive & negative arrows
+    let positiveArrow =
+        `<img class="ml-2" style="max-height: 18px; max-width: 18px" src="./public/assets/images/greenArrow.png" alt="A green, upward-facing arrow">`;
+    let negativeArrow =
+        `<img class="ml-2" style="max-height: 18px; max-width: 18px" src="./public/assets/images/redArrow.png" alt="A red, downward-facing arrow">`;
+    // Function to determine if the percent change is positive or negative, and assigns the green or red arrow accordingly
+    function arrowType(percentChange) {
+        let arrow = "";
+        if (percentChange[0] === "-") {
+            arrow += negativeArrow
+        } else {
+            arrow += positiveArrow
+        }
+        return arrow;
+    }
+    $.ajax({
+        url: queryUrl,
+        method: "GET"
+    }).then(function (res) {
+        let cryptos = res.data;
+        // console.log(cryptos);
+        for (var i in cryptos) {
+            // Creates the card to hold each crypto's information and creates the card on the page
+            let card =
+                `<div class="card m-2" style="max-height: 200px; max-width: 300px">
+        <div class="card-body" id="${i}">`
+
+            // Declares a variable to hold the string version of percent change over the past hour
+            let percentChangeHr = String(cryptos[i].quotes.USD.percent_change_1h)
+            let percentChangeDay = String(cryptos[i].quotes.USD.percent_change_24h)
+            let percentChangeWeek = String(cryptos[i].quotes.USD.percent_change_7d)
+            // Variable to hold ID of card body, to hold content to be appended to card head, and to hold content to be appended to the main card body (cardContent)
+            // let cardBody = "#" + [i]
+            card += `<h4 class="font-weight-light">` + cryptos[i].name + " - $" + cryptos[i].quotes.USD.price +
+                "<hr>"
+            card += `<h5 class="font-weight-light">Recent performance:<br>`;
+            // Creates the arrows and percentages for recent coin performance
+            card +=
+                `<h6 class="font-weight-light">1 Hour: ${arrowType(percentChangeHr)} ${percentChangeHr}%<br>
+        1 Day: ${arrowType(percentChangeDay)} ${percentChangeDay}%<br>
+        1 Week: ${arrowType(percentChangeWeek)} ${percentChangeWeek}%`
+            // Appends the information to the card
+            $(".cardArea").append("\n" + card)
+            // $(cardBody).append(cardHeader)
+            // $(cardBody).append(cardContent)
+        }
+    });
+</script>
