@@ -133,13 +133,8 @@ module.exports = function (app) {
 	// Transaction page
 	// ===========================================
 	// POST route for saving a new purchase
-<<<<<<< HEAD
-	app.post("/api/User/transactions", function (req, res) {
-
-=======
 	app.post("/api/User/Transaction", function (req, res) {
 		
->>>>>>> alan
 		db.Transaction.create({
 			coin: req.body.coin,
 			coinId: req.body.coinId,
