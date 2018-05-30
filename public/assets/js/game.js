@@ -38,16 +38,8 @@ $(document).ready(function () {
             $("#coinName").html(`<h3>Current ${cryptos[coinId].name} Price:`);
             $("#coinPrice").html(`<h4 id="cryptoPrice">$${cryptos[coinId].quotes.USD.price}`);
         });
-
-
-        $.ajax({
-            url: "/api/user",
-            method: "GET"
-        }).then(function (res, req) {
-            user = res.user;
-            return user;
         });
-    });
+
     // This function inserts a new transactions into our database
     function buyTransaction(event) {
         event.preventDefault();
@@ -56,7 +48,7 @@ $(document).ready(function () {
         // Grab the symbol of the crypto being purchased
         var coinSymbol = cryptos[coinId].symbol;
         // Determine the cost of the overall transaction
-       // var transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
+        var transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
 
 
@@ -68,9 +60,15 @@ $(document).ready(function () {
         };
 
         $.post("/api/transactions", transaction);
+
     };
 
+    //Get all user transactions
+    function getTransactions(event) {
+        event.preventDefault();
 
+
+    }
 
 
 

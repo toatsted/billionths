@@ -13,16 +13,6 @@ module.exports = function (app, passport) {
         });
     });
 
-    app.get("/profile", function (req, res) {
-        res.render("profile");
-
-    });
-
-
-    app.get("/authSuccess", function (req, res) {
-        res.redirect("/profile/" + req.user.id);
-    });
-
     app.get('/auth/google',
         passport.authenticate('google', {
             scope: [
@@ -56,14 +46,27 @@ module.exports = function (app, passport) {
         });
     });     
 
-    // Get user profile info
-    app.get("/api/user", (req, res) => {
+    // Get user money
+    app.get("/api/user", function (req, res) {
         db.User.findOne({
+            where: {
+                 id: req.session.passport.user
+            }
+            }).then(function (dbUser) {
+                res.json(dbUser);
+            });
+    });
+    
+    // Update user money
+    app.put("/api/user", function(req, res) {
+        db.User.update({
+            money: req.body.money
+        }, {
             where: {
                 id: req.session.passport.user
             }
-        }).then(function (user) {
-            return user;
+        }).then(function (dbUser) {
+            res.json(dbUser);
         });
     });
 }
