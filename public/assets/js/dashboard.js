@@ -9,7 +9,6 @@ $(document).ready(function () {
 
     //Get all user transactions
     function getTransactions(event) {
-        event.preventDefault();
 
         $.get("/api/transactions", function (data) {
             transactions = data;
