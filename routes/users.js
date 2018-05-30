@@ -61,6 +61,8 @@ module.exports = function (app, passport) {
     // Update user money
     app.put("/api/user", function(req, res) {
         db.User.update({
+            userId: req.user.id,
+            username: req.user.displayName,
             money: req.body.money
         }, {
             where: {
