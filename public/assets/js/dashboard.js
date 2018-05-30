@@ -39,7 +39,8 @@ $(document).ready(function () {
         event.stopPropagation();
         var TransactionId = $(this).data('ids').TransactionId;
         var UserId = $(this).data('ids').UserId;
-        
+        console.log(TransactionId);
+        console.log(UserId);
         $.ajax({
             url: "/api/transactions/" + TransactionId,
             type: "DELETE"
