@@ -14,6 +14,7 @@ $(document).ready(function () {
 
     $(document).on("click", "#buyTransaction", buyTransaction);
     
+    $("#moneyAmount").html("$ " + money);
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
@@ -52,11 +53,11 @@ $(document).ready(function () {
     }
 
 
-
-
     // This function inserts a new transactions into our database
     function buyTransaction(event) {
         event.preventDefault();
+
+        
 
         var purchasePrice = cryptos[coinId].quotes.USD.price;
         coinAmount = $("#coinAmount").val();
@@ -79,9 +80,15 @@ $(document).ready(function () {
             money -= transactionCost;
 
             $.post("/api/transactions", transaction);
-            $.put("/api/user", money);
 
-            getUserMoney();
+            $.ajax({
+                url: "/api/user",
+                type: "PUT"
+            }).then(function () {
+                getUserMoney();
+            });
+
+            
         }
 
 
