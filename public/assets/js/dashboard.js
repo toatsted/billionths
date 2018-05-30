@@ -36,7 +36,7 @@ $(document).ready(function () {
     }
 
     function deleteTransaction(event) {
-        
+
         var TransactionId = $(this).val();
 
 
@@ -45,6 +45,8 @@ $(document).ready(function () {
         $.ajax({
             url: "/api/transactions/" + TransactionId,
             type: "DELETE"
-        }).then(getTransactions);
+        }).then(function () {
+            getTransactions();
+        });
     }
 });
