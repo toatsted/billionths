@@ -48,7 +48,7 @@ $(document).ready(function () {
         });
     });
     // This function inserts a new transactions into our database
-    function buyTransaction() {
+    function buyTransaction(event) {
         event.preventDefault();
 
         coinAmount = $("#buyAmount").val();
@@ -59,21 +59,14 @@ $(document).ready(function () {
 
 
 
-        var newTransaction = {
+        var transaction = {
             coin: "ETH",
             coinId: "2",
             purchasePrice: "24",
             purchaseAmount: 111,
         };
 
-        $.ajax({
-            url: "/api/transactions",
-            type: "post",
-            data: { Transaction: newTransaction },
-            success: () => {
-                window.location.href = "/dashboard";
-            }
-        })
+        $.post("/api/transaction", transaction);
     };
 
 
@@ -135,25 +128,7 @@ $(document).ready(function () {
     $("#submitEmail").on('click', function (event) {
         createUser(event);
     });
-    $("#buyTransaction").on('click', function (event) {
-        event.preventDefault();
-
-        var newTransaction = {
-            coin: "ETH",
-            coinId: "2",
-            purchasePrice: "24",
-            purchaseAmount: 111,
-        };
-
-        $.ajax({
-            url: "/api/transactions",
-            type: "post",
-            data: { Transaction: newTransaction },
-            success: () => {
-                window.location.href = "/dashboard";
-            }
-        })
-    });
+    $(document).on("submit", "#buyTransaction", buyTransaction);
 
     $("#sellTransaction").on('click', function (event) {
         sellTransaction(event);

@@ -5,12 +5,9 @@
     "\\models",
     "\\public",
     "\\public\\assets",
-    "\\public\\assets\\css",
-    "\\public\\assets\\font",
-    "\\public\\assets\\fonts",
-    "\\public\\assets\\img",
-    "\\public\\assets\\js"
+    "\\public\\assets\\js",
+    "\\views"
   ],
-  "SelectedNode": "\\public\\assets\\font",
+  "SelectedNode": "\\views\\profile.handlebars",
   "PreviewInSolutionExplorer": false
 }
