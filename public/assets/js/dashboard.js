@@ -4,7 +4,6 @@ $(document).ready(function () {
 
     var transactions = [];
 
-    var $transactionContainer = $(".transaction-container");
 
 
     //Get all user transactions
@@ -13,17 +12,24 @@ $(document).ready(function () {
 
         $.get("/api/transactions", function (data) {
             transactions = data;
+            console.log(transactions);
             initalizeRows();
         });
     }
 
     function initalizeRows() {
-        $transactionContainer.empty();
-        var rowsToAdd = [];
+        $("#purchasedCryptos").empty();
+
         for (var i = 0; i < transactions.length; i++) {
-            rowsToAdd.push(createNewRow(transactions[i]));
+            var purchase = {
+                coin: transactions[i].coin,
+                coinId: transactions[i].coinId,
+                purchaseAmount: transactions[i].purchaseAmount,
+                purchasePrice: transactions[i].purchasePrice
+            };
+
+            $("#purchasedCryptos").prepend("<div class='card'><div class='card-header'>Transaction</div><div class='card-body'><div class='row'><div class='col'><h5 class='card-title'>" + purchase.coin + "</h5><p class='card-text'>Amount Purchased: " + purchase.purchaseAmount + "Purchase Price: " + purchase.purchasePrice + "</p></div></div></div></div>");
         }
-        $transactionContainer.prepend(rowsToAdd);
     }
 
 
