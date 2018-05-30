@@ -14,12 +14,13 @@ var wallet;
 // ===========================================
 $(document).ready(function () {
     var user;
+    var cryptos;
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
         method: "GET"
     }).then(function (res) {
-        let cryptos = res.data;
+        cryptos = res.data;
         // console.log(cryptos)
 
         // Grabs the default coin (Bitcoin) and displays its information to the page
@@ -50,20 +51,21 @@ $(document).ready(function () {
     // This function inserts a new transactions into our database
     function buyTransaction(event) {
         event.preventDefault();
-
-        //coinAmount = $("#buyAmount").val();
+        var purchasePrice = cryptos[coinId].quotes.USD.price;
+        coinAmount = $("#buyAmount").val();
         // Grab the symbol of the crypto being purchased
-        //let coinSymbol = cryptos[coinId].symbol;
+        var coinSymbol = cryptos[coinId].symbol;
         // Determine the cost of the overall transaction
-        //let transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
+       // var transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
 
 
 
         var transaction = {
-            coin: "ETH",
-            coinId: "2",
-            purchasePrice: "24",
-            purchaseAmount: 111,
+            coin: coinSymbol,
+            coinId: coinId,
+            purchasePrice: purchasePrice,
+            purchaseAmount: coinAmount,
+            UserId: user.id
         };
 
         $.post("/api/transactions", transaction);
