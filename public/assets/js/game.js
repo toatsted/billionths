@@ -71,7 +71,7 @@ $(document).ready(function () {
             type: "post",
             data: { Transaction: newTransaction },
             success: () => {
-                window.location.href = "/profile";
+                window.location.href = "/dashboard";
             }
         })
     };
@@ -135,10 +135,26 @@ $(document).ready(function () {
     $("#submitEmail").on('click', function (event) {
         createUser(event);
     });
-    $(document).on('click', "buyTransaction", function (event) {
+    $("#buyTransaction").on('click', function (event) {
         event.preventDefault();
-        buyTransaction();
+
+        var newTransaction = {
+            coin: "ETH",
+            coinId: "2",
+            purchasePrice: "24",
+            purchaseAmount: 111,
+        };
+
+        $.ajax({
+            url: "/api/transactions",
+            type: "post",
+            data: { Transaction: newTransaction },
+            success: () => {
+                window.location.href = "/dashboard";
+            }
+        })
     });
+
     $("#sellTransaction").on('click', function (event) {
         sellTransaction(event);
     });

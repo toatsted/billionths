@@ -5,10 +5,12 @@
     "\\models",
     "\\public",
     "\\public\\assets",
-    "\\public\\assets\\js",
-    "\\routes",
-    "\\views"
+    "\\public\\assets\\css",
+    "\\public\\assets\\font",
+    "\\public\\assets\\fonts",
+    "\\public\\assets\\img",
+    "\\public\\assets\\js"
   ],
-  "SelectedNode": "\\models\\transaction.js",
+  "SelectedNode": "\\public\\assets\\font",
   "PreviewInSolutionExplorer": false
 }
