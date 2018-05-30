@@ -59,7 +59,7 @@ module.exports = function (app, passport) {
     });
     
     // Update user money
-    app.put("/api/user", function(req, res) {
+    app.put("/api/user/:id", function(req, res) {
         db.User.update({
             money: req.body.money
         }, {
