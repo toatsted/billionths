@@ -8,12 +8,12 @@ module.exports = function (app) {
     // route for getting all of the Transaction
     app.get("/api/transactions", function (req, res) {
         // findAll returns all entries for a table when used with no options
-        db.User.findAll({
-            include: [{
-                model: Transaction
-            }]
+        db.Transaction.findAll({
+            where: {
+                UserId: req.session.passport.user
+            }
         }).then(function (dbTransaction) {
-            // We have access to the todos as an argument inside of the callback function
+            // We have access to the transaction as an argument inside of the callback function
             res.json(dbTransaction);
         });
     });

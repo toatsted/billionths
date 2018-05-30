@@ -9,12 +9,16 @@ var userLoggedIn;
 var wallet;
 var user;
 var cryptos;
+var transactions = [];
 
 // ===========================================
 // Transactions page
 // ===========================================
 $(document).ready(function () {
 
+    var $transactionContainer = $(".transaction-container");
+
+    getTransactions();
 
     $.ajax({
         url: "https://api.coinmarketcap.com/v2/ticker/?limit=10",
@@ -67,10 +71,20 @@ $(document).ready(function () {
     function getTransactions(event) {
         event.preventDefault();
 
-
+        $.get("/api/transactions", function (data) {
+            transactions = data;
+            initalizeRows();
+        });
     }
 
-
+    function initalizeRows() {
+        $transactionContainer.empty();
+        var rowsToAdd = [];
+        for (var i = 0; i < transactions.length; i++) {
+            rowsToAdd.push(createNewRow(transactions[i]));
+        }
+        $transactionContainer.prepend(rowsToAdd);
+    }
 
 
 
