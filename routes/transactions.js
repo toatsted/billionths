@@ -74,28 +74,16 @@ module.exports = function (app) {
     // DELETE ROUTES
     // delete route for devaring purchases. We can get the id of the purchase we want to delete from
     // req.params.id
-    app.delete("/api/transactions/:id", function (req, res) {
-
+    app.delete("/api/transactions/:TransactionId", function (req, res) {
         db.Transaction.destroy({
             where: {
-                id: req.params.transaction_id
+                id: req.params.TransactionId
             }
         }).then(function (dbTransaction) {
             res.json(dbTransaction);
         });
     });
 
-    // delete the entire User transaction history, for when creating new game
-    app.delete("/api/transactions/:id", function (req, res) {
-
-        db.Transaction.destroy({
-            where: {
-                id: req.params.id
-            }
-        }).then(function (dbTransaction) {
-            res.json(dbTransaction);
-        });
-    });
 
     // UPDATE ROUTES
     // PUT route for updating Transaction. We can modify the amount of crypto Transaction
