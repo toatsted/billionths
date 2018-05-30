@@ -22,7 +22,8 @@ $(document).ready(function () {
 
         for (var i = 0; i < transactions.length; i++) {
             var purchase = {
-                id: transactions[i].id,
+                TransactionId: transactions[i].id,
+                UserId: transactions[i].UserId,
                 coin: transactions[i].coin,
                 coinId: transactions[i].coinId,
                 purchaseAmount: transactions[i].purchaseAmount,
@@ -30,16 +31,17 @@ $(document).ready(function () {
                 purchaseDate: transactions[i].createdAt
             };
 
-            $("#purchasedCryptos").prepend("<div class='card' value='" + purchase.id + "'><div class='card-header'>" + purchase.coin + "<button class='deleteTransaction btn btn-danger float-right'>Delete</button></div><div class='card-body'><div class='row'><div class='col'><h5 class='card-title'>Purchased on: " + purchase.purchaseDate + "</h5><p class='card-text'>Amount Purchased: " + purchase.purchaseAmount + "  |  Purchase Price: $" + purchase.purchasePrice + "</p></div></div></div></div>");
+            $("#purchasedCryptos").prepend("<div class='card'><div class='card-header'>" + purchase.coin + "<button class='deleteTransaction btn btn-danger float-right'>Delete</button></div><div class='card-body'><div class='row'><div class='col'><h5 class='card-title'>Purchased on: " + purchase.purchaseDate + "</h5><p class='card-text'>Amount Purchased: " + purchase.purchaseAmount + "  |  Purchase Price: $" + purchase.purchasePrice + "</p></div></div></div></div>").data("ids", { UserId: purchase.UserId, TransactionId: purchase.TransactionId });
         }
     }
 
     function deleteTransaction(event) {
         event.stopPropagation();
-        var TransactionId = $(this).val();
+        var TransactionId = $(this).data('ids').TransactionId;
+        var UserId = $(this).data('ids').UserId;
         
         $.ajax({
-            url: "/api/transactions/" + UserId +"/"+ TransactionId,
+            url: "/api/transactions/" + TransactionId,
             type: "DELETE"
         }).then(getTransactions);
     }
