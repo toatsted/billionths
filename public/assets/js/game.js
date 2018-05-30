@@ -6,7 +6,7 @@ var coinId;
 var money;
 var cryptos;
 var transactions = [];
-
+var updatedUser;
 // ===========================================
 // Transactions page
 // ===========================================
@@ -54,7 +54,7 @@ $(document).ready(function () {
                 money: res.money
             };
 
-            $("#moneyAmount").html("$ " + user.money);
+            $("#moneyAmount").html("$ " + updatedUser.money);
         });
     }
 
@@ -81,7 +81,7 @@ $(document).ready(function () {
 
         console.log(transactionCost);
 
-        if (money < transactionCost) {
+        if (updatedUser.money < transactionCost) {
             window.alert("Not enough money to complete transaction!")
         } else {
 
@@ -92,7 +92,7 @@ $(document).ready(function () {
                 purchaseAmount: coinAmount
             };
 
-            money -= transactionCost;
+            updatedUser.money -= transactionCost;
 
             $.post("/api/transactions", transaction).then(updateUserMoney);
 
