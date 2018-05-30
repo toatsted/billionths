@@ -67,7 +67,7 @@ $(document).ready(function () {
             purchaseAmount: 111,
         };
 
-        $.get("/api/transactions", newTransaction).then(function (dbTransaction) { });
+        $.post("/api/transactions", newTransaction).then(function (dbTransaction) { });
 
     };
 
