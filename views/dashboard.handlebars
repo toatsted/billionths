@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,173 +12,171 @@
     <title>Dashboard</title>
 
     <!-- Bootstrap Core CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/js/dashboard.js"></script>
     <script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/modernizr.custom.js"></script>
-	<script src="assets/js/game.js"></script>
-	<script src="assets/js/chart.js"></script>
-	
-	<link href="/public/assets/css/bootstrap.css" rel="stylesheet">
-	<link href="/public/assets/css/index.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
-	
+    <script src="assets/js/modernizr.custom.js"></script>
+    <script src="assets/js/chart.js"></script>
+
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
     <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
 
-    	<!-- Custom styles for this template -->
-	<link href="assets/css/main.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet">
 
 
 </head>
 
 <body data-spy="scroll" data-offset="0" data-target="#theMenu">
 
-	<!-- Menu -->
-	<nav class="menu" id="theMenu">
-		<div class="menu-wrap">
-			<h1 class="logo">
-				<a href="/">Billionths</a>
-			</h1>
-			<i class="icon-remove menu-close"></i>
-			<a href="/" class="smoothScroll">Home</a>
-			<a href="about" class="smoothScroll">About</a>
-			<a href="profile" class="smoothScroll">Profile</a>
-			<a href="dashboard" class="smoothScroll">Dashboard</a>
-			<a href="contact" class="smoothScroll">Contact</a>
-			<a href="https://www.facebook.com/Billionths-234466940636346/" target="_blank">
-				<i class="icon-facebook"></i>
-			</a>
-			<a href="https://twitter.com/Billionths14" target="_blank">
-				<i class="icon-twitter"></i>
-			</a>
-			<a href="#">
-				<i class="icon-envelope"></i>
-			</a>
-		</div>
+    <!-- Menu -->
+    <nav class="menu" id="theMenu">
+        <div class="menu-wrap">
+            <h1 class="logo">
+                <a href="/">Billionths</a>
+            </h1>
+            <i class="icon-remove menu-close"></i>
+            <a href="/" class="smoothScroll">Home</a>
+            <a href="about" class="smoothScroll">About</a>
+            <a href="profile" class="smoothScroll">Profile</a>
+            <a href="dashboard" class="smoothScroll">Dashboard</a>
+            <a href="contact" class="smoothScroll">Contact</a>
+            <a href="https://www.facebook.com/Billionths-234466940636346/" target="_blank">
+                <i class="icon-facebook"></i>
+            </a>
+            <a href="https://twitter.com/Billionths14" target="_blank">
+                <i class="icon-twitter"></i>
+            </a>
+            <a href="#">
+                <i class="icon-envelope"></i>
+            </a>
+        </div>
 
-		<!-- Menu button -->
-		<div id="menuToggle">
-			<i class="icon-reorder"></i>
-		</div>
-	</nav>
+        <!-- Menu button -->
+        <div id="menuToggle">
+            <i class="icon-reorder"></i>
+        </div>
+    </nav>
 
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
-                </div>
-                <!-- /.col-lg-12 -->
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Dashboard</h1>
             </div>
-            <!-- /.row -->
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
 
 
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="large">Cash Available</div>
-                                    <div></div>
-                                </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-comments fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="large">Cash Available</div>
+                                <div></div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">Available</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-green">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-tasks fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="large">Cryptocurrency Profit/Loss</div>
-                                    <div></div>
-                                </div>
-                            </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">Available</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
                         </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-yellow">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-shopping-cart fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="large">Buyback</div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
+                    </a>
                 </div>
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Cryptocurrencies Purchased
-                            <div class="pull-right">
-                                <div class="btn-group">
-                                </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-tasks fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="large">Cryptocurrency Profit/Loss</div>
+                                <div></div>
                             </div>
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                        </div>
-                        <!-- /.panel-body -->
                     </div>
-                    <!-- /.panel -->
- 
- 
- 
-    <!-- jQuery -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="large">Buyback</div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer">
+                            <span class="pull-left">View Details</span>
+                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                            <div class="clearfix"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Cryptocurrencies Purchased
+                        <div class="pull-right">
+                            <div class="btn-group">
+                                <button id="populateTransactions" class="btn btn-primary">See Transactions</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div id="purchasedCryptos" class="panel-body">
+                     
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+                <!-- jQuery -->
+                <script src="../vendor/jquery/jquery.min.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+                <!-- Bootstrap Core JavaScript -->
+                <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+                <!-- Metis Menu Plugin JavaScript -->
+                <script src="../vendor/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Morris Charts JavaScript -->
-    <script src=".assets/js/morris-data.js"></script>
-    <script src=".assets/js/morris.min.js"></script>
-    <script src="assets/js/raphael.min.js"></script>
+                <!-- Morris Charts JavaScript -->
+                <script src="assets/js/morris-data.js"></script>
+                <script src="assets/js/morris.min.js"></script>
+                <script src="assets/js/raphael.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/sb-admin-2.js"></script>
+                <!-- Custom Theme JavaScript -->
+                <script src="../dist/js/sb-admin-2.js"></script>
 
 </body>
 

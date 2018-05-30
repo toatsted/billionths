@@ -1,40 +1,55 @@
-let express = require("express");
-let exphbs = require("express-handlebars");
-let bodyParser = require("body-parser");
+var express = require("express");
+var bodyParser = require("body-parser");
+var path = require('path');
+var passport = require('passport');
+var session = require('express-session');
+var exphbs = require('express-handlebars');
 
-// configure env variables
-require("dotenv").config();
+// Sets up the Express App
+var app = express();
+var PORT = process.env.PORT || 8080;
 
-// import all models into db
-let db = require("./models");
+var db = require("./models");
 
-let PORT = process.env.PORT || 8080;
-let app = express();
-
-// create static routes to all files in /public
 app.use(express.static("public"));
 
-// parse body
-app.use(bodyParser.urlencoded({ extended: true }));
+// Sets up the Express app to handle data parsing
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(bodyParser.json());
 
+app.use(session({
+    secret: 'keyboard cat',
+    saveUninitialized: true,
+    resave: false,
+    cookie: {
+        httpOnly: false
+    }
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // setup rendering engine
-app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.engine("handlebars", exphbs({
+    defaultLayout: "main"
+}));
 app.set("view engine", "handlebars");
+app.set('views', path.join(__dirname, 'views'));
 
-// attach db to req obj in routes
-app.use((req, res, next) => {
-	req.db = db;
-	next();
-})
+require('./routes/htmlRoutes')(app);
+require('./routes/transactions')(app);
+require('./routes/users')(app, passport);
+require('./config/passport')(passport, db.User);
 
-// routing
-require("./routing/api-routes")(app);
-require("./routing/html-routes")(app);
+require('dotenv').config();
 
-// sync models and listen
-db.sequelize.sync({force:true})
-	.then(() => {
-		app.listen(PORT, () => 
-			console.log(`app is listening on PORT ${PORT}`))
-	})
+// Syncing our sequelize models and then starting our Express app
+db.sequelize.sync().then(function () {
+    app.listen(PORT, function () {
+        console.log("App listening on PORT " + PORT);
+    });
+});
+
+module.exports = {app: app, db: db};
