@@ -55,7 +55,7 @@ $(document).ready(function () {
 
     function updateUserMoney(event) {
         $.ajax({
-            url: "/api/user",
+            url: "/api/user/:id",
             type: "PUT",
             data: money
         }).then(getUserMoney);
