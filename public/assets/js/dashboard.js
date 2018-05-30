@@ -37,9 +37,9 @@ $(document).ready(function () {
 
     function deleteTransaction(event) {
         event.stopPropagation();
-        var ids = $(this);
-        var TransactionId = ids.data("transactionid");
-        var UserId = ids.data("userid");
+        
+        var TransactionId = $(this).data("transactionid");
+        var UserId = $(this).data("userid");
 
         console.log(TransactionId);
         console.log(UserId);
