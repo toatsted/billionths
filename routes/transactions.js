@@ -74,15 +74,19 @@ module.exports = function (app) {
     // DELETE ROUTES
     // delete route for devaring purchases. We can get the id of the purchase we want to delete from
     // req.params.id
-    app.delete("/api/transactions/:id", function (req, res) {
+    app.delete("/api/transactions/:UserId/:TransactionId", function (req, res) {
 
-        db.Transaction.destroy({
+        db.User.findOne({
             where: {
-                UserId: req.session.passport.user,
-                id: req.params.transaction_id
-            }
+                UserId: req.session.passport.user,               
+            },
+            include: [db.Transaction]
         }).then(function (dbTransaction) {
-            res.json(dbTransaction);
+            db.Transaction.findOne({
+                where: {
+                    Transactionid: req.body.TransactionId
+                }
+            })
         });
     });
 
