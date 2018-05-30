@@ -5,13 +5,16 @@ $(document).ready(function () {
     $(document).on('click', "#showCash", getUser);
 
     var transactions = [];
+    var cash;
 
     function getUser(event) {
         $.ajax({
             url: "/api/user",
             method: "GET"
         }).then(function (res) {
-            console.log(res);
+            cash = res.money;
+
+            $("#cashAvailable").append("<h3 class='float-right'>$" + cash + "</h3>")
         });
     }
 
