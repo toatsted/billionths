@@ -53,6 +53,15 @@ $(document).ready(function () {
         });
     }
 
+    function updateUserMoney(event) {
+        $.ajax({
+            url: "/api/user",
+            type: "PUT",
+            data: money
+        }).then(function () {
+            getUserMoney();
+        });
+    }
 
     // This function inserts a new transactions into our database
     function buyTransaction(event) {
@@ -66,7 +75,8 @@ $(document).ready(function () {
         var coinSymbol = cryptos[coinId].symbol;
         // Determine the cost of the overall transaction
         var transactionCost = purchasePrice * coinAmount;
-        parseFloat(transactionCost);
+
+        console.log(transactionCost);
 
         if (money < transactionCost) {
             window.alert("Not enough money to complete transaction!")
@@ -81,15 +91,9 @@ $(document).ready(function () {
 
             money -= transactionCost;
 
-            $.post("/api/transactions", transaction);
+            $.post("/api/transactions", transaction).then(updateUserMoney);
 
-            $.ajax({
-                url: "/api/user",
-                type: "PUT",
-                data: money
-            }).then(function () {
-                getUserMoney();
-            });
+
 
             
         }
