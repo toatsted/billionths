@@ -3,7 +3,7 @@ var price;
 var coinAmount = 1;
 var coinId;
 
-var user;
+var money;
 var cryptos;
 var transactions = [];
 
@@ -40,28 +40,50 @@ $(document).ready(function () {
         });
 
 
+    getUser();
+
+    function getUser(event) {
+        $.ajax({
+            url: "/api/user",
+            method: "GET"
+        }).then(function (res) {
+            money = res.money;
+
+        });
+    }
+
+
 
 
     // This function inserts a new transactions into our database
     function buyTransaction(event) {
         event.preventDefault();
+
         var purchasePrice = cryptos[coinId].quotes.USD.price;
         coinAmount = $("#coinAmount").val();
         // Grab the symbol of the crypto being purchased
         var coinSymbol = cryptos[coinId].symbol;
         // Determine the cost of the overall transaction
-        var transactionCost = cryptos[coinId].quotes.USD.price * coinAmount;
+        var transactionCost = purchasePrice * coinAmount;
+
+        if (money < transactionCost) {
+            window.alert("Not enough money to complete transaction!")
+        } else {
+
+            var transaction = {
+                coin: coinSymbol,
+                coinId: coinId,
+                purchasePrice: purchasePrice,
+                purchaseAmount: coinAmount
+            };
+
+            money -= transactionCost;
+
+            $.post("/api/transactions", transaction);
+            $.put("/api/user", money);
+        }
 
 
-
-        var transaction = {
-            coin: coinSymbol,
-            coinId: coinId,
-            purchasePrice: purchasePrice,
-            purchaseAmount: coinAmount
-        };
-
-        $.post("/api/transactions", transaction);
 
     };
 
